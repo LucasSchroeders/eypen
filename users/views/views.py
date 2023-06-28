@@ -3,8 +3,35 @@ from django.contrib.auth import get_user_model, authenticate, login
 from django.http import HttpResponse
 from django.shortcuts import render
 
+User = get_user_model()
+
+
 def index(request):
     return render(request, 'index.html')
+
+def home(request):
+    return render(request, '')
+
+def signup(request):
+    if request.method == 'POST':
+        post = request.POST
+        email = post.get('email')
+        password = post.get('password')
+        users = User.objects.filter(username=email).first()
+
+        if users:
+            # TODO colocar um retorno para a mesma pagina
+            return HttpResponse('E-mail já cadastrado')
+        
+        #TODO fazer verificação com a planilha da EY
+
+
+        user = User.objects.create_user(username=email, email=email, password=password)
+        user.save()
+        # TODO colocar o redirecionamento para continuar o cadastro
+        return HttpResponse("Usuário cadastrado com sucesso")
+
+    return render(request, 'users/signup.html')
 
 def login_view(request):
     if request.method == 'POST':
