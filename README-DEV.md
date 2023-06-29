@@ -2,10 +2,12 @@ Esse arquivo é direcionado para os desenvolvedores.
 
 Esse projeto será desenvolvido em python, então entende-se que já está com o mesmo instalado.
 
+Para rodar o projeto deve usar o seguinte comando:
+`python manage.py runserver`
+
 Para aqueles que estão começando no projeto, siga os passos a seguir para configurar o projeto:
 1. Rodar o comando `python -m venv venv` para criar um ambiente virtual:
 2. Rodar o comando `pip install -r requirements.txt` para baixar todas as libs que são necessárias no projeto:
-    
 
 Para manter o projeto organizado segue algumas instuções do que fazemos nesse projeto:
 1. Sempre que for fazer alguma funcionalidade nova, criar uma nova branch a partir da develop com o seguinte comando:
@@ -21,3 +23,4 @@ Segue alguns comandos básicos de git para quem não estiver familiarizado:
 - Para criar uma branch nova, a partir da branch que esteja, usar o comando `git branch [nome da branch]`
 - Para criar uma branch nova, a partir da branch que esteja, e já trocar de branch, usar o comando `git checkout -b [nome da branch]`
     
+`OBS: TODA VEZ QUE FOR ABRIR UMA BRANCH, VOLTAR PARA A BRANCH DEVELOP E USAR O SEGUINTE COMANDO PARA ATUALIZAR A BRANCH - git pull origin [nome da branch]`
