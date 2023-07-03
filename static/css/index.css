@@ -136,10 +136,12 @@
     display: flex;
     flex-direction: column;
     padding: 2rem 2rem;
+    width: 50%;
 }
 
 .image-requisitos{
     height: 100%;
+    width: 50%;
 }
 
 .text-requisitos{
