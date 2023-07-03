@@ -14,7 +14,6 @@ db.sqlite3
 logstash.db
 tmp_dir/*
 *.pem
-wsgi.py
 requests_cache.sqlite
 website/
 *.pyc
