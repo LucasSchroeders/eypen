@@ -92,6 +92,7 @@
 .img-intro{
     height: 100%;
     width: 100%;
+    display: flex;
 }
 
 .text-intro{
@@ -100,6 +101,14 @@
     font-weight: 600;
     color: black;
     margin-left: 16%;
+}
+
+.text-int{
+    top: 75%;
+}
+
+.text-int2{
+    top: 79%;
 }
 
 .sobre-nos{
