@@ -23,12 +23,11 @@
         }
         estadoSel.onchange = function(){
             cidadeSel.length = 1;
-            for(var y in estadoObj[this.value]){
-                cidadeSel.options[cidadeSel.options.length] = new Option(y,y)
-            }
+            for (var y in estadoObj[this.value]) {
+                cidadeSel.options[cidadeSel.options.length] = new Option(y, y);
+    }
         }
     }
-
     </script>
 
     <title>Busca Perfil</title>
@@ -42,56 +41,60 @@
     <div class="div-icon-accessibility">
         <i class="fa-sharp fa-solid fa-universal-access icon"></i>
     </div>
-    <div class="filter">
+
+    <div class="body">
         <div class="div-form">
-            <h5>Pesquisa de Perfis</h5>
-            
-            <div class="field-form" style="margin-top: 15%;">
-                <label for="nome">Nome</label>
-                <div class="input-form">
-                    <input type="Nome" placeholder="Nome" name="Nome">
+            <form action="">
+                <h5>Pesquisa de Perfis</h5>
+
+                <div class="field-form" style="margin-top: 15%;">
+                    <label for="nome">Nome:</label>
+                    <div class="input-form">
+                        <input type="Nome" placeholder="Nome" name="Nome">
+                    </div>
+                   
+                    <label for="genero">Gênero:</label>
+                    <select name="genero" id="genero">
+                        <option value="masculino">Masculino</option>
+                        <option value="feminino">Feminino</option>
+                        <option value="na">Não desejo informar</option>
+                    </select>
                 </div>
-            </div>
 
-            <form action="">
-                <label for="genero">Gênero:</label>
-                <select name="genero" id="genero">
-                    <option value="masculino">Masculino</option>
-                    <option value="feminino">Feminino</option>
-                    <option value="na">Não desejo informar</option>
-                </select>
-            </form>
 
-            <br><br>
-
-            <form action="">
-                <label for="deficiencia">Deficiência:</label>
+                <div class="field-form" style="margin-top: 15%;">
+                    <label for="deficiencia">Deficiência:</label>
                 <select name="deficiencia" id="deficiencia">
                     <option value="cego">Cego</option>
                     <option value="surdo">Surdo</option>
                     <option value="mudo">Mudo</option>
                 </select>
-            </form>
+               
+              
+                    Estado: <select name="estado" id="estado">
+                        <option value="" selected="selected"></option>
+                    </select>
+                    Cidade: <select name="cidade" id="cidade">
+                        <option value="" selected="selected"></option>
+                    </select>
+              
 
-            <form name="lugar" id="lugar" action="">
-                Estado: <select name="estado" id="estado">
-                    <option value="" selected="selected"></option>
-                </select>
-                Cidade: <select name="cidade" id="cidade">
-                    <option value="" selected="selected"></option>
-                </select>
+                </div>
+
+                <input type="submit" class="button" value="Filtrar">
             </form>
+        </div>
+    
+
+    <div class="div-perfil">
+        <img src="" alt="Imagem de Perfil">
+        <div class="div-dados">
+            <p>Nome pessoa</p>
+        <p>Cargo pessoa</p>
+        <p>Estado/cidade</p>
         </div>
     </div>
 
-    <div class="perfil">
-        <img src="" alt="Imagem de Perfil">
-        <p>Nome pessoa</p>
-        <p>Cargo pessoa</p>
-        <p>Estado/cidade</p>
-
-    </div>
-
-    
+</div>
 </body>
 </html>
