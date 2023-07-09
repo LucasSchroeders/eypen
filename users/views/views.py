@@ -2,6 +2,7 @@
 from django.contrib.auth import get_user_model, authenticate, login
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.views.generic import TemplateView
 
 User = get_user_model()
 
@@ -53,3 +54,7 @@ def login_view(request):
         return HttpResponse("E-mail ou senha inválidos")
 
     return render(request, 'users/login.html')
+
+
+class ProfileCompany(TemplateView):
+    template_name = 'users/company_profile.html'
