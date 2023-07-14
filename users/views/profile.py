@@ -1,6 +1,7 @@
-from typing import Any, Dict
 from django.views.generic import TemplateView
+from django.shortcuts import render 
 from rest_framework.views import APIView
+
 from users.utils import string_to_date
 from users.models import Profile
 
@@ -8,11 +9,14 @@ from users.models import Profile
 class PersonalProfileInformation(TemplateView):
     template_name='users/personalProfile.html'
 
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['profile'] = Profile.objects.filter(id=kwargs.get('id'))
+        user = self.request.user
+        is_authenticated = self.request.user.is_authenticated
+        context['profile'] = user.profile if is_authenticated else None
         return context
-    
+
+
 class PersonalProfileInformationAPI(APIView):
     def post(self, request):
         post = request.POST
