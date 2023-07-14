@@ -1,5 +1,11 @@
+from django.contrib.auth import get_user_model
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 from users.choices import STATES
+
+User = get_user_model()
 
 
 class Profile(models.Model):
@@ -54,3 +60,10 @@ class Profile(models.Model):
 
     def __str__(self):
         return str(self.pk)
+
+
+@receiver(post_save, sender=User)
+def update_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance, is_internal=False)
+    instance.profile.save()
