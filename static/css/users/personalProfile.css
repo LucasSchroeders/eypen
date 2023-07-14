@@ -1,0 +1,144 @@
+.body{
+    background-color: #F8F4F4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5%;
+}
+
+.div-icon-accessibility{
+    position: absolute;
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: end;
+    padding: 2rem 2rem;
+    font-size: 30px;
+    margin-top: 3rem;
+}
+
+.form-div{
+    overflow: scroll, hidden;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    height: 80vh;
+    width: 90%;
+    border-radius: 10px;
+    padding: 2%;
+}
+
+.div-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 30% 0 5%;
+    margin: 15px 0;
+}
+.div-column{
+    display: flex;
+    flex-direction: column;
+    padding: 0px 0;
+}
+
+.photo{
+    border: 8px solid #000;
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon{
+    font-size: 8rem;
+}
+
+.photo-img{
+    width: 186px;
+    height: 186px;
+    border-radius: 50%;
+}
+
+.file{
+    display: none;
+}
+
+.picture{
+    width: 200px;
+    height: 50px;
+    background-color: #FBE700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 20px;
+    margin-top: 10px;
+    &:active{
+        background-color: #fbe6005b;
+        
+    }
+}
+
+.form-field{
+    margin: 10px 0 10px 0;
+}
+
+.form-input{
+    margin: 5px 0;
+}
+
+input[type=text]{
+    width: 250%;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 2px solid #000;
+    align-self: end;
+    &:focus{
+        outline: none;
+    }
+}
+
+input[type=date]{
+    border-radius: 10px;
+    background-color: #2B2525;
+    padding: 7px;
+    font-family: monospace;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    color: #fff;
+    &::-webkit-calendar-picker-indicator{
+        background-color: #fff;
+        padding: 5px;
+        cursor: pointer;
+        border-radius: 3px;
+    }
+}
+
+.form-city{
+    width: 190px;
+}
+
+.form-ethnicity{
+    width: 190px;
+}
+
+.button{
+    height: 2rem;
+    width: 6rem;
+    background-color: #FBE700;
+    border-radius: 15px;
+    border: none;
+    outline: none;
+    margin: 0 2%;
+}
+
+.div-button{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 4%;
+}
