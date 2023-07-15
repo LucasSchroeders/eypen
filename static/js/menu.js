@@ -1,4 +1,3 @@
-
 //Seleciona os itens clicando
 var menuItem = document.querySelectorAll('.menu-item')
 
