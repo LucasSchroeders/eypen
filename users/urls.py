@@ -7,6 +7,7 @@ urlpatterns = [
     path('home', views.home, name='Home'),
     path('cadastro', views.signup, name='signup'),
     path('login', views.login_view, name='login'),
+    path('profile/company', views.ProfileCompany.as_view(), name='profile_company'),
     path('cadastro/2', views.signup2, name='signup2'),
     path('profile/<int:id>', views.PersonalProfileInformation.as_view(), name='profile_edit'),
 ]

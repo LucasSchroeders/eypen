@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model, authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.views.generic import TemplateView
 
 from users.utils import string_to_date
 
@@ -110,3 +111,7 @@ def signup2(request):
         return render(request, 'users/personalProfile.html')
     
     return render(request, 'users/personalProfile.html')
+
+
+class ProfileCompany(TemplateView):
+    template_name = 'users/company_profile.html'

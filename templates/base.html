@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    {% block css %}
+    {% endblock css %}
+
+    <title>EYpen | {% block title %}{% endblock title %}</title>
+    
+</head>
+<body>
+    <nav class="sidebar">
+      
+      <div class="expand-button">
+        <h5>Eypen</h5>
+        <i class="fa-solid fa-list"></i>
+      </div>
+
+      <ul>
+        <li class="menu-item">
+          <a href="#">
+            <span class="icon"><i class="fa-regular fa-suitcase"></i></span>
+            <span class="txt-link">Procurar vagas</span>
+          </a>
+        </li>
+
+        <li class="menu-item">
+          <a href="#">
+            <span class="icon"><i class="fa-regular fa-building"></i></span>
+            <span class="txt-link">Procurar empresas</span>
+          </a>
+        </li>
+
+        <li class="menu-item">
+          <a href="#">
+            <span class="icon"><i class="fa-regular fa-user"></i></span>
+            <span class="txt-link">Procurar perfis</span>
+          </a>
+        </li>
+
+        <li class="menu-item">
+          <a href="#">
+            <span class="icon"><i class="fa-solid fa-clipboard"></i></span>
+            <span class="txt-link">Cadastrar vagas</span>
+          </a>
+        </li>
+
+        <li class="menu-item">
+          <a href="#">
+            <span class="icon"><i class="fa-regular fa-right-from-bracket"></i></span>
+            <span class="txt-link">Sair</span>
+          </a>
+        </li>
+
+      </ul>
+
+    </nav>
+
+    
+
+
+{% block body %}
+{% endblock body %}
+
+{% block js %}
+{% endblock js %}
+    
+</body>
+</html>
