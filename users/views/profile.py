@@ -38,3 +38,7 @@ class PersonalProfileInformationAPI(APIView):
         city = post.get('city')
         
         return
+
+
+class ProfileCompany(TemplateView):
+    template_name = 'users/company_profile.html'

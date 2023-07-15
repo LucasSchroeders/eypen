@@ -5,4 +5,8 @@ from .views import (
     login_view,
     signup2,
 )
-from .profile import PersonalProfileInformation
+from .profile import (
+    PersonalProfileInformation,
+    PersonalProfileInformationAPI,
+    ProfileCompany,
+)
