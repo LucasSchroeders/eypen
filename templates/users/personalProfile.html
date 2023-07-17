@@ -200,11 +200,8 @@
         $.getJSON(url, function(data){
             $.each(data, function(k, v){
                 $("#city").append( `<option value="${v.nome}">${v.nome}</option>`);
-                // console.log(v.nome)
             });
-            // conteudo += "</optiongroup>";
         });
-        // city.appendChild(conteudo);
     });
 
     $("#cpf").mask('000.000.000-00');
