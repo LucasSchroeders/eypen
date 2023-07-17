@@ -3,7 +3,7 @@ from django.db import models
 from users.choices import JOB_MODALITY, JOB_TYPE
 
 
-class Experience(models.Models):
+class Experience(models.Model):
     profile = models.ForeignKey(
         'users.Profile',
         related_name='experience',
