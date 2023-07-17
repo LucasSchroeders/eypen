@@ -42,3 +42,7 @@ class PersonalProfileInformationAPI(APIView):
 
 class ProfileCompany(TemplateView):
     template_name = 'users/company_profile.html'
+
+
+class BuscaPerfil(TemplateView):
+    template_name = 'users/busca_perfil.html'
