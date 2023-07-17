@@ -1,3 +1,4 @@
+from typing import Any, Dict
 from django.views.generic import TemplateView
 from django.shortcuts import render 
 from rest_framework.views import APIView
@@ -42,3 +43,17 @@ class PersonalProfileInformationAPI(APIView):
 
 class ProfileCompany(TemplateView):
     template_name = 'users/company_profile.html'
+
+
+class ProfileApplicant(TemplateView):
+    template_name = 'users/applicant_profile.html'
+
+    def get_context_data(self, **kwargs: Any):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        context['profile'] = user.profile
+        context['competence'] = user.profile.competence
+        context['academic_education'] = user.profile.competence
+        context['experience'] = user.profile.experience
+
+        return context
