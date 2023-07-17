@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ profile.full_name }}{% endblock title %}
+{% block css %}
+<link href="{% static 'css/users/applicant_profile.css' %}" rel="stylesheet" type="text/css">
+{% endblock css %}
+
+{% block body %}
+<div class="container-default">
+    <h1>{{ profile.full_name }}</h1>
+    <!-- {{ profile.state }} -->
+
+</div>
+    
+{% endblock body%}
