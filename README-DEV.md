@@ -22,5 +22,9 @@ Segue alguns comandos básicos de git para quem não estiver familiarizado:
 - Para trocar de branch no repositório local, usar o comando `git checkout [nome da branch]`
 - Para criar uma branch nova, a partir da branch que esteja, usar o comando `git branch [nome da branch]`
 - Para criar uma branch nova, a partir da branch que esteja, e já trocar de branch, usar o comando `git checkout -b [nome da branch]`
+
+Caso ocorra algum erro de "migration" realizar os seguinte comandos:
+1. `python manage.py makemigrations`
+2. `python manage.py migrate`
     
 `OBS: TODA VEZ QUE FOR ABRIR UMA BRANCH, VOLTAR PARA A BRANCH DEVELOP E USAR O SEGUINTE COMANDO PARA ATUALIZAR A BRANCH - git pull origin [nome da branch]`

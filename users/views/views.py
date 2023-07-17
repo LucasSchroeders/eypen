@@ -1,8 +1,12 @@
+import re
+
 # from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model, authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.shortcuts import render, redirect
+
+from users.utils import string_to_date
 
 User = get_user_model()
 
@@ -10,14 +14,18 @@ User = get_user_model()
 def index(request):
     return render(request, 'index.html')
 
+
 def home(request):
     return render(request, '')
+
 
 def signup(request):
     if request.method == 'POST':
         post = request.POST
         email = post.get('email')
         password = post.get('password')
+        full_name = post.get('name')
+        full_name = full_name.strip() if full_name else full_name
         users = User.objects.filter(username=email).first()
 
         if users:
@@ -28,11 +36,18 @@ def signup(request):
 
 
         user = User.objects.create_user(username=email, email=email, password=password)
+        full_name = ' '.join(
+            re.sub(r'[^\w ]+', '', full_name.replace('&#x27;', '')).split()
+        )
+        user.first_name = full_name.split()[0].capitalize()[:30]
+        user.last_name = ' '.join(full_name.split()[1:])
         user.save()
-        # TODO colocar o redirecionamento para continuar o cadastro
-        return HttpResponse("Usuário cadastrado com sucesso")
+        
+        login(request, user)
+        return redirect('signup2')
 
     return render(request, 'users/signup.html')
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -55,7 +70,43 @@ def login_view(request):
 
     return render(request, 'users/login.html')
 
-
-class BuscaPerfil(TemplateView):
-    template_name = 'users/busca_perfil.html'
     
+@login_required
+def signup2(request):
+    if request.method == 'POST':
+        post = request.POST
+        user = request.user
+
+        cpf = post.get('cpf')
+        rg = post.get('rg')
+        birthdate = post.get('birthdate')
+        gender = post.get('gender')
+        ethnicity = post.get('ethnicity')
+        state = post.get('state')
+        city = post.get('city')
+        is_disabled = post.get('is_disabled', False)
+        disabled = post.get('disabled', '')
+        photo = request.FILES.get('photo')
+
+        birthdate = string_to_date(birthdate) if birthdate else None
+
+        profile = user.profile
+        
+        profile.full_name = ' '.join([user.first_name, user.last_name])
+        profile.cpf = cpf
+        profile.rg = rg
+        profile.birthdate = birthdate
+        profile.gender = gender
+        profile.ethnicity = ethnicity
+        profile.state = state
+        profile.city = city
+        profile.is_disabled = is_disabled
+        profile.disabled = disabled
+        profile.photo = photo
+
+        profile.save()
+            
+        # TODO colocar para pag inicial do login
+        return render(request, 'users/personalProfile.html')
+    
+    return render(request, 'users/personalProfile.html')
