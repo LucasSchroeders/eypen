@@ -4,6 +4,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from users.choices import STATES
+from users.models import Competence
 
 User = get_user_model()
 
@@ -60,6 +61,19 @@ class Profile(models.Model):
 
     def __str__(self):
         return str(self.pk)
+    
+    def create_competence(self, context):
+        academic_formation = self.academic_formation.filter(id=context.get('academic_formation_id'))
+        experience = self.experience.filter(id=context.get('experience_id'))
+
+        competence_data = {
+            'competence_name': context.get('competence_name'),
+            'academic_formation': academic_formation,
+            'experience': experience,
+        }
+
+        self.competence.create(**competence_data)
+        return True
 
 
 @receiver(post_save, sender=User)
