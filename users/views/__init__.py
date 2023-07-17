@@ -9,4 +9,5 @@ from .profile import (
     PersonalProfileInformation,
     PersonalProfileInformationAPI,
     ProfileCompany,
+    BuscaPerfil,
 )

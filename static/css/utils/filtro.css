@@ -1,0 +1,50 @@
+.div-row1{
+    display: flex;
+    flex-direction: row;
+}
+
+.div-row2{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.div-form{
+    height: 30%;
+    width: 75%;
+    background-color: #fff;
+    border-radius: 10px;
+    margin: 2rem;
+}
+
+.form-field{
+    display: flex;
+    flex-direction: row;
+    font-size: 1.4rem;
+    padding: 1rem;
+}
+
+.form-input{
+    font-size: 1.4rem;
+    display: flex;
+    flex-direction: row;
+}
+
+.form-label2{
+    margin-left: 16.5%;
+}
+
+.form-button{
+    font-size: 1.4rem;
+    color: #fff;
+    width: 6rem;
+    background-color: #2596be;
+    border-radius: 15px;
+    float: right;
+    margin: 1rem;
+}
+
+label{
+    margin: 0 0.75rem ;
+    
+}

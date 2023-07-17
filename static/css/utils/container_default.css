@@ -1,0 +1,41 @@
+
+.div-container{
+    width: 75%;
+    background-color: #fff;
+    display: flex;
+    flex-direction: row;
+    border-radius: 10px;
+    
+}
+
+.div-dados{
+    display: flex;
+    flex-direction: column;
+}
+
+.p-dados{
+    font-size: 1.4rem;
+    margin: 2rem 0;
+}
+
+.p-negrito{
+    font-weight: bold;
+}
+
+.img-container{
+    height: 200px;
+    width: 200px;
+    border: #000;
+    border-radius: 50%;
+    margin: 2rem;
+}
+
+a:link{
+    color: #000;
+    text-decoration: none;
+}
+
+a:visited{
+    color: #000;
+    text-decoration: none;
+}
