@@ -60,4 +60,4 @@ class ProfileApplicant(TemplateView):
 
 
 class BuscaPerfil(TemplateView):
-    template_name = 'users/busca_perfil.html'
+    template_name = 'users/busca_perfil2.html'
