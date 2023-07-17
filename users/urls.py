@@ -10,6 +10,7 @@ urlpatterns = [
     path('profile/company', views.ProfileCompany.as_view(), name='profile_company'),
     path('cadastro/2', views.signup2, name='signup2'),
     path('profile/<int:id>', views.PersonalProfileInformation.as_view(), name='profile_edit'),
+    path('profile/busca-perfil', views.BuscaPerfil.as_view(), name='busca_perfil'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

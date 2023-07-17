@@ -70,7 +70,7 @@ def login_view(request):
 
     return render(request, 'users/login.html')
 
-
+    
 @login_required
 def signup2(request):
     if request.method == 'POST':

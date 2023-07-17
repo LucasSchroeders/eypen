@@ -57,3 +57,7 @@ class ProfileApplicant(TemplateView):
         context['experience'] = user.profile.experience
 
         return context
+
+
+class BuscaPerfil(TemplateView):
+    template_name = 'users/busca_perfil.html'
