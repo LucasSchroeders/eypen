@@ -5,8 +5,8 @@ class AcademicFormation(models.Model):
     profile = models.ForeignKey(
         'users.Profile',
         related_name='academic_formation',
-        on_delete=models.PROTECT,
-        verbose_name='Formação Acadêmica',
+        on_delete=models.CASCADE,
+        verbose_name='Perfil',
     )
     educational_institution = models.CharField(
         max_length=80,

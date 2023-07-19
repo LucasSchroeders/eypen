@@ -7,8 +7,8 @@ class Experience(models.Model):
     profile = models.ForeignKey(
         'users.Profile',
         related_name='experience',
-        on_delete=models.PROTECT,
-        verbose_name='Experiência',
+        on_delete=models.CASCADE,
+        verbose_name='Perfil',
     )
     position = models.CharField(
         max_length=80,
@@ -18,7 +18,7 @@ class Experience(models.Model):
         verbose_name="Cargo",
     )
     job_type = models.CharField(max_length=50, verbose_name='Tipo de trabalho', choices=JOB_TYPE)
-    JOB_MODALITY = models.CharField(max_length=50, verbose_name='Modalidade de trabalho', choices=JOB_MODALITY)
+    job_modality = models.CharField(max_length=50, verbose_name='Modalidade de trabalho', choices=JOB_MODALITY)
     is_working = models.BooleanField(default=False, verbose_name='Trabalhando atualmente')
     company = models.CharField(max_length=80, blank=True, null=True, verbose_name='Empresa')
     business_area = models.CharField(max_length=80, blank=True, null=True, verbose_name='Área de atuação da empresa')

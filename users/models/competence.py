@@ -5,8 +5,8 @@ class Competence(models.Model):
     profile = models.ForeignKey(
         'users.Profile',
         related_name='competence',
-        on_delete=models.PROTECT,
-        verbose_name='Competência',
+        on_delete=models.CASCADE,
+        verbose_name='perfil',
     )
     competence_name = models.CharField(
         max_length=50,
