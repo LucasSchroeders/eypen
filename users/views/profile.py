@@ -52,12 +52,15 @@ class ProfileApplicant(TemplateView):
         context = super().get_context_data(**kwargs)
         user = self.request.user
         context['profile'] = user.profile
-        context['competence'] = user.profile.competence
-        context['academic_education'] = user.profile.competence
-        context['experience'] = user.profile.experience
+        context['competences'] = user.profile.competence
+        context['academic_educations'] = user.profile.competence
+        context['experiences'] = user.profile.experience
+
+        if user.profile.id == kwargs.get('id'):
+            context['is_same_profile'] = True
 
         return context
 
 
 class BuscaPerfil(TemplateView):
-    template_name = 'users/busca_perfil2.html'
+    template_name = 'users/busca_perfil.html'
