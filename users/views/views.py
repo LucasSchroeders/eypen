@@ -43,6 +43,7 @@ def signup(request):
         user.last_name = ' '.join(full_name.split()[1:])
         user.save()
         
+        user = authenticate(username=email, password=password)
         login(request, user)
         return redirect('signup2')
 
@@ -50,6 +51,9 @@ def signup(request):
 
 
 def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('profile', id=request.user.profile.id)
+    
     if request.method == 'POST':
         post = request.POST
         email = post.get('email')
@@ -61,9 +65,12 @@ def login_view(request):
         user = authenticate(username=username, password=password)
         
         if user:
-            # TODO colocar o redirecionamento para a pagina home após o login
             login(request, user)
-            return HttpResponse("Autenticado")
+
+            if not user.profile:
+                return redirect('signup2')
+            
+            return redirect(f'profile', id=user.profile.id)
         
         # TODO colocar um retorno para a mesma pagina para dar um retorno para o cliente
         return HttpResponse("E-mail ou senha inválidos")
@@ -107,6 +114,6 @@ def signup2(request):
         profile.save()
             
         # TODO colocar para pag inicial do login
-        return render(request, 'users/personalProfile.html')
+        return redirect('profile', id=profile.id)
     
     return render(request, 'users/personalProfile.html')
