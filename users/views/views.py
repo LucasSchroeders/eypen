@@ -116,4 +116,4 @@ def signup2(request):
         # TODO colocar para pag inicial do login
         return redirect('profile', id=profile.id)
     
-    return render(request, 'users/personalProfile.html')
+    return render(request, 'users/profile/personalProfile.html')
