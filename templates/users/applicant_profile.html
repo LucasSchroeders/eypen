@@ -1,15 +1,107 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block title %}{{ profile.full_name }}{% endblock title %}
 {% block css %}
+<link href="{% static 'css/utils/container_default.css' %}" rel="stylesheet" type="text/css">
 <link href="{% static 'css/users/applicant_profile.css' %}" rel="stylesheet" type="text/css">
 {% endblock css %}
 
 {% block body %}
-<div class="container-default">
-    <h1>{{ profile.full_name }}</h1>
-    <!-- {{ profile.state }} -->
+<div class="div-container">
+    {% if is_same_profile %}
+    <div class="div-icon">
+        <a href="#"><i class="fa-solid fa-pen-to-square icon"></i></a>
+    </div>
+    {% endif %}
 
+   <div class="div-content">
+        <div class="photo">
+            <div>
+                {% if profile.photo %}
+                <img src="{{ profile.photo.url }}" class="photo-img" alt="foto de perfil">
+                {% else %}
+                <i class="fa-solid fa-user icon"></i>
+                {% endif %}
+            </div>
+        </div>
+        <div class="infos">
+            <h3>{{ profile.full_name }}</h1>
+            <p>{{ profile.birthdate }}</p>
+            <p>{{ profile.city }}, {{ profile.state }}</p>
+            
+            {% if experience.last.is_working %}
+            <h5>{{ experience.last.position}} | {{ experience.last.company}}</h5>
+            {% endif %}
+        </div>
+        <div class="experience-formation">
+            <p>google</p>
+        </div>
+    </div>
 </div>
+
+<!-- {% if competences %} -->
+<div class="div-container div-several">
+    <div class="div-head">
+        <h3>Competências</h3>
+        <i class="fa-solid fa-plus icon"></i>
+    </div>
+    <div class="div-several-content">
+        <h5>Python</h5>
+        <div class="div-several-row">
+            <img src="{{ profile.photo.url }}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
+            <div class="several-row-text">
+                <p>Desenvolvedor de software no google</p>
+            </div>
+            <a href="" class="icon-several"><i class="fa-solid fa-pen"></i></a>
+        </div>
+        <hr>
+    </div>
+</div>
+<!-- {% endif %} -->
+
+<!-- {% if academic_educations %} -->
+<div class="div-container div-several">
+    <div class="div-head">
+        <h3>Formações acadêmicas</h3>
+        <i class="fa-solid fa-plus icon"></i>
+    </div>
+    <div class="div-several-content">
+        <h5>Python</h5>
+        <div class="div-several-row">
+            <img src="{{ profile.photo.url }}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
+            <div class="several-row-text2">
+                <p >Fiap</p>
+                <p>Bacharelado, Sistemas de Informação</p>
+                <p>2016 - 2018</p>
+            </div>
+            <a href="" class="icon-several"><i class="fa-solid fa-pen"></i></a>
+        </div>
+        <hr>
+    </div>
+</div>
+<!-- {% endif %} -->
+
+<!-- {% if experiences %} -->
+<div class="div-container div-several">
+    <div class="div-head">
+        <h3>Experiências</h3>
+        <i class="fa-solid fa-plus icon"></i>
+    </div>
+    <div class="div-several-content">
+        <h5>Python</h5>
+        <div class="div-several-row">
+            <img src="{{ profile.photo.url }}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
+            <div class="several-row-text2">
+                <p >Fiap</p>
+                <p>Bacharelado, Sistemas de Informação</p>
+                <p>2016 - 2018</p>
+            </div>
+            <a href="" class="icon-several"><i class="fa-solid fa-pen "></i></a>
+        </div>
+        <hr>
+    </div>
+</div>
+<!-- {% endif %} -->
     
 {% endblock body%}
