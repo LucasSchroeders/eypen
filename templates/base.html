@@ -25,7 +25,6 @@
   <nav class="sidebar">
 
     <div class="expand-button">
-      <h5>Eypen</h5>
       <i class="fa-solid fa-list"></i>
     </div>
 
@@ -67,19 +66,20 @@
           <span class="txt-link">Cadastrar vagas</span>
         </a>
       </li>
-
-      <li class="menu-item" id="sair">
-        <a href="#">
-          <span class="icon"><i class="fa-regular fa-right-from-bracket"></i></span>
-          <span class="txt-link">Sair</span>
-        </a>
-      </li>
+      <div class="menu-item-sair">
+        <li class="menu-item" id="sair">
+          <a href="#">
+            <span class="icon"><i class="fa-regular fa-right-from-bracket"></i></span>
+            <span class="txt-link">Sair</span>
+          </a>
+        </li>
+      </div>
 
     </ul>
 
   </nav>
 
-  <div class="overlay"></div>
+  <!-- <div class="overlay"></div> -->
 
   {% block body %}
   {% endblock body %}
@@ -108,15 +108,18 @@
   //Foto de perfil
   var sidebar = document.querySelector('.sidebar');
   var profileInfo = document.querySelector('.profile-info');
+  var expandButton = document.querySelector('.expand-button')
 
   // Função para mostrar o perfil
   function showProfileInfo() {
     profileInfo.style.display = 'flex';
+    expandButton.style.display = 'none';
   }
 
   // Função para ocultar o perfil
   function hideProfileInfo() {
     profileInfo.style.display = 'none';
+    expandButton.style.display = 'flex';
   }
 
   // Evento de passar o mouse na sidebar
