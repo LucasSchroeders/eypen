@@ -1,0 +1,54 @@
+{% extends 'base.html' %} {%load static%} 
+{%block css%}
+<link rel="stylesheet" href="{% static 'css/users/busca_vaga.css' %}" />
+<link rel="stylesheet" href="{% static 'css/utils/filtro.css' %}" />
+<link rel="stylesheet" href="{% static 'css/utils/container_default.css' %}" />
+{%endblock css%}
+
+{%block body%}
+<div class="body">
+    <div class="div-form">
+        <form action="">
+            <h5 class="form-h5">Pesquisa de Vagas</h5>
+
+            <div class="div-row1">
+                <div class="form-field">
+                    <label for="vaga">Vaga:</label>
+                    <div class="form-input">
+                        <input type="Vaga" placeholder="Vaga" class="form-control">
+                    </div>
+                </div>
+                <div class="form-field">
+                    <label for="empresa">Empresa:</label>
+                    <div class="form-input">
+                        <input type="Empresa" placeholder="Empresa" class="form-control">
+                    </div>
+                </div>
+            </div>
+
+            <div class="div-row1">
+                <div class="form-field">
+                    <label for="area">Área</label>
+                    <select name="area" id="area" class="form-control">
+                        <option value="TI">TI</option>
+                        <option value="RH">RH</option>
+                        <option value="financa">Finanças</option>
+                    </select>
+                </div>
+            </div>
+            <input type="submit" class="form-button" value="Filtrar" />
+        </form>
+    </div>
+
+<a href="" class="div-container">
+    <img class="img-container" src="" alt="Imagem da Empresa/vaga">
+
+    <div class="div-dados div-company">
+        <p class="p-dados p-negrito">Nome vaga</p>
+        <p class="p-dados">tipo vaga</p>
+        <p class="p-dados">lugar</p>
+        <p class="p-dados">Estado/cidade</p>
+    </div>
+</a>
+</div>
+{%endblock body%}
