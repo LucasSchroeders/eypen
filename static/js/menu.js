@@ -15,9 +15,9 @@ menuItem.forEach((item)=>
 
 //Expandir o menu
 
-var expandbutton = document.querySelector('#expand-button')
-var sidebar = document.querySelector('.sidebar')
+var expandButton = document.querySelector('#expand-btn')
+var menuSide = document.querySelector('.sidebar')
 
-expandbutton.addEventListener('click', function(){
-    sidebar.classList.toggle('expandir')
+expandButton.addEventListener('click', function(){
+    menuSide.classList.toggle('expandir')
 })
