@@ -1,0 +1,169 @@
+body{
+    background-color: #F8F4F4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2%;
+}
+
+.div-container{
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 3%;
+}
+
+.photo{
+    border: 8px solid #000;
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.photo-img{
+    width: 186px;
+    height: 186px;
+    border-radius: 50%;
+}
+
+.div-content{
+    display: flex;
+    flex-direction: row;
+    padding: 3%;
+}
+
+.div-icon{
+    display: flex;
+    justify-content: end;
+    width: 100%;
+    padding: 15px 20px 0 0;
+}
+
+.infos{
+    margin-left: 150px;
+}
+
+.experience-formation{
+    margin-left: 150px;
+}
+
+.icon{
+    font-size: 25px;
+}
+
+.div-head{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    padding: 15px 20px 0 0;
+}
+
+.div-several{
+    /* margin-top: 3%; */
+    padding: 0.5% 1% 0.5% 1%;
+}
+
+.img-several{
+    width: 100px;
+    height: 100px;
+}
+
+.div-several-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.div-several-content{
+    margin-top: 0.5%;
+}
+
+.icon-several{
+    font-size: 20px;
+    margin-right: 22px;
+    margin-top: 2.5%;
+}
+
+hr {
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 1px;
+    border-color: #ddd;
+}
+
+.several-row-text{
+    width: 50%;
+    margin-top: 2.5%;
+    margin-right: 32%;
+}
+
+.several-row-text2{
+    width: 50%;
+    margin-right: 32%;
+}
+
+a{
+    height: 20px;
+    cursor: pointer;
+    &:link{
+        color: #000;
+        text-decoration: none;
+    }
+    &:visited{
+        color: #000;
+        text-decoration: none;
+    }
+}
+
+.janela-modal{
+    position: fixed;
+    display: none;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100vw;
+    justify-content: center;
+    z-index: 999;
+    background-color: #00000080;
+    backdrop-filter: blur(2px);
+}
+
+.modal{
+    display: flex;
+    flex-direction: column;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 30px;
+    background-color: #F8F4F4;
+    border-radius: 10px;
+    height: 80%;
+    width: 50%;
+}
+
+.abrir{
+    display: flex;
+}
+
+.abrir .modal{
+    animation: modal .1s;
+}
+
+@keyframes modal {
+    from{
+        opacity: 0;
+        transform: translate3d(0, -60px, 0);
+    }
+    to{
+        opacity: 1;
+        transform: translate3d(0, 0 , 0);
+    }
+}

@@ -9,7 +9,8 @@ urlpatterns = [
     path('login', views.login_view, name='login'),
     path('profile/company', views.ProfileCompany.as_view(), name='profile_company'),
     path('cadastro/2', views.signup2, name='signup2'),
-    path('profile/<int:id>', views.PersonalProfileInformation.as_view(), name='profile_edit'),
+    path('profile/<int:id>/edit', views.PersonalProfileInformation.as_view(), name='profile_edit'),
+    path('profile/<int:id>', views.ProfileApplicant.as_view(), name='profile'),
     path('profile/busca-perfil', views.BuscaPerfil.as_view(), name='busca_perfil'),
 ]
 

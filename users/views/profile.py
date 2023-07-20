@@ -1,3 +1,4 @@
+from typing import Any, Dict
 from django.views.generic import TemplateView
 from django.shortcuts import render 
 from rest_framework.views import APIView
@@ -7,7 +8,7 @@ from users.models import Profile
 
 
 class PersonalProfileInformation(TemplateView):
-    template_name='users/personalProfile.html'
+    template_name='users/profile/personalProfile.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -41,8 +42,25 @@ class PersonalProfileInformationAPI(APIView):
 
 
 class ProfileCompany(TemplateView):
-    template_name = 'users/company_profile.html'
+    template_name = 'users/company/company_profile.html'
+
+
+class ProfileApplicant(TemplateView):
+    template_name = 'users/profile/applicant_profile.html'
+
+    def get_context_data(self, **kwargs: Any):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        context['profile'] = user.profile
+        context['competences'] = user.profile.competence
+        context['academic_educations'] = user.profile.competence
+        context['experiences'] = user.profile.experience
+
+        if user.profile.id == kwargs.get('id'):
+            context['is_same_profile'] = True
+
+        return context
 
 
 class BuscaPerfil(TemplateView):
-    template_name = 'users/busca_perfil.html'
+    template_name = 'users/profile/busca_perfil.html'

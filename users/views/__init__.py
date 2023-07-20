@@ -9,5 +9,6 @@ from .profile import (
     PersonalProfileInformation,
     PersonalProfileInformationAPI,
     ProfileCompany,
+    ProfileApplicant,
     BuscaPerfil,
 )
