@@ -61,6 +61,11 @@ nav.sidebar:hover {
 
 .profile-name {
   margin-bottom: 5px;
+  color: #fff;
+}
+
+.profile-age {
+  color: #fff; 
 }
 
 .expand-button {
