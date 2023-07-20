@@ -1,16 +1,19 @@
-body{
+.body{
     background-color: #F8F4F4;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2%;
+    padding: 1% 0;
 }
 
 .div-container{
-    width: 65%;
     display: flex;
     flex-direction: column;
     margin-bottom: 3%;
+}
+
+.div-infos{
+    margin-top: 2%;
 }
 
 .photo{
@@ -47,10 +50,10 @@ body{
 }
 
 .experience-formation{
-    margin-left: 150px;
+    margin-left: 180px;
 }
 
-.icon{
+.div-container .icon{
     font-size: 25px;
 }
 
