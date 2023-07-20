@@ -6,31 +6,30 @@
 {%endblock css%}
 
 {%block body%}
-<div class="body">
-    <div class="div-form">
-        <form action="">
-            <h5 class="form-h5">Pesquisa de Empresas</h5>
+<div class="div-form">
+    <form action="">
+        <h5 class="form-h5">Pesquisa de Empresas</h5>
 
-            <div class="div-row1">
-                <div class="form-field">
-                    <label for="empresa">Empresa:</label>
-                    <div class="form-input">
-                        <input type="Empresa" placeholder="Empresa" class="form-control">
-                    </div>
-                </div>
-
-                <div class="form-field">
-                    <label for="setor">Setor</label>
-                    <select name="setor" id="setor" class="form-control">
-                        <option value="TI">TI</option>
-                        <option value="RH">RH</option>
-                        <option value="financa">Finanças</option>
-                    </select>
+        <div class="div-row1">
+            <div class="form-field">
+                <label for="empresa">Empresa:</label>
+                <div class="form-input">
+                    <input type="Empresa" placeholder="Empresa" class="form-control">
                 </div>
             </div>
-            <input type="submit" class="form-button" value="Filtrar" />
-        </form>
-    </div>
+
+            <div class="form-field">
+                <label for="setor">Setor</label>
+                <select name="setor" id="setor" class="form-control">
+                    <option value="TI">TI</option>
+                    <option value="RH">RH</option>
+                    <option value="financa">Finanças</option>
+                </select>
+            </div>
+        </div>
+        <input type="submit" class="form-button" value="Filtrar" />
+    </form>
+</div>
 
 <a href="" class="div-container">
     <img class="img-container" src="" alt="Imagem da Empresa">
@@ -41,5 +40,4 @@
         <p class="p-dados">Estado/Cidade</p>
     </div>
 </a>
-</div>
 {%endblock body%}
