@@ -140,12 +140,12 @@ ul li.menu-item a .icon>i {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgb(247, 8, 8); /* Altere o último valor (0.5) para ajustar a transparência */
-  pointer-events: none; /* Permite que os eventos do mouse passem por essa camada */
-  z-index: 1; /* Certifique-se de que a camada de fundo esteja acima do conteúdo da página, mas abaixo da sidebar */
-  display: none; /* Inicia escondida */
+  background-color: rgb(247, 8, 8, 0.5); 
+  pointer-events: none; 
+  z-index: 1; 
+  display: none; 
 }
 
 nav.sidebar:hover ~ .overlay {
-  display: block; /* Exibe a camada de fundo quando o mouse estiver sobre a sidebar */
+  display: block; 
 }
