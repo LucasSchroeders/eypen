@@ -51,10 +51,11 @@ class ProfileApplicant(TemplateView):
     def get_context_data(self, **kwargs: Any):
         context = super().get_context_data(**kwargs)
         user = self.request.user
-        context['profile'] = user.profile
+        context['profile_user'] = user.profile
         context['competences'] = user.profile.competence
         context['academic_educations'] = user.profile.competence
         context['experiences'] = user.profile.experience
+        context['profile'] = Profile.objects.filter(id=kwargs.get('id'))
 
         if user.profile.id == kwargs.get('id'):
             context['is_same_profile'] = True
