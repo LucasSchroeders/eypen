@@ -18,19 +18,3 @@
     align-items: center;
     justify-content: center;
 }
-
-.div-icon-accessibility{
-    position: absolute;
-    display: flex;
-    width: 100%;
-    flex-direction: row;
-    justify-content: end;
-    padding: 2rem 2rem;
-}
-
-.icon{
-    font-size: 30px;
-    margin-top: 1rem;
-    margin-right: 1rem;
-}
-

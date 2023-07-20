@@ -110,7 +110,7 @@ hr {
     margin-right: 32%;
 }
 
-a{
+.div-icon a, .div-container a{
     height: 20px;
     cursor: pointer;
     &:link{

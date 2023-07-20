@@ -30,7 +30,7 @@
 
     <div class="profile-info" style="display: none;">
       <div class="profile-image">
-        <img src="{% static '' %}" alt="Nome do Usuário">
+        <img src="" alt="Nome do Usuário">
       </div>
       <div class="profile-text">
         <p class="profile-name">Nome do Usuário</p>
@@ -54,7 +54,7 @@
       </li>
 
       <li class="menu-item">
-        <a href="#">
+        <a href="{% url 'busca_perfil' %}">
           <span class="icon"><i class="fa-regular fa-user"></i></span>
           <span class="txt-link">Procurar perfis</span>
         </a>

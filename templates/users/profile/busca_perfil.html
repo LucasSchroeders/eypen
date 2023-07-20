@@ -103,7 +103,6 @@
 </div>
 {% endblock body%}
 {% block js %}
-{% endblock body%} {% block js %}
 <script>
   var state = document.querySelector("#state");
 
@@ -118,11 +117,8 @@
     $.getJSON(url, function (data) {
       $.each(data, function (k, v) {
         $("#city").append(`<option value="${v.nome}">${v.nome}</option>`);
-        // console.log(v.nome)
       });
-      // conteudo += "</optiongroup>";
     });
-    // city.appendChild(conteudo);
   });
 </script>
 {% endblock js %}
