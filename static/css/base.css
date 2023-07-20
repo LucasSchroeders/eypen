@@ -24,6 +24,7 @@ nav.sidebar {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  z-index: 999;
 }
 
 nav.sidebar:hover {
@@ -43,17 +44,19 @@ nav.sidebar:hover {
 }
 
 .profile-image {
-  width: 80px;
-  height: 80px;
+  border: 8px solid #000;
   border-radius: 50%;
-  overflow: hidden;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .profile-info img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
+  width: 186px;
+  height: 186px;
+  border-radius: 50%;
 }
 
 .profile-text {
@@ -63,6 +66,7 @@ nav.sidebar:hover {
 }
 
 .profile-name {
+  font-size: 20px;
   margin-bottom: 5px;
   color: #fff;
 }
@@ -145,18 +149,19 @@ nav.sidebar:hover .txt-link {
   margin-right: 1rem;
 }
 
-/* .overlay {
+.overlay {
   position: fixed;
+  display: none; 
   top: 0;
   left: 0;
-  width: 100%;
+  width: 100vw;
   height: 100%;
-  background-color: rgb(247, 8, 8, 0.5); 
-  pointer-events: none; 
-  z-index: 1; 
-  display: none; 
+  background-color: #00000080;
+  backdrop-filter: blur(2px);
+  pointer-events: none;
+  z-index: 990;  
 }
 
 nav.sidebar:hover ~ .overlay {
-  display: block; 
-} */
+  display: flex;
+}
