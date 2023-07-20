@@ -10,6 +10,7 @@ body{
     width: 65%;
     display: flex;
     flex-direction: column;
+    margin-bottom: 3%;
 }
 
 .photo{
@@ -62,7 +63,7 @@ body{
 }
 
 .div-several{
-    margin-top: 3%;
+    /* margin-top: 3%; */
     padding: 0.5% 1% 0.5% 1%;
 }
 
@@ -95,6 +96,7 @@ hr {
     margin-right: auto;
     border-style: inset;
     border-width: 1px;
+    border-color: #ddd;
 }
 
 .several-row-text{
@@ -106,4 +108,62 @@ hr {
 .several-row-text2{
     width: 50%;
     margin-right: 32%;
+}
+
+a{
+    height: 20px;
+    cursor: pointer;
+    &:link{
+        color: #000;
+        text-decoration: none;
+    }
+    &:visited{
+        color: #000;
+        text-decoration: none;
+    }
+}
+
+.janela-modal{
+    position: fixed;
+    display: none;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100vw;
+    justify-content: center;
+    z-index: 999;
+    background-color: #00000080;
+    backdrop-filter: blur(2px);
+}
+
+.modal{
+    display: flex;
+    flex-direction: column;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 30px;
+    background-color: #F8F4F4;
+    border-radius: 10px;
+    height: 80%;
+    width: 50%;
+}
+
+.abrir{
+    display: flex;
+}
+
+.abrir .modal{
+    animation: modal .1s;
+}
+
+@keyframes modal {
+    from{
+        opacity: 0;
+        transform: translate3d(0, -60px, 0);
+    }
+    to{
+        opacity: 1;
+        transform: translate3d(0, 0 , 0);
+    }
 }

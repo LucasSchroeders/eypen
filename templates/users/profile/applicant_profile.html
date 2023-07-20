@@ -44,7 +44,7 @@
 <div class="div-container div-several">
     <div class="div-head">
         <h3>Competências</h3>
-        <i class="fa-solid fa-plus icon"></i>
+        <a><i class="fa-solid fa-plus icon"></i></a>
     </div>
     <div class="div-several-content">
         <h5>Python</h5>
@@ -64,7 +64,7 @@
 <div class="div-container div-several">
     <div class="div-head">
         <h3>Formações acadêmicas</h3>
-        <i class="fa-solid fa-plus icon"></i>
+        <a><i class="fa-solid fa-plus icon"></i></a>
     </div>
     <div class="div-several-content">
         <h5>Python</h5>
@@ -83,10 +83,10 @@
 <!-- {% endif %} -->
 
 <!-- {% if experiences %} -->
-<div class="div-container div-several">
+<div class="div-container div-several" style="margin-bottom: 2%;">
     <div class="div-head">
         <h3>Experiências</h3>
-        <i class="fa-solid fa-plus icon"></i>
+        <a onclick="openModalExperience()"><i class="fa-solid fa-plus icon"></i></a>
     </div>
     <div class="div-several-content">
         <h5>Python</h5>
@@ -103,5 +103,19 @@
     </div>
 </div>
 <!-- {% endif %} -->
-    
+{% block modal%}
+{% include "users/profile/applicant_profile_modal.html" %}
+{% endblock modal %}
+
 {% endblock body%}
+
+{% block js %}
+<script>
+    function openModalExperience(){
+        $("#janela-modal").addClass('abrir')
+    }
+    function closeModal(){
+        $('#janela-modal').removeClass('abrir')
+    }
+</script>
+{% endblock js %}
