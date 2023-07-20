@@ -29,12 +29,18 @@
     </div>
 
     <div class="profile-info" style="display: none;">
+
       <div class="profile-image">
-        <img src="" alt="Nome do Usuário">
+        <div>
+          {% if profile_user.photo %}
+          <img src="{{ profile_user.photo.url }}" class="img" alt="foto de perfil">
+          {% else %}
+          <i class="fa-solid fa-user icon"></i>
+          {% endif %}
+        </div>
       </div>
       <div class="profile-text">
-        <p class="profile-name">Nome do Usuário</p>
-        <p class="profile-age">Idade</p>
+        <p class="profile-name">{{ profile_user.full_name }}</p>
       </div>
     </div>
 
@@ -82,7 +88,7 @@
   <div class="div-icon-accessibility">
     <i class="fa-sharp fa-solid fa-universal-access icon"></i>
   </div>
-  <!-- <div class="overlay"></div> -->
+  <div class="overlay"></div>
   <div class="body">
   {% block body %}
   {% endblock body %}
