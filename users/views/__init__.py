@@ -11,4 +11,7 @@ from .profile import (
     ProfileCompany,
     ProfileApplicant,
     BuscaPerfil,
+    CompetenceAPI,
+    ExperienceAPI,
+    AcademicFormationAPI,
 )

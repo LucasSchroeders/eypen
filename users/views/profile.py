@@ -1,10 +1,12 @@
-from typing import Any, Dict
+from django.contrib import messages
 from django.views.generic import TemplateView
 from django.shortcuts import render 
+from rest_framework import status
+from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from users.utils import string_to_date
-from users.models import Profile
+from users.models import Profile, Competence, Experience, AcademicFormation
 
 
 class PersonalProfileInformation(TemplateView):
@@ -69,3 +71,62 @@ class ProfileApplicant(TemplateView):
 
 class BuscaPerfil(TemplateView):
     template_name = 'users/profile/busca_perfil.html'
+
+
+class CompetenceAPI(APIView):
+    def get(self, request, id):
+        competence = Competence.objects.filter(profile__id=request.user.profile.id, id=id).first()
+        a = competence.to_dict()
+        return Response({'detail': competence.to_dict()}, status=status.HTTP_200_OK)
+    
+    def post(self, request, id):
+        profile = Profile.objects.filter(id=id).first()
+
+        data = request.data
+
+        context = {
+            'competence': data.get('competence'),
+            'experience_list': data.get('experiences'),
+            'academic_list': data.get('academic_traning'),
+        }
+
+        try:
+            profile.create_competence(context)
+            return Response({'detail': 'Competência salva com sucesso!'}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(
+                {
+                    "detail": f"Não foi possível salvar a competência! {e}",
+                    "status": status.HTTP_400_BAD_REQUEST,
+                }
+            )
+        
+    def put(self, request, id):
+        competence = Competence.objects.filter(profile__id=request.user.profile.id, id=id).first()
+
+        data = request.data
+
+        context = {
+            'competence_name': data.get('competence'),
+            'experience_list': data.get('experiences'),
+            'academic_list': data.get('academic_traning'),
+        }
+
+        competence.update(context)
+
+        return Response({'detail': 'Competência atualizada com sucesso!'}, status=status.HTTP_200_OK)
+        
+    def delete(self, request, id):
+        competence = Competence.objects.filter(profile__id=request.user.profile.id, id=id)
+
+        try:
+            competence.delete()
+            return Response({'detail': 'Competência excluída com sucesso!'}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(
+                {
+                    "detail": f"Não foi possível excluir a competência! {e}",
+                    "status": status.HTTP_400_BAD_REQUEST,
+                }
+            )
+

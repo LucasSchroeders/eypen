@@ -12,6 +12,7 @@ urlpatterns = [
     path('profile/<int:id>/edit', views.PersonalProfileInformation.as_view(), name='profile_edit'),
     path('profile/<int:id>', views.ProfileApplicant.as_view(), name='profile'),
     path('profile/busca-perfil', views.BuscaPerfil.as_view(), name='busca_perfil'),
+    path('api/profile/<int:id>/competence', views.CompetenceAPI.as_view(), name='save_competence'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
