@@ -48,17 +48,21 @@ class ProfileCompany(TemplateView):
 class ProfileApplicant(TemplateView):
     template_name = 'users/profile/applicant_profile.html'
 
-    def get_context_data(self, **kwargs: Any):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
-        context['profile_user'] = user.profile
-        context['competences'] = user.profile.competence
-        context['academic_educations'] = user.profile.competence
-        context['experiences'] = user.profile.experience
-        context['profile'] = Profile.objects.filter(id=kwargs.get('id'))
+        is_same_person = True if user.profile.id == kwargs.get('id') else False
 
-        if user.profile.id == kwargs.get('id'):
-            context['is_same_profile'] = True
+        context['profile_user'] = user.profile
+        context['competences'] = user.profile.competence.all()
+        context['academic_educations'] = user.profile.academic_formation.all()
+        context['experiences'] = user.profile.experience.all()
+        context['profile'] = (
+            user.profile
+            if is_same_person 
+            else Profile.objects.filter(id=kwargs.get('id'))
+        )
+        context['is_same_profile'] = is_same_person
 
         return context
 

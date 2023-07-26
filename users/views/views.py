@@ -112,8 +112,7 @@ def signup2(request):
         profile.photo = photo
 
         profile.save()
-            
-        # TODO colocar para pag inicial do login
+        
         return redirect('profile', id=profile.id)
     
     return render(request, 'users/profile/personalProfile.html')
