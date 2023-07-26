@@ -201,3 +201,62 @@ class ExperienceAPI(APIView):
             )
     
 
+class AcademicFormationAPI(APIView):
+    def get(self, request, id):
+        academic = AcademicFormation.objects.filter(profile__id=request.user.profile.id, id=id).first()
+
+        return Response({'detail': academic.to_dict()}, status=status.HTTP_200_OK)
+    
+    def post(self, request, id):
+        profile = Profile.objects.filter(id=id).first()
+
+        data = request.data
+
+        context = {
+            'educational_institution': data.get('educational_institution'),
+            'course': data.get('course'),
+            'knowledge_area': data.get('knowledge_area'),
+            'started_at': data.get('started_at'),
+            'ended_at': data.get('ended_at'),
+        }
+
+        try:            
+            profile.create_academic_formation(context) 
+            return Response({'detail': 'Formação Acadêmica salva com sucesso!'}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(
+                {
+                    "detail": f"Não foi possível salvar a formação acadêmica! {e}",
+                    "status": status.HTTP_400_BAD_REQUEST,
+                }
+            )
+        
+    def put(self, request, id):
+        academic = AcademicFormation.objects.filter(profile__id=request.user.profile.id, id=id).first()
+
+        data = request.data
+        context = {
+            'educational_institution': data.get('educational_institution'),
+            'course': data.get('course'),
+            'knowledge_area': data.get('knowledge_area'),
+            'started_at': data.get('started_at'),
+            'ended_at': data.get('ended_at'),
+        }
+            
+        academic.update(context)
+
+        return Response({'detail': 'Formação Acadêmica atualizada com sucesso!'}, status=status.HTTP_200_OK)
+    
+    def delete(self, request, id):
+        academic = AcademicFormation.objects.filter(profile__id=request.user.profile.id, id=id)
+
+        try:
+            academic.delete()
+            return Response({'detail': 'Formação acadêmica excluída com sucesso!'}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(
+                {
+                    "detail": f"Não foi possível excluir a formação acadêmica! {e}",
+                    "status": status.HTTP_400_BAD_REQUEST,
+                }
+            )
