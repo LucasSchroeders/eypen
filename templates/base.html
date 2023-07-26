@@ -140,4 +140,17 @@
 
 </script>
 
+{% for message in messages %}
+  <script type="text/javascript">
+    $(document).ready(function () {
+      new PNotify({
+        title: '{{ message.extra_tags }}',
+        text: '{{ message }}',
+        type: '{{ message.level_tag }}',
+        styling: 'bootstrap3'
+      });
+    });
+  </script>
+{% endfor %}
+
 </html>
