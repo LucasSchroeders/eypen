@@ -130,3 +130,74 @@ class CompetenceAPI(APIView):
                 }
             )
 
+
+class ExperienceAPI(APIView):
+    def get(self, request, id):
+        experience = Experience.objects.filter(profile__id=request.user.profile.id, id=id).first()
+
+        return Response({'detail': experience.to_dict()}, status=status.HTTP_200_OK)
+
+    def post(self, request, id):
+        profile = Profile.objects.filter(id=id).first()
+
+        data = request.data
+
+        context = {
+            'position': data.get('position'),
+            'job_type': data.get('job_type'),
+            'job_modality': data.get('job_modality'),
+            'is_working': data.get('is_working'),
+            'company': data.get('company'),
+            'business_area': data.get('business_area'),
+            'started_at': data.get('started_at'),
+            'ended_at': data.get('ended_at'),
+        }
+
+        
+        try:            
+            profile.create_experience(context)
+            return Response({'detail': 'Experiência salva com sucesso!'}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(
+                {
+                    "detail": f"Não foi possível salvar a experiência! {e}",
+                    "status": status.HTTP_400_BAD_REQUEST,
+                }
+            )
+        # TODO fazer retorno com mensagem
+
+    def put(self, request, id):
+        experience = Experience.objects.filter(profile__id=request.user.profile.id, id=id).first()
+
+        data = request.data
+
+        context = {
+            'position': data.get('position'),
+            'job_type': data.get('job_type'),
+            'job_modality': data.get('job_modality'),
+            'is_working': data.get('is_working'),
+            'company': data.get('company'),
+            'business_area': data.get('business_area'),
+            'started_at': data.get('started_at'),
+            'ended_at': data.get('ended_at'),
+        }
+
+        experience.update(context)
+
+        return Response({'detail': 'Experiência atualizada com sucesso!'}, status=status.HTTP_200_OK)
+
+    def delete(self, request, id):
+        experience = Experience.objects.filter(profile__id=request.user.profile.id, id=id)
+
+        try:
+            experience.delete()
+            return Response({'detail': 'Experiência excluída com sucesso!'}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(
+                {
+                    "detail": f"Não foi possível excluir a experiência! {e}",
+                    "status": status.HTTP_400_BAD_REQUEST,
+                }
+            )
+    
+
