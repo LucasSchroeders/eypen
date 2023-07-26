@@ -1,6 +1,7 @@
 from django.db import models
 
 from users.choices import JOB_MODALITY, JOB_TYPE
+from users.utils import string_to_date
 
 
 class Experience(models.Model):
@@ -24,6 +25,48 @@ class Experience(models.Model):
     business_area = models.CharField(max_length=80, blank=True, null=True, verbose_name='Área de atuação da empresa')
     started_at = models.DateTimeField(verbose_name="Iniciado em")
     ended_at = models.DateTimeField(blank=True, null=True, verbose_name="Finalizado em")
+
+    def to_dict(self):
+        return {
+            'id': self.pk,
+            'position': self.position,
+            'job_type': self.job_type,
+            'job_modality': self.job_modality,
+            'is_working': self.is_working,
+            'company': self.company,
+            'business_area': self.business_area,
+            'started_at': self.started_at,
+            'ended_at': self.ended_at,
+        }
+    
+    def update(self, context):
+        if context.get('position'):
+            self.position = context.get('position')
+
+        if context.get('job_type'):
+            self.job_type = context.get('job_type')
+
+        if context.get('job_modality'):
+            self.job_modality = context.get('job_modality')
+            
+        if context.get('is_working'):
+            self.is_working = context.get('is_working')
+
+        if context.get('company'):
+            self.company = context.get('company')
+
+        if context.get('business_area'):
+            self.business_area = context.get('business_area')
+
+        if context.get('started_at'):
+            started_at = string_to_date(context.get('started_at'))
+            self.started_at = started_at
+
+        if context.get('ended_at'):
+            ended_at = string_to_date(context.get('ended_at'))
+            self.ended_at = ended_at
+
+        self.save()
 
     class Meta:
         verbose_name = 'Experiência'
