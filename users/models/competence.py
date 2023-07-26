@@ -15,14 +15,12 @@ class Competence(models.Model):
         null=True,
         verbose_name="Competência",
     )
-    experience = models.ForeignKey(
+    experience = models.ManyToManyField(
         'users.Experience',
-        on_delete=models.PROTECT,
         verbose_name='Experiência',
     )
-    academic_formation = models.ForeignKey(
+    academic_formation = models.ManyToManyField(
         'users.AcademicFormation',
-        on_delete=models.PROTECT,
         verbose_name='Formação Acadêmica',
     )
     
