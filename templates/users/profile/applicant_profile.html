@@ -94,7 +94,7 @@
     {% endif %}
 </div>
 
-<div class="div-container div-several">
+<div class="div-container div-several" id="div-content-academic">
     <div class="div-head">
         <h3>Formações acadêmicas</h3>
         {% if is_same_profile %}
@@ -104,7 +104,7 @@
     {% if academic_educations %}
     {% for academic in academic_educations %}
     <div class="div-several-content">
-        <div class="div-several-row">
+        <div class="div-several-row" id="div-academic-{{academic.id}}">
             <img src="{{ profile.photo.url }}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
             <div class="several-row-text2">
                 <p>{{academic.educational_institution}}</p>
@@ -184,9 +184,16 @@
         $('#modal-experience').removeClass('abrir')
     }
 
-    function openModalAcademicFormation(){
+    function openModalAcademicFormation(edit=false){
         $("#modal-academic-formation").addClass('abrir')
-        document.getElementById("button-save-academic").setAttribute("onclick", "saveAcademicFormation()")
+        if (!edit){
+            document.getElementById("button-save-academic").setAttribute("onclick", "saveAcademicFormation()")
+            $('#educational_institution').val('')
+            $('#course').val('')
+            $('#knowledge_area').val('')
+            document.getElementById("started_date").value = null
+            document.getElementById("ended_date").value = null
+        }
     }
     function closeModalAcademicFormation(){
         $('#modal-academic-formation').removeClass('abrir')
@@ -392,9 +399,6 @@
                     type: 'success',
                     delay:'5000'
                 });
-                // setTimeout(() => {
-                //     location.reload();
-                // })
             },
             error: function (error) {
                 if (error.statusText == 'timeout') {
@@ -428,20 +432,39 @@
         // TODO fazer com que exiba retorno positivo ou negativo
         $.ajax({
             type: 'POST',
-            url: "{% url 'save_competence' id=profile.id %}",
+            url: "{% url 'save_academic_formation' id=profile.id %}",
             dataType: 'json',
             headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
             data: JSON.stringify(data),
             success: function (retorno) {
+                var academic = retorno.academic
+                var academicDiv = $('#div-content-academic')
+
+                text = `
+                <div class="div-several-row" id="div-academic-${academic.id}">
+                    <img src="${"{{profile.photo.url}}"}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
+                    <div class="several-row-text2">
+                        <p>${academic.educational_institution}</p>
+                        <p>${academic.course}</p>
+                        <p>${academic.started_at} - ${academic.ended_at}</p>
+                    </div>
+                    <div class="div-several-row-icon">
+                        <a onclick="getAcademicFormation('${academic.id}')" class="icon-several"><i class="fa-solid fa-pen"></i></a>
+                        <a onclick="deleteAcademic('${academic.id}')" class="icon-several icon-trash"><i class="fa-solid fa-trash"></i></a>
+                    </div>
+                    <hr>
+                </div>
+                `
+                academicDiv.append(text)
+                
+                closeModalAcademicFormation()
                 new PNotify({
-                    title:'Experiência salva',
-                    text: 'A experiência foi salva com sucesso!',
+                    title:'Formação Acadêmica salva',
+                    text: retorno.detail,
                     type: 'success',
                     delay:'5000'
                 });
-                // setTimeout(() => {
-                //     location.reload();
-                // })
+
             },
             error: function (error) {
                 if (error.statusText == 'timeout') {
@@ -525,15 +548,15 @@
             url: `/api/profile/${academic_id}/academic-formation`,
             headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
             success: function (retorno) {
+                var div = document.getElementById("div-content-academic")
+                div.removeChild(div.lastElementChild)
+                $(`#div-academic-${academic_id}`).remove()
                 new PNotify({
-                    title:'Experiência salva',
-                    text: 'A experiência foi salva com sucesso!',
+                    title:'Formação acadêmica excluída',
+                    text: retorno.detail,
                     type: 'success',
                     delay:'5000'
                 });
-                // setTimeout(() => {
-                //     location.reload();
-                // })
             },
             error: function (error) {
                 if (error.statusText == 'timeout') {
@@ -639,7 +662,7 @@
             headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
             success: function (retorno) {
                 response = retorno.detail
-                openModalAcademicFormation()
+                openModalAcademicFormation(true)
                 $('#educational_institution').val(response['educational_institution'])
                 $('#course').val(response['course'])
                 $('#knowledge_area').val(response['knowledge_area'])
@@ -865,15 +888,31 @@
             data: JSON.stringify(data),
             headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
             success: function (retorno) {
+                var academic = retorno.academic
+                var academicDiv = document.getElementById(`div-academic-${academic_id}`)
+
+                text = `
+                    <img src="${"{{profile.photo.url}}"}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
+                    <div class="several-row-text2">
+                        <p>${academic.educational_institution}</p>
+                        <p>${academic.course}</p>
+                        <p>${academic.started_at} - ${academic.ended_at}</p>
+                    </div>
+                    <div class="div-several-row-icon">
+                        <a onclick="getAcademicFormation('${academic.id}')" class="icon-several"><i class="fa-solid fa-pen"></i></a>
+                        <a onclick="deleteAcademic('${academic.id}')" class="icon-several icon-trash"><i class="fa-solid fa-trash"></i></a>
+                    </div>
+                    <hr>
+                `
+                academicDiv.innerHTML = text
+                
+                closeModalAcademicFormation()
                 new PNotify({
-                    title:'Experiência salva',
-                    text: 'A experiência foi salva com sucesso!',
+                    title:'Formação acadêmica salva',
+                    text: retorno.detail,
                     type: 'success',
                     delay:'5000'
                 });
-                // setTimeout(() => {
-                //     location.reload();
-                // })
             },
             error: function (error) {
                 if (error.statusText == 'timeout') {
