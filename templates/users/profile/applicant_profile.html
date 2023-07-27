@@ -518,7 +518,7 @@
             success: function (retorno) {
                 $(`#div-experience-${experience_id}`).remove()
                 new PNotify({
-                    title:'Experiência salva',
+                    title:'Experiência excluída',
                     text: retorno.detail,
                     type: 'success',
                     delay:'5000'
@@ -763,7 +763,7 @@
                 }
                 closeModalCompetence()
                 new PNotify({
-                    title:'Experiência salva',
+                    title:'Competência atualizada',
                     text: retorno.detail,
                     type: 'success',
                     delay:'5000'
@@ -843,7 +843,7 @@
                 
                 closeModalExperience()
                 new PNotify({
-                    title:'Experiência salva',
+                    title:'Experiência atualizada',
                     text: retorno.detail,
                     type: 'success',
                     delay:'5000'
@@ -908,7 +908,7 @@
                 
                 closeModalAcademicFormation()
                 new PNotify({
-                    title:'Formação acadêmica salva',
+                    title:'Formação acadêmica atualizada',
                     text: retorno.detail,
                     type: 'success',
                     delay:'5000'
