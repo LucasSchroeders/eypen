@@ -40,57 +40,90 @@
     </div>
 </div>
 
-<!-- {% if competences %} -->
 <div class="div-container div-several">
     <div class="div-head">
         <h3>Competências</h3>
         {% if is_same_profile %}
-        <a><i class="fa-solid fa-plus icon"></i></a>
+        <a onclick="openModalCompetence()"><i class="fa-solid fa-plus icon"></i></a>
         {% endif %}
     </div>
+    {% if competences %}
+    {% for competence in competences %}
     <div class="div-several-content">
-        <h5>Python</h5>
+        {% if competence.experience.all.exists or competence.academic_formation.all.exists %}
+        <h5>{{competence.competence_name}}</h5>
         <div class="div-several-row">
             <img src="{{ profile.photo.url }}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
             <div class="several-row-text">
-                <p>Desenvolvedor de software no google</p>
+                {% if competence.experience.all.exists %}
+
+                {% for experience in competence.experience.all %}
+                <p>{{experience.position}} | {{experience.company}}</p>
+                {% endfor %}
+
+                {% elif competence.academic_formation.all.exists %}
+
+                {% for academic in competence.academic_formation.all %}
+                <p>{{academic.course}} | {{academic.educational_institution}}</p>
+                {% endfor %}
+
+                {% else %}
+                {% endif %}
             </div>
             {% if is_same_profile %}
-            <a href="" class="icon-several"><i class="fa-solid fa-pen"></i></a>
+            <a onclick="getCompetence('{{competence.id}}')" class="icon-several"><i class="fa-solid fa-pen"></i></a>
+            <a onclick="deleteCompetence('{{competence.id}}')" class="icon-several icon-trash"><i class="fa-solid fa-trash"></i></a>
             {% endif %}
         </div>
+        {% else %}
+        <div class="div-several-row">
+            <h5>{{competence.competence_name}}</h5>
+            {% if is_same_profile %}
+            <div>
+                <a onclick="getCompetence('{{competence.id}}')" class="icon-several"><i class="fa-solid fa-pen"></i></a>
+                <a onclick="deleteCompetence('{{competence.id}}')" class="icon-several icon-trash"><i class="fa-solid fa-trash"></i></a>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+        {% if not competences|length == 1 %}
         <hr>
+        {% endif %}
     </div>
+    {% endfor %}
+    {% endif %}
 </div>
-<!-- {% endif %} -->
 
-<!-- {% if academic_educations %} -->
 <div class="div-container div-several">
     <div class="div-head">
         <h3>Formações acadêmicas</h3>
         {% if is_same_profile %}
-        <a><i class="fa-solid fa-plus icon"></i></a>
+        <a onclick="openModalAcademicFormation()"><i class="fa-solid fa-plus icon"></i></a>
         {% endif %}
     </div>
+    {% if academic_educations %}
+    {% for academic in academic_educations %}
     <div class="div-several-content">
-        <h5>Python</h5>
         <div class="div-several-row">
             <img src="{{ profile.photo.url }}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
             <div class="several-row-text2">
-                <p >Fiap</p>
-                <p>Bacharelado, Sistemas de Informação</p>
-                <p>2016 - 2018</p>
+                <p>{{academic.educational_institution}}</p>
+                <p>{{academic.course}}</p>
+                <p>{{academic.started_at}} - {{academic.ended_at}}</p>
             </div>
             {% if is_same_profile %}
-            <a href="" class="icon-several"><i class="fa-solid fa-pen"></i></a>
+            <a onclick="getAcademicFormation('{{academic.id}}')" class="icon-several"><i class="fa-solid fa-pen"></i></a>
+            <a onclick="deleteAcademic('{{academic.id}}')" class="icon-several icon-trash"><i class="fa-solid fa-trash"></i></a>
             {% endif %}
         </div>
+        {% if not academic_educations|length == 1 %}
         <hr>
+        {% endif %}
     </div>
+    {% endfor %}
+    {% endif %}
 </div>
-<!-- {% endif %} -->
 
-<!-- {% if experiences %} -->
 <div class="div-container div-several" style="margin-bottom: 2%;">
     <div class="div-head">
         <h3>Experiências</h3>
@@ -98,23 +131,28 @@
         <a onclick="openModalExperience()"><i class="fa-solid fa-plus icon"></i></a>
         {% endif %}
     </div>
+    {% if experiences %}
+    {% for experience in experiences %}
     <div class="div-several-content">
-        <h5>Python</h5>
         <div class="div-several-row">
             <img src="{{ profile.photo.url }}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
             <div class="several-row-text2">
-                <p >Fiap</p>
-                <p>Bacharelado, Sistemas de Informação</p>
-                <p>2016 - 2018</p>
+                <p>{{experience.position}}</p>
+                <p>{{experience.company}} • {{experience.job_modality}}</p>
+                <p>{{experience.started_at}} - {% if experience.is_working %}até o momento{% else %}{{experience.ended_at}}{% endif %}</p>
             </div>
             {% if is_same_profile %}
-            <a href="" class="icon-several"><i class="fa-solid fa-pen "></i></a>
+            <a onclick="getExperience('{{experience.id}}')" class="icon-several"><i class="fa-solid fa-pen "></i></a>
+            <a onclick="deleteExperience('{{experience.id}}')" class="icon-trash icon-several"><i class="fa-solid fa-trash"></i></a>
             {% endif %}
         </div>
+        {% if not experiences|length == 1 %}
         <hr>
+        {% endif %}
     </div>
+    {% endfor %}
+    {% endif %}
 </div>
-<!-- {% endif %} -->
 {% block modal%}
 {% include "users/profile/applicant_profile_modal.html" %}
 {% endblock modal %}
@@ -122,6 +160,7 @@
 {% endblock body%}
 
 {% block js %}
+{% if is_same_profile %}
 <script>
     function openModalExperience(){
         $("#modal-experience").addClass('abrir')
