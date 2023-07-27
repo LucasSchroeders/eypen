@@ -1,5 +1,7 @@
 from django.db import models
 
+from users.utils import string_to_date
+
 
 class AcademicFormation(models.Model):
     profile = models.ForeignKey(
@@ -29,6 +31,36 @@ class AcademicFormation(models.Model):
     )
     started_at = models.DateTimeField(verbose_name="Iniciado em")
     ended_at = models.DateTimeField(verbose_name="Finalizado em")
+
+    def to_dict(self):
+        return {
+            'id': self.pk,
+            'educational_institution': self.educational_institution,
+            'course': self.course,
+            'knowledge_area': self.knowledge_area,
+            'started_at': self.started_at,
+            'ended_at': self.ended_at,
+        }
+    
+    def update(self, context):
+        if context.get('educational_institution'):
+            self.educational_institution = context.get('educational_institution')
+
+        if context.get('course'):
+            self.course = context.get('course')
+
+        if context.get('knowledge_area'):
+            self.knowledge_area = context.get('knowledge_area')
+
+        if context.get('started_at'):
+            started_at = string_to_date(context.get('started_at'))
+            self.started_at = started_at
+
+        if context.get('ended_at'):
+            ended_at = string_to_date(context.get('ended_at'))
+            self.ended_at = ended_at
+        
+        self.save()
 
     class Meta:
         verbose_name = 'Formação Acadêmica'
