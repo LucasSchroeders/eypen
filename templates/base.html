@@ -10,10 +10,12 @@
     <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/utils/pnotify.custom.min.css' %}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
     <script src="{% static 'js/jquery.mask.min.js' %}"></script>
+    <script src="{% static 'js/pnotify.custom.min.js' %}"></script>
   {% block css %}
   {% endblock css %}
 
@@ -139,18 +141,5 @@
   sidebar.addEventListener('mouseleave', hideProfileInfo);
 
 </script>
-
-{% for message in messages %}
-  <script type="text/javascript">
-    $(document).ready(function () {
-      new PNotify({
-        title: '{{ message.extra_tags }}',
-        text: '{{ message }}',
-        type: '{{ message.level_tag }}',
-        styling: 'bootstrap3'
-      });
-    });
-  </script>
-{% endfor %}
 
 </html>
