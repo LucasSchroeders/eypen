@@ -49,7 +49,7 @@
     </div>
     {% if competences %}
     {% for competence in competences %}
-    <div class="div-several-content">
+    <div class="div-several-content" id="div-competence-{{competence.id}}">
         {% if competence.experience.all.exists or competence.academic_formation.all.exists %}
         <h5>{{competence.competence_name}}</h5>
         <div class="div-several-row">
@@ -267,8 +267,8 @@
                     text += `</div>
                             {% if is_same_profile %}
                             <div class="div-several-row-icon">
-                                <a onclick="getCompetence('{{competence.id}}')" class="icon-several"><i class="fa-solid fa-pen"></i></a>
-                                <a onclick="deleteCompetence('{{competence.id}}')" class="icon-several icon-trash"><i class="fa-solid fa-trash"></i></a>
+                                <a onclick="getCompetence('${competence.id}')" class="icon-several"><i class="fa-solid fa-pen"></i></a>
+                                <a onclick="deleteCompetence('${competence.id}')" class="icon-several icon-trash"><i class="fa-solid fa-trash"></i></a>
                             </div>
                             {% endif %}
                         </div>
@@ -426,15 +426,13 @@
             url: `/api/profile/${competence_id}/competence`,
             headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
             success: function (retorno) {
+                $(`#div-competence-${competence_id}`).remove()
                 new PNotify({
-                    title:'Experiência salva',
-                    text: 'A experiência foi salva com sucesso!',
+                    title:'Experiência excluída',
+                    text: retorno.detail,
                     type: 'success',
                     delay:'5000'
                 });
-                // setTimeout(() => {
-                //     // window.location.reload();
-                // }, 5000)
             },
             error: function (error) {
                 if (error.statusText == 'timeout') {
@@ -658,9 +656,9 @@
             if (e.checked) {
                 var word = e.id.split('-')
                 if (word[0] == 'experience'){
-                    experiences.push(word.slice(-1)[0])
+                    experiences.push(Number(word.slice(-1)[0]))
                 }else if (word[0] == 'academic_education'){
-                    academicTraining.push(word.slice(-1)[0])
+                    academicTraining.push(Number(word.slice(-1)[0]))
                 }
             }
         })
@@ -677,10 +675,56 @@
             data: JSON.stringify(data),
             headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
             success: function (retorno) {
-                console.log(retorno)
+                var competence = retorno.competence
+                var competenceDiv = document.getElementById(`div-competence-${competence_id}`)
+                if (competence.experience || competence.academic){
+                    var text = `<div class="div-several-content">
+                        <h5>${competence.competence_name}</h5>
+                        <div class="div-several-row">
+                        <div class="several-row-text">`
+                    if (competence.experience){
+                        competence.experience.forEach(function(e){
+                            text += `<p>${e.position} | ${e.company}</p>`
+                        })
+                    }
+                    if (competence.academic){
+                        competence.academic.forEach(function(e){
+                            text += `<p>${e.course} | ${e.educational_institution}</p>`
+
+                        })
+                    }
+                    text += `</div>
+                            {% if is_same_profile %}
+                            <div class="div-several-row-icon">
+                                <a onclick="getCompetence('${competence.id}')" class="icon-several"><i class="fa-solid fa-pen"></i></a>
+                                <a onclick="deleteCompetence('${competence.id}')" class="icon-several icon-trash"><i class="fa-solid fa-trash"></i></a>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <hr>
+                        </div>
+                        `
+                    competenceDiv.innerHTML = text
+                } else{
+                    var text = `
+                            <div class="div-several-row">
+                                <h5>${competence.competence_name}</h5>
+                                {% if is_same_profile %}
+                                <div>
+                                    <a onclick="getCompetence('${competence.id}')" class="icon-several"><i class="fa-solid fa-pen"></i></a>
+                                    <a onclick="deleteCompetence('${competence.id}')" class="icon-several icon-trash"><i class="fa-solid fa-trash"></i></a>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <hr>
+                        
+                        `  
+                    competenceDiv.innerHTML = text
+                }
+                closeModalCompetence()
                 new PNotify({
                     title:'Experiência salva',
-                    text: 'A experiência foi salva com sucesso!',
+                    text: retorno.detail,
                     type: 'success',
                     delay:'5000'
                 });
