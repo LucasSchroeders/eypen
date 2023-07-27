@@ -112,8 +112,8 @@ class Profile(models.Model):
             'ended_at': ended_at,
         }
 
-        self.academic_formation.create(**academic_formation_data)
-        return True
+        academic = self.academic_formation.create(**academic_formation_data)
+        return academic.to_dict()
 
 
 @receiver(post_save, sender=User)

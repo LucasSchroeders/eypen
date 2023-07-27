@@ -222,8 +222,8 @@ class AcademicFormationAPI(APIView):
         }
 
         try:            
-            profile.create_academic_formation(context) 
-            return Response({'detail': 'Formação Acadêmica salva com sucesso!'}, status=status.HTTP_200_OK)
+            academic = profile.create_academic_formation(context) 
+            return Response({'detail': 'Formação Acadêmica salva com sucesso!', 'academic': academic}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response(
                 {
@@ -244,9 +244,9 @@ class AcademicFormationAPI(APIView):
             'ended_at': data.get('ended_at'),
         }
             
-        academic.update(context)
+        academic_updated = academic.update(context)
 
-        return Response({'detail': 'Formação Acadêmica atualizada com sucesso!'}, status=status.HTTP_200_OK)
+        return Response({'detail': 'Formação Acadêmica atualizada com sucesso!', 'academic': academic_updated}, status=status.HTTP_200_OK)
     
     def delete(self, request, id):
         academic = AcademicFormation.objects.filter(profile__id=request.user.profile.id, id=id)
