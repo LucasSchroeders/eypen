@@ -29,6 +29,7 @@ class Competence(models.Model):
 
     def to_dict(self):
         return{
+            'id': self.pk,
             'competence_name': self.competence_name,
             'experience': [exp.to_dict() for exp in self.experience.all()],
             'academic': [academic.to_dict() for academic in self.academic_formation.all()],

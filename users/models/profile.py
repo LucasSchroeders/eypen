@@ -78,7 +78,7 @@ class Profile(models.Model):
                 competence.academic_formation.add(AcademicFormation.objects.filter(id=academic).first())
 
         competence.save()
-        return True
+        return competence.to_dict()
      
     def create_experience(self, context):
         started_at = string_to_date(context.get('started_at'))

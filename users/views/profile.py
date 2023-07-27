@@ -76,7 +76,7 @@ class BuscaPerfil(TemplateView):
 class CompetenceAPI(APIView):
     def get(self, request, id):
         competence = Competence.objects.filter(profile__id=request.user.profile.id, id=id).first()
-        a = competence.to_dict()
+        
         return Response({'detail': competence.to_dict()}, status=status.HTTP_200_OK)
     
     def post(self, request, id):
@@ -91,8 +91,9 @@ class CompetenceAPI(APIView):
         }
 
         try:
-            profile.create_competence(context)
-            return Response({'detail': 'Competência salva com sucesso!'}, status=status.HTTP_200_OK)
+            competence = profile.create_competence(context)
+
+            return Response({'detail': 'Competência salva com sucesso!', 'competence': competence, 'status': status.HTTP_200_OK})
         except Exception as e:
             return Response(
                 {
