@@ -124,7 +124,36 @@
 {% block js %}
 <script>
     function openModalExperience(){
-        $("#janela-modal").addClass('abrir')
+        $("#modal-experience").addClass('abrir')
+        document.getElementById("button-save-experience").setAttribute("onclick", "saveExperience()")
+    }
+    function closeModalExperience(){
+        $('#modal-experience').removeClass('abrir')
+    }
+
+    function openModalAcademicFormation(){
+        $("#modal-academic-formation").addClass('abrir')
+        document.getElementById("button-save-academic").setAttribute("onclick", "saveAcademicFormation()")
+    }
+    function closeModalAcademicFormation(){
+        $('#modal-academic-formation').removeClass('abrir')
+    }
+
+    function openModalCompetence(){
+        $("#modal-competence").addClass('abrir')
+        document.getElementById("button-save-competence").setAttribute("onclick", "saveCompetence()")
+    }
+    function closeModalCompetence(){
+        $('#modal-competence').removeClass('abrir')
+    }
+
+    $('#is_working').click(function(){
+        if (document.querySelector('#is_working').checked) {
+            document.querySelector('#ended_date_experience').disabled = true
+        }else{
+            document.querySelector('#ended_date_experience').disabled = false
+        }
+    })
     }
     function closeModal(){
         $('#janela-modal').removeClass('abrir')
