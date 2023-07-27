@@ -97,7 +97,8 @@ class Profile(models.Model):
             ended_at = string_to_date(context.get('ended_at'))
             experience_data['ended_at'] = ended_at
 
-        return self.experience.create(**experience_data)
+        experience = self.experience.create(**experience_data)
+        return experience.to_dict()
     
     def create_academic_formation(self, context):
         started_at = string_to_date(context.get('started_at'))

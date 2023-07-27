@@ -67,6 +67,7 @@ class Experience(models.Model):
             self.ended_at = ended_at
 
         self.save()
+        return self.to_dict()
 
     class Meta:
         verbose_name = 'Experiência'

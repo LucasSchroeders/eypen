@@ -156,8 +156,8 @@ class ExperienceAPI(APIView):
 
         
         try:            
-            profile.create_experience(context)
-            return Response({'detail': 'Experiência salva com sucesso!'}, status=status.HTTP_200_OK)
+            experience = profile.create_experience(context)
+            return Response({'detail': 'Experiência salva com sucesso!', 'experience': experience}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response(
                 {
@@ -183,9 +183,9 @@ class ExperienceAPI(APIView):
             'ended_at': data.get('ended_at'),
         }
 
-        experience.update(context)
+        experience_updated = experience.update(context)
 
-        return Response({'detail': 'Experiência atualizada com sucesso!'}, status=status.HTTP_200_OK)
+        return Response({'detail': 'Experiência atualizada com sucesso!', 'experience': experience_updated}, status=status.HTTP_200_OK)
 
     def delete(self, request, id):
         experience = Experience.objects.filter(profile__id=request.user.profile.id, id=id)
