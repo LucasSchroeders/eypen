@@ -1,5 +1,4 @@
 from .views import (
-    home,
     signup,
     index,
     login_view,

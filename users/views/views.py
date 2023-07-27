@@ -15,10 +15,6 @@ def index(request):
     return render(request, 'index.html')
 
 
-def home(request):
-    return render(request, '')
-
-
 def signup(request):
     if request.method == 'POST':
         post = request.POST
@@ -77,7 +73,7 @@ def login_view(request):
 
     return render(request, 'users/login.html')
 
-    
+
 @login_required
 def signup2(request):
     if request.method == 'POST':
