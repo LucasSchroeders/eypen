@@ -126,7 +126,7 @@
     {% endif %}
 </div>
 
-<div class="div-container div-several" style="margin-bottom: 2%;">
+<div class="div-container div-several" id="div-content-experience" style="margin-bottom: 2%;">
     <div class="div-head">
         <h3>Experiências</h3>
         {% if is_same_profile %}
@@ -135,7 +135,7 @@
     </div>
     {% if experiences %}
     {% for experience in experiences %}
-    <div class="div-several-content">
+    <div class="div-several-content" id="div-experience-{{experience.id}}">
         <div class="div-several-row">
             <img src="{{ profile.photo.url }}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
             <div class="several-row-text2">
@@ -166,9 +166,19 @@
 {% block js %}
 {% if is_same_profile %}
 <script>
-    function openModalExperience(){
+    function openModalExperience(edit=false){
         $("#modal-experience").addClass('abrir')
-        document.getElementById("button-save-experience").setAttribute("onclick", "saveExperience()")
+        if (!edit){
+            document.getElementById("button-save-experience").setAttribute("onclick", "saveExperience()")
+            $("#position").val('');
+            document.getElementById("job_type").value = "";
+            $("#company").val('');
+            document.getElementById("job_modality").value = '';
+            document.getElementById('is_working').checked = false
+            document.getElementById("started_date_experience").value = null
+            $("#ended_date_experience").val('');
+            $("#business_area").val('');
+        }
     }
     function closeModalExperience(){
         $('#modal-experience').removeClass('abrir')
@@ -249,7 +259,7 @@
                 var competence = retorno.competence
                 var competenceDiv = $('#div-content-competence')
                 if (competence.experience || competence.academic){
-                    var text = `<div class="div-several-content">
+                    var text = `<div class="div-several-content" id="div-competence-${competence.id}">
                         <h5>${competence.competence_name}</h5>
                         <div class="div-several-row">
                         <div class="several-row-text">`
@@ -348,9 +358,37 @@
             headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
             data: JSON.stringify(data),
             success: function (retorno) {
+                var experience = retorno.experience
+                var experienceDiv = $('#div-content-experience')
+                var value_date = 'até o momento'
+
+                if (experience.ended_at){
+                    value_date = experience.ended_at
+                }
+
+                text = `
+                <div class="div-several-content" id="div-experience-${experience.id}">
+                    <div class="div-several-row">
+                        <img src="${"{{profile.photo.url}}"}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
+                        <div class="several-row-text2">
+                            <p>${experience.position}</p>
+                            <p>${experience.company} • ${experience.job_modality}</p>
+                            <p>${experience.started_at} - ${value_date}</p>
+                        </div>
+                        <div class="div-several-row-icon">
+                            <a onclick="getExperience('${experience.id}')" class="icon-several"><i class="fa-solid fa-pen "></i></a>
+                            <a onclick="deleteExperience('${experience.id}')" class="icon-trash icon-several"><i class="fa-solid fa-trash"></i></a>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                `
+                experienceDiv.append(text)
+                
+                closeModalExperience()
                 new PNotify({
                     title:'Experiência salva',
-                    text: 'A experiência foi salva com sucesso!',
+                    text: retorno.detail,
                     type: 'success',
                     delay:'5000'
                 });
@@ -455,9 +493,10 @@
             url: `/api/profile/${experience_id}/experience`,
             headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
             success: function (retorno) {
+                $(`#div-experience-${experience_id}`).remove()
                 new PNotify({
                     title:'Experiência salva',
-                    text: 'A experiência foi salva com sucesso!',
+                    text: retorno.detail,
                     type: 'success',
                     delay:'5000'
                 });
@@ -518,7 +557,7 @@
             headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
             success: function (retorno) {
                 response = retorno.detail
-                openModalExperience()
+                openModalExperience(true)
                 $('#position').val(response['position'])
                 document.getElementById("job_type").value = response['job_type']
                 $('#company').val(response['company'])
@@ -528,15 +567,13 @@
                 if (response['ended_at']){
                     document.getElementById("ended_date_experience").value = response['ended_at'].split('T')[0]
                 }
+                if (response['is_working'] == true){
+                    document.getElementById("ended_date_experience").disabled = true
+                    document.getElementById("ended_date_experience").value = null
+                }
                 $('#business_area').val(response['business_area'])
 
                 document.getElementById("button-save-experience").setAttribute("onclick", `updateExperience('${experience_id}')`)
-                new PNotify({
-                    title:'Experiência salva',
-                    text: 'A experiência foi salva com sucesso!',
-                    type: 'success',
-                    delay:'5000'
-                });
                 // setTimeout(() => {
                 //     location.reload();
                 // })
@@ -578,16 +615,6 @@
                 }
 
                 document.getElementById("button-save-competence").setAttribute("onclick", `updateCompetence('${competence_id}')`)
-
-                // new PNotify({
-                //     title:'Experiência salva',
-                //     text: 'A experiência foi salva com sucesso!',
-                //     type: 'success',
-                //     delay:'5000'
-                // });
-                // setTimeout(() => {
-                //     location.reload();
-                // })
             },
             error: function (error) {
                 if (error.statusText == 'timeout') {
@@ -619,16 +646,6 @@
                 document.getElementById("started_date").value = response['started_at'].split('T')[0]
                 document.getElementById("ended_date").value = response['ended_at'].split('T')[0]
                 document.getElementById("button-save-academic").setAttribute("onclick", `updateAcademicFormation('${academic_id}')`)
-                
-                new PNotify({
-                    title:'Experiência salva',
-                    text: 'A experiência foi salva com sucesso!',
-                    type: 'success',
-                    delay:'5000'
-                });
-                // setTimeout(() => {
-                //     location.reload();
-                // })
             },
             error: function (error) {
                 if (error.statusText == 'timeout') {
@@ -776,10 +793,35 @@
             data: JSON.stringify(data),
             headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
             success: function (retorno) {
-                console.log(retorno)
+                var experience = retorno.experience
+                var experienceDiv = document.getElementById(`div-experience-${experience_id}`)
+                var value_date = 'até o momento'
+
+                if (experience.ended_at){
+                    value_date = experience.ended_at
+                }
+
+                text = `
+                    <div class="div-several-row">
+                        <img src="${"{{profile.photo.url}}"}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
+                        <div class="several-row-text2">
+                            <p>${experience.position}</p>
+                            <p>${experience.company} • ${experience.job_modality}</p>
+                            <p>${experience.started_at} - ${value_date}</p>
+                        </div>
+                        <div class="div-several-row-icon">
+                            <a onclick="getExperience('${experience.id}')" class="icon-several"><i class="fa-solid fa-pen "></i></a>
+                            <a onclick="deleteExperience('${experience.id}')" class="icon-trash icon-several"><i class="fa-solid fa-trash"></i></a>
+                        </div>
+                    </div>
+                    <hr>
+                `
+                experienceDiv.innerHTML = text
+                
+                closeModalExperience()
                 new PNotify({
                     title:'Experiência salva',
-                    text: 'A experiência foi salva com sucesso!',
+                    text: retorno.detail,
                     type: 'success',
                     delay:'5000'
                 });
