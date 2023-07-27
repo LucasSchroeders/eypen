@@ -154,9 +154,550 @@
             document.querySelector('#ended_date_experience').disabled = false
         }
     })
+
+    function saveCompetence(){
+        var competence = document.querySelector('#competence').value
+        var checkboxes = document.querySelectorAll('.checkbox')
+
+        var experiences = []
+        var academicTraining = []
+
+        checkboxes.forEach(function(e){
+            if (e.checked) {
+                var word = e.id.split('-')
+                if (word[0] == 'experience'){
+                    experiences.push(word.slice(-1)[0])
+                }else if (word[0] == 'academic_education'){
+                    academicTraining.push(word.slice(-1)[0])
+                }
+            }
+        })
+
+        const data = {
+            'competence': competence,
+            'experiences': experiences,
+            'academic_traning': academicTraining,
+        }
+        // TODO fazer com que exiba retorno positivo ou negativo
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'save_competence' id=profile.id %}",
+            dataType: 'json',
+            headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
+            data: JSON.stringify(data),
+            success: function (retorno) {
+                new PNotify({
+                    title:'Competência salva',
+                    text: 'A competência foi salva com sucesso!',
+                    type: 'success',
+                    delay:'5000'
+                });
+                // setTimeout(() => {
+                //     location.reload();
+                // })
+            },
+            error: function (error) {
+                if (error.statusText == 'timeout') {
+                new PNotify({
+                    title: 'Requisição Cancelada',
+                    text: 'Requisição ao serviço cancelada. Tente novamente em alguns minutos.',
+                    type: 'error',
+                    delay: '5000'
+                });
+                }
+
+                console.log(error);
+            }
+        });
     }
-    function closeModal(){
-        $('#janela-modal').removeClass('abrir')
+
+    function saveExperience(){
+        var position = $("#position").val();
+        var jobTypeSelect = document.getElementById("job_type");
+        var jobType = jobTypeSelect.options[jobTypeSelect.selectedIndex].value;
+        var company = $("#company").val();
+        var jobModalitySelect = document.getElementById("job_modality");
+        var jobModality = jobModalitySelect.options[jobModalitySelect.selectedIndex].value;
+        var chk_isWorking = document.getElementById('is_working')
+        var started_at = $("#started_date_experience").val();
+        var ended_at = $("#ended_date_experience").val();
+        var business_area = $("#business_area").val();
+
+        data = {
+            'position': position,
+            'job_type': jobType,
+            'company': company,
+            'job_modality': jobModality,
+            'is_working': chk_isWorking.checked,
+            'started_at': started_at,
+            'ended_at': ended_at,
+            'business_area': business_area,
+        }
+        // TODO fazer com que exiba retorno positivo ou negativo
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'save_experience' id=profile.id %}",
+            dataType: 'json',
+            headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
+            data: JSON.stringify(data),
+            success: function (retorno) {
+                new PNotify({
+                    title:'Experiência salva',
+                    text: 'A experiência foi salva com sucesso!',
+                    type: 'success',
+                    delay:'5000'
+                });
+                // setTimeout(() => {
+                //     location.reload();
+                // })
+            },
+            error: function (error) {
+                if (error.statusText == 'timeout') {
+                new PNotify({
+                    title: 'Requisição Cancelada',
+                    text: 'Requisição ao serviço cancelada. Tente novamente em alguns minutos.',
+                    type: 'error',
+                    delay: '5000'
+                });
+                }
+
+                console.log(error);
+            }
+        });
     }
+
+    function saveAcademicFormation(){
+        var educationalInstitution = $("#educational_institution").val();
+        var course = $("#course").val();
+        var knowledgeArea = $("#knowledge_area").val();
+        var started_at = $("#started_date").val();
+        var ended_at = $("#ended_date").val();
+
+        data = {
+            'educational_institution': educationalInstitution,
+            'course': course,
+            'knowledge_area': knowledgeArea,
+            'started_at': started_at,
+            'ended_at': ended_at,
+        }
+        // TODO fazer com que exiba retorno positivo ou negativo
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'save_competence' id=profile.id %}",
+            dataType: 'json',
+            headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
+            data: JSON.stringify(data),
+            success: function (retorno) {
+                new PNotify({
+                    title:'Experiência salva',
+                    text: 'A experiência foi salva com sucesso!',
+                    type: 'success',
+                    delay:'5000'
+                });
+                // setTimeout(() => {
+                //     location.reload();
+                // })
+            },
+            error: function (error) {
+                if (error.statusText == 'timeout') {
+                new PNotify({
+                    title: 'Requisição Cancelada',
+                    text: 'Requisição ao serviço cancelada. Tente novamente em alguns minutos.',
+                    type: 'error',
+                    delay: '5000'
+                });
+                }
+
+                console.log(error);
+            }
+        });
+    }
+
+    function deleteCompetence(competence_id){
+        $.ajax({
+            type: 'delete',
+            url: `/api/profile/${competence_id}/competence`,
+            headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
+            success: function (retorno) {
+                new PNotify({
+                    title:'Experiência salva',
+                    text: 'A experiência foi salva com sucesso!',
+                    type: 'success',
+                    delay:'5000'
+                });
+                setTimeout(() => {
+                    window.location.reload();
+                }, 5000)
+                window.location.reload();
+            },
+            error: function (error) {
+                if (error.statusText == 'timeout') {
+                new PNotify({
+                    title: 'Requisição Cancelada',
+                    text: 'Requisição ao serviço cancelada. Tente novamente em alguns minutos.',
+                    type: 'error',
+                    delay: '5000'
+                });
+                }
+
+                console.log(error);
+            }
+        });
+    }
+
+    function deleteExperience(experience_id){
+        $.ajax({
+            type: 'delete',
+            url: `/api/profile/${experience_id}/experience`,
+            headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
+            success: function (retorno) {
+                new PNotify({
+                    title:'Experiência salva',
+                    text: 'A experiência foi salva com sucesso!',
+                    type: 'success',
+                    delay:'5000'
+                });
+                setTimeout(() => {
+                    location.reload();
+                })
+            },
+            error: function (error) {
+                if (error.statusText == 'timeout') {
+                new PNotify({
+                    title: 'Requisição Cancelada',
+                    text: 'Requisição ao serviço cancelada. Tente novamente em alguns minutos.',
+                    type: 'error',
+                    delay: '5000'
+                });
+                }
+
+                console.log(error);
+            }
+        });
+    }
+
+    function deleteAcademic(academic_id){
+        $.ajax({
+            type: 'delete',
+            url: `/api/profile/${academic_id}/academic-formation`,
+            headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
+            success: function (retorno) {
+                new PNotify({
+                    title:'Experiência salva',
+                    text: 'A experiência foi salva com sucesso!',
+                    type: 'success',
+                    delay:'5000'
+                });
+                setTimeout(() => {
+                    location.reload();
+                })
+            },
+            error: function (error) {
+                if (error.statusText == 'timeout') {
+                new PNotify({
+                    title: 'Requisição Cancelada',
+                    text: 'Requisição ao serviço cancelada. Tente novamente em alguns minutos.',
+                    type: 'error',
+                    delay: '5000'
+                });
+                }
+
+                console.log(error);
+            }
+        });
+    }
+
+    function getExperience(experience_id){
+        $.ajax({
+            type: 'get',
+            url: `/api/profile/${experience_id}/experience`,
+            headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
+            success: function (retorno) {
+                response = retorno.detail
+                openModalExperience()
+                $('#position').val(response['position'])
+                document.getElementById("job_type").value = response['job_type']
+                $('#company').val(response['company'])
+                document.getElementById("job_modality").value = response['job_modality']
+                $('#is_working')[0].checked = response['is_working']
+                document.getElementById("started_date_experience").value = response['started_at'].split('T')[0]
+                if (response['ended_at']){
+                    document.getElementById("ended_date_experience").value = response['ended_at'].split('T')[0]
+                }
+                $('#business_area').val(response['business_area'])
+
+                document.getElementById("button-save-experience").setAttribute("onclick", `updateExperience('${experience_id}')`)
+                new PNotify({
+                    title:'Experiência salva',
+                    text: 'A experiência foi salva com sucesso!',
+                    type: 'success',
+                    delay:'5000'
+                });
+                // setTimeout(() => {
+                //     location.reload();
+                // })
+            },
+            error: function (error) {
+                if (error.statusText == 'timeout') {
+                new PNotify({
+                    title: 'Requisição Cancelada',
+                    text: 'Requisição ao serviço cancelada. Tente novamente em alguns minutos.',
+                    type: 'error',
+                    delay: '5000'
+                });
+                }
+
+                console.log(error);
+            }
+        });
+    }
+
+    function getCompetence(competence_id){
+
+        $.ajax({
+            type: 'get',
+            url: `/api/profile/${competence_id}/competence`,
+            headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
+            success: function (retorno) {
+                response = retorno.detai
+                openModalCompetence()
+                $('#competence').val(response['competence_name'])
+                if (response['experience']){
+                    response['experience'].forEach(function(experience){
+                        $(`#experience-${experience.id}`)[0].checked = true
+                    })
+                }
+                if (response['academic']){
+                    response['academic'].forEach(function(academic){
+                        $(`#academic_education-${academic.id}`)[0].checked = true
+                    })
+                }
+
+                document.getElementById("button-save-competence").setAttribute("onclick", `updateCompetence('${competence_id}')`)
+
+                // new PNotify({
+                //     title:'Experiência salva',
+                //     text: 'A experiência foi salva com sucesso!',
+                //     type: 'success',
+                //     delay:'5000'
+                // });
+                // setTimeout(() => {
+                //     location.reload();
+                // })
+            },
+            error: function (error) {
+                if (error.statusText == 'timeout') {
+                new PNotify({
+                    title: 'Requisição Cancelada',
+                    text: 'Requisição ao serviço cancelada. Tente novamente em alguns minutos.',
+                    type: 'error',
+                    delay: '5000'
+                });
+                }
+
+                console.log(error);
+            },
+        });
+        
+    }
+
+    function getAcademicFormation(academic_id){
+        $.ajax({
+            type: 'get',
+            url: `/api/profile/${academic_id}/academic-formation`,
+            headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
+            success: function (retorno) {
+                response = retorno.detail
+                openModalAcademicFormation()
+                $('#educational_institution').val(response['educational_institution'])
+                $('#course').val(response['course'])
+                $('#knowledge_area').val(response['knowledge_area'])
+                document.getElementById("started_date").value = response['started_at'].split('T')[0]
+                document.getElementById("ended_date").value = response['ended_at'].split('T')[0]
+                document.getElementById("button-save-academic").setAttribute("onclick", `updateAcademicFormation('${academic_id}')`)
+                
+                new PNotify({
+                    title:'Experiência salva',
+                    text: 'A experiência foi salva com sucesso!',
+                    type: 'success',
+                    delay:'5000'
+                });
+                // setTimeout(() => {
+                //     location.reload();
+                // })
+            },
+            error: function (error) {
+                if (error.statusText == 'timeout') {
+                new PNotify({
+                    title: 'Requisição Cancelada',
+                    text: 'Requisição ao serviço cancelada. Tente novamente em alguns minutos.',
+                    type: 'error',
+                    delay: '5000'
+                });
+                }
+
+                console.log(error);
+            }
+        });
+    }
+
+    function updateCompetence(competence_id){
+        var competence = document.querySelector('#competence').value
+        var checkboxes = document.querySelectorAll('.checkbox')
+
+        var experiences = []
+        var academicTraining = []
+
+        checkboxes.forEach(function(e){
+            if (e.checked) {
+                var word = e.id.split('-')
+                if (word[0] == 'experience'){
+                    experiences.push(word.slice(-1)[0])
+                }else if (word[0] == 'academic_education'){
+                    academicTraining.push(word.slice(-1)[0])
+                }
+            }
+        })
+
+        const data = {
+            'competence': competence,
+            'experiences': experiences,
+            'academic_traning': academicTraining,
+        }
+
+        $.ajax({
+            type: 'put',
+            url: `/api/profile/${competence_id}/competence`,
+            data: JSON.stringify(data),
+            headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
+            success: function (retorno) {
+                console.log(retorno)
+                new PNotify({
+                    title:'Experiência salva',
+                    text: 'A experiência foi salva com sucesso!',
+                    type: 'success',
+                    delay:'5000'
+                });
+                // setTimeout(() => {
+                //     location.reload();
+                // })
+            },
+            error: function (error) {
+                if (error.statusText == 'timeout') {
+                new PNotify({
+                    title: 'Requisição Cancelada',
+                    text: 'Requisição ao serviço cancelada. Tente novamente em alguns minutos.',
+                    type: 'error',
+                    delay: '5000'
+                });
+                }
+
+                console.log(error);
+            }
+        });
+    }
+
+    function updateExperience(experience_id){
+        var position = $("#position").val();
+        var jobTypeSelect = document.getElementById("job_type");
+        var jobType = jobTypeSelect.options[jobTypeSelect.selectedIndex].value;
+        var company = $("#company").val();
+        var jobModalitySelect = document.getElementById("job_modality");
+        var jobModality = jobModalitySelect.options[jobModalitySelect.selectedIndex].value;
+        var chk_isWorking = document.getElementById('is_working')
+        var started_at = $("#started_date_experience").val();
+        var ended_at = $("#ended_date_experience").val();
+        var business_area = $("#business_area").val();
+
+        data = {
+            'position': position,
+            'job_type': jobType,
+            'company': company,
+            'job_modality': jobModality,
+            'is_working': chk_isWorking.checked,
+            'started_at': started_at,
+            'ended_at': ended_at,
+            'business_area': business_area,
+        }
+
+        $.ajax({
+            type: 'put',
+            url: `/api/profile/${experience_id}/experience`,
+            data: JSON.stringify(data),
+            headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
+            success: function (retorno) {
+                console.log(retorno)
+                new PNotify({
+                    title:'Experiência salva',
+                    text: 'A experiência foi salva com sucesso!',
+                    type: 'success',
+                    delay:'5000'
+                });
+                // setTimeout(() => {
+                //     location.reload();
+                // })
+            },
+            error: function (error) {
+                if (error.statusText == 'timeout') {
+                new PNotify({
+                    title: 'Requisição Cancelada',
+                    text: 'Requisição ao serviço cancelada. Tente novamente em alguns minutos.',
+                    type: 'error',
+                    delay: '5000'
+                });
+                }
+
+                console.log(error);
+            }
+        });
+    }
+
+    function updateAcademicFormation(academic_id){
+        var educationalInstitution = $("#educational_institution").val();
+        var course = $("#course").val();
+        var knowledgeArea = $("#knowledge_area").val();
+        var started_at = $("#started_date").val();
+        var ended_at = $("#ended_date").val();
+
+        data = {
+            'educational_institution': educationalInstitution,
+            'course': course,
+            'knowledge_area': knowledgeArea,
+            'started_at': started_at,
+            'ended_at': ended_at,
+        }
+
+        $.ajax({
+            type: 'put',
+            url: `/api/profile/${academic_id}/academic-formation`,
+            data: JSON.stringify(data),
+            headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
+            success: function (retorno) {
+                new PNotify({
+                    title:'Experiência salva',
+                    text: 'A experiência foi salva com sucesso!',
+                    type: 'success',
+                    delay:'5000'
+                });
+                // setTimeout(() => {
+                //     location.reload();
+                // })
+            },
+            error: function (error) {
+                if (error.statusText == 'timeout') {
+                new PNotify({
+                    title: 'Requisição Cancelada',
+                    text: 'Requisição ao serviço cancelada. Tente novamente em alguns minutos.',
+                    type: 'error',
+                    delay: '5000'
+                });
+                }
+
+                console.log(error);
+            }
+        });
+    }
+    
 </script>
+{% endif %}
 {% endblock js %}
