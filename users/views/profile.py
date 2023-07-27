@@ -113,9 +113,9 @@ class CompetenceAPI(APIView):
             'academic_list': data.get('academic_traning'),
         }
 
-        competence.update(context)
+        competence_updated = competence.update(context)
 
-        return Response({'detail': 'Competência atualizada com sucesso!'}, status=status.HTTP_200_OK)
+        return Response({'detail': 'Competência atualizada com sucesso!', 'competence': competence_updated}, status=status.HTTP_200_OK)
         
     def delete(self, request, id):
         competence = Competence.objects.filter(profile__id=request.user.profile.id, id=id)

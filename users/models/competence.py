@@ -39,16 +39,28 @@ class Competence(models.Model):
         if context.get('competence_name'):
             self.competence_name = context.get('competence_name')
 
-        if context.get('experience_list'):
-            for experience in context.get('experience_list'):
+        experience_list = context.get('experience_list')
+        if experience_list:
+            for exp in self.experience.all():
+                if exp.id not in experience_list:
+                    self.experience.remove(exp)
+
+            for experience in experience_list:
                 self.experience.add(Experience.objects.filter(id=experience).first())
 
-        if context.get('academic_list'):
-            for academic in context.get('academic_list'):
+
+        academic_list = context.get('academic_list')
+        if academic_list:
+            for acad in self.academic_formation.all():
+                if acad.id not in academic_list:
+                    self.academic_formation.remove(acad)
+                    
+            for academic in academic_list:
                 self.academic_formation.add(AcademicFormation.objects.filter(id=academic).first())
 
+
         self.save()
-        return True
+        return self.to_dict()
 
     
     class Meta:
