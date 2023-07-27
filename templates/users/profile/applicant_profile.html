@@ -40,7 +40,7 @@
     </div>
 </div>
 
-<div class="div-container div-several">
+<div class="div-container div-several" id="div-content-competence">
     <div class="div-head">
         <h3>Competências</h3>
         {% if is_same_profile %}
@@ -53,26 +53,26 @@
         {% if competence.experience.all.exists or competence.academic_formation.all.exists %}
         <h5>{{competence.competence_name}}</h5>
         <div class="div-several-row">
-            <img src="{{ profile.photo.url }}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
             <div class="several-row-text">
                 {% if competence.experience.all.exists %}
 
                 {% for experience in competence.experience.all %}
                 <p>{{experience.position}} | {{experience.company}}</p>
                 {% endfor %}
+                {% endif %}
 
-                {% elif competence.academic_formation.all.exists %}
+                {% if competence.academic_formation.all.exists %}
 
                 {% for academic in competence.academic_formation.all %}
                 <p>{{academic.course}} | {{academic.educational_institution}}</p>
                 {% endfor %}
-
-                {% else %}
                 {% endif %}
             </div>
             {% if is_same_profile %}
-            <a onclick="getCompetence('{{competence.id}}')" class="icon-several"><i class="fa-solid fa-pen"></i></a>
-            <a onclick="deleteCompetence('{{competence.id}}')" class="icon-several icon-trash"><i class="fa-solid fa-trash"></i></a>
+            <div class="div-several-row-icon">
+                <a onclick="getCompetence('{{competence.id}}')" class="icon-several"><i class="fa-solid fa-pen"></i></a>
+                <a onclick="deleteCompetence('{{competence.id}}')" class="icon-several icon-trash"><i class="fa-solid fa-trash"></i></a>
+            </div>
             {% endif %}
         </div>
         {% else %}
@@ -112,8 +112,10 @@
                 <p>{{academic.started_at}} - {{academic.ended_at}}</p>
             </div>
             {% if is_same_profile %}
-            <a onclick="getAcademicFormation('{{academic.id}}')" class="icon-several"><i class="fa-solid fa-pen"></i></a>
-            <a onclick="deleteAcademic('{{academic.id}}')" class="icon-several icon-trash"><i class="fa-solid fa-trash"></i></a>
+            <div class="div-several-row-icon">
+                <a onclick="getAcademicFormation('{{academic.id}}')" class="icon-several"><i class="fa-solid fa-pen"></i></a>
+                <a onclick="deleteAcademic('{{academic.id}}')" class="icon-several icon-trash"><i class="fa-solid fa-trash"></i></a>
+            </div>
             {% endif %}
         </div>
         {% if not academic_educations|length == 1 %}
@@ -142,8 +144,10 @@
                 <p>{{experience.started_at}} - {% if experience.is_working %}até o momento{% else %}{{experience.ended_at}}{% endif %}</p>
             </div>
             {% if is_same_profile %}
-            <a onclick="getExperience('{{experience.id}}')" class="icon-several"><i class="fa-solid fa-pen "></i></a>
-            <a onclick="deleteExperience('{{experience.id}}')" class="icon-trash icon-several"><i class="fa-solid fa-trash"></i></a>
+            <div class="div-several-row-icon">
+                <a onclick="getExperience('{{experience.id}}')" class="icon-several"><i class="fa-solid fa-pen "></i></a>
+                <a onclick="deleteExperience('{{experience.id}}')" class="icon-trash icon-several"><i class="fa-solid fa-trash"></i></a>
+            </div>
             {% endif %}
         </div>
         {% if not experiences|length == 1 %}
@@ -178,9 +182,26 @@
         $('#modal-academic-formation').removeClass('abrir')
     }
 
-    function openModalCompetence(){
+    function openModalCompetence(edit=false){
         $("#modal-competence").addClass('abrir')
-        document.getElementById("button-save-competence").setAttribute("onclick", "saveCompetence()")
+        if (!edit){
+            document.getElementById("button-save-competence").setAttribute("onclick", "saveCompetence()")
+            $('#competence').val('')
+            var checkboxes = document.querySelectorAll('.checkbox')
+            var experiences = []
+            var academicTraining = []
+    
+            checkboxes.forEach(function(e){
+                if (e.checked) {
+                    var word = e.id.split('-')
+                    if (word[0] == 'experience'){
+                        $(`#experience-${word[1]}`)[0].checked = false
+                    }else if (word[0] == 'academic_education'){
+                        $(`#academic_education-${word[1]}`)[0].checked = false
+                    }
+                }
+            })
+        }
     }
     function closeModalCompetence(){
         $('#modal-competence').removeClass('abrir')
@@ -225,15 +246,62 @@
             headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
             data: JSON.stringify(data),
             success: function (retorno) {
+                var competence = retorno.competence
+                var competenceDiv = $('#div-content-competence')
+                if (competence.experience || competence.academic){
+                    var text = `<div class="div-several-content">
+                        <h5>${competence.competence_name}</h5>
+                        <div class="div-several-row">
+                        <div class="several-row-text">`
+                    if (competence.experience){
+                        competence.experience.forEach(function(e){
+                            text += `<p>${e.position} | ${e.company}</p>`
+                        })
+                    }
+                    if (competence.academic){
+                        competence.academic.forEach(function(e){
+                            text += `<p>${e.course} | ${e.educational_institution}</p>`
+
+                        })
+                    }
+                    text += `</div>
+                            {% if is_same_profile %}
+                            <div class="div-several-row-icon">
+                                <a onclick="getCompetence('{{competence.id}}')" class="icon-several"><i class="fa-solid fa-pen"></i></a>
+                                <a onclick="deleteCompetence('{{competence.id}}')" class="icon-several icon-trash"><i class="fa-solid fa-trash"></i></a>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <hr>
+                        </div>
+                        `
+                    competenceDiv.append(text)
+                } else{
+                    competenceDiv.append(
+                        `
+                            <div class="div-several-row">
+                                <h5>${competence.competence_name}</h5>
+                                {% if is_same_profile %}
+                                <div>
+                                    <a onclick="getCompetence('${competence.id}')" class="icon-several"><i class="fa-solid fa-pen"></i></a>
+                                    <a onclick="deleteCompetence('${competence.id}')" class="icon-several icon-trash"><i class="fa-solid fa-trash"></i></a>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <hr>
+                        
+                        `  
+                    )
+                }
+                closeModalCompetence()
                 new PNotify({
                     title:'Competência salva',
-                    text: 'A competência foi salva com sucesso!',
+                    text: retorno.detail,
                     type: 'success',
                     delay:'5000'
                 });
-                // setTimeout(() => {
-                //     location.reload();
-                // })
+
+
             },
             error: function (error) {
                 if (error.statusText == 'timeout') {
@@ -364,10 +432,9 @@
                     type: 'success',
                     delay:'5000'
                 });
-                setTimeout(() => {
-                    window.location.reload();
-                }, 5000)
-                window.location.reload();
+                // setTimeout(() => {
+                //     // window.location.reload();
+                // }, 5000)
             },
             error: function (error) {
                 if (error.statusText == 'timeout') {
@@ -396,9 +463,9 @@
                     type: 'success',
                     delay:'5000'
                 });
-                setTimeout(() => {
-                    location.reload();
-                })
+                // setTimeout(() => {
+                //     location.reload();
+                // })
             },
             error: function (error) {
                 if (error.statusText == 'timeout') {
@@ -427,9 +494,9 @@
                     type: 'success',
                     delay:'5000'
                 });
-                setTimeout(() => {
-                    location.reload();
-                })
+                // setTimeout(() => {
+                //     location.reload();
+                // })
             },
             error: function (error) {
                 if (error.statusText == 'timeout') {
@@ -498,8 +565,8 @@
             url: `/api/profile/${competence_id}/competence`,
             headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
             success: function (retorno) {
-                response = retorno.detai
-                openModalCompetence()
+                response = retorno.detail
+                openModalCompetence(true)
                 $('#competence').val(response['competence_name'])
                 if (response['experience']){
                     response['experience'].forEach(function(experience){
