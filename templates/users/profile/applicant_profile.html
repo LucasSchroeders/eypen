@@ -226,9 +226,13 @@
 
     $('#is_working').click(function(){
         if (document.querySelector('#is_working').checked) {
-            document.querySelector('#ended_date_experience').disabled = true
+            var ended_at = document.querySelector('#ended_date_experience')
+            ended_at.disabled = true
+            ended_at.required = false
         }else{
-            document.querySelector('#ended_date_experience').disabled = false
+            var ended_at = document.querySelector('#ended_date_experience')
+            ended_at.disabled = false
+            ended_at.required = true
         }
     })
 
@@ -357,7 +361,7 @@
             'ended_at': ended_at,
             'business_area': business_area,
         }
-        // TODO fazer com que exiba retorno positivo ou negativo
+        // TODO fazer validação do formulario
         $.ajax({
             type: 'POST',
             url: "{% url 'save_experience' id=profile.id %}",
@@ -928,7 +932,6 @@
             }
         });
     }
-    
 </script>
 {% endif %}
 {% endblock js %}

@@ -62,26 +62,26 @@
                 <div class="form-field">
                     <label for="course">Curso</label>
                     <div class="form-input">
-                        <input class="form-control" type="text" id="course">
+                        <input class="form-control" type="text" id="course" required>
                     </div>
                 </div>
                 <div class="form-field">
                     <label for="knowledge_area">Área de conhecimento</label>
                     <div class="form-input">
-                        <input class="form-control" type="text" id="knowledge_area">
+                        <input class="form-control" type="text" id="knowledge_area" required>
                     </div>
                 </div>
                 <div class="date-row">
                     <div class="form-field">
                         <label for="started_date">Data de início</label>
                         <div class="form-input">
-                            <input type="date" id="started_date">
+                            <input type="date" id="started_date" required>
                         </div>
                     </div>
                     <div class="form-field">
                         <label for="ended_date">Data de finalização</label>
                         <div class="form-input">
-                            <input type="date" id="ended_date">
+                            <input type="date" id="ended_date" required>
                         </div>
                     </div>
                 </div>
@@ -102,7 +102,7 @@
             <h4>Adicionar Experiência</h4>
             <a onclick="closeModalExperience()"><i class="fa-solid fa-xmark"></i></a>
         </div>
-        <form enctype="multipart/form-data">
+        <form enctype="multipart/form-data" id="form-experience">
             {% csrf_token %}
             <div class="modal-body">
                 <div class="form-field">
@@ -114,7 +114,7 @@
                 <div class="form-field">
                     <label for="job_type">Tipo de Emprego</label>
                     <div class="form-input">
-                        <select id="job_type" class="form-control">
+                        <select id="job_type" class="form-control" required>
                             <option value="" disabled selected>Selecione um tipo de emprego</option>
                             <option value="autonomo">Autônomo</option>
                             <option value="clt">CLT</option>
@@ -128,13 +128,13 @@
                 <div class="form-field">
                     <label for="company">Empresa</label>
                     <div class="form-input">
-                        <input class="form-control" type="text" id="company">
+                        <input class="form-control" type="text" id="company" required>
                     </div>
                 </div>
                 <div class="form-field">
                     <label for="job_modality">Modalidade</label>
                     <div class="form-input">
-                        <select id="job_modality" class="form-control">
+                        <select id="job_modality" class="form-control" required>
                             <option value="" disabled selected>Selecione uma modalidade</option>
                             <option value="presencial">Presencial</option>
                             <option value="hibrido">Híbrido</option>
@@ -152,7 +152,7 @@
                     <div class="form-field">
                         <label for="started_date">Data de início</label>
                         <div class="form-input">
-                            <input type="date" id="started_date_experience">
+                            <input type="date" id="started_date_experience" required>
                         </div>
                     </div>
                     <div class="form-field">
