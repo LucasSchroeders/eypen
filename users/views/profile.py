@@ -64,4 +64,5 @@ class ProfileApplicant(TemplateView):
 
 
 class BuscaPerfil(TemplateView):
-    template_name = 'users/profile/busca_perfil.html'
+    template_name = 'users/company/company_register.html'
+
