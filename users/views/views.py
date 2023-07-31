@@ -106,6 +106,7 @@ def signup2(request):
         profile.is_disabled = is_disabled
         profile.disabled = disabled
         profile.photo = photo
+        profile.is_applicant = True
 
         profile.save()
         
