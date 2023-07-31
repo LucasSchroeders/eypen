@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from users.choices import GENDER_CHOICES, DISABLED_CHOICES, STATES
+from users.choices import ETHNICITY_CHOICES, GENDER_CHOICES, DISABLED_CHOICES, STATES
 from users.models import Profile, Competence, Experience, AcademicFormation
 from users.utils import string_to_date
 
@@ -18,6 +18,9 @@ class PersonalProfileInformation(TemplateView):
         user = self.request.user
         is_authenticated = self.request.user.is_authenticated
         context['profile'] = user.profile if is_authenticated else None
+        context['genders'] = GENDER_CHOICES
+        context['disables'] = DISABLED_CHOICES
+        context['states'] = STATES
         return context
 
 
@@ -135,6 +138,7 @@ class BuscaPerfil(TemplateView):
         context['genders'] = GENDER_CHOICES
         context['disables'] = DISABLED_CHOICES
         context['states'] = STATES
+        context['ethnicities'] = ETHNICITY_CHOICES
         context['page_range'] = page_range
 
         return context

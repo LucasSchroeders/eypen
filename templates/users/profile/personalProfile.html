@@ -63,10 +63,9 @@
                         <div class="form-input">
                             <select name="gender" id="gender" class="form-control">
                                 <option value="" disabled selected>Selecione o gênero</option>
-                                <option value="masculino">Masculino</option>
-                                <option value="feminino">Feminino</option>
-                                <option value="transgenero">Transgênero</option>
-                                <option value="outros">Outros</option>
+                                {% for gender in genders %}
+                                <option value="{{gender.0}}">{{gender.1}}</option>
+                                {% endfor %}
                             </select>
                         </div>
                     </div>
@@ -76,11 +75,9 @@
                         <div class="form-input">
                             <select name="ethnicity" id="ethnicity" class="form-control">
                                 <option value="" disabled selected>Selecione a entia</option>
-                                <option value="branco">Branco</option>
-                                <option value="preto">Preto</option>
-                                <option value="indigena">Indígena</option>
-                                <option value="pardo">Pardo</option>
-                                <option value="amarelo">Amarelo</option>
+                                {% for ethnicity in ethnicities %}
+                                <option value="{{ethnicity.0}}">{{ethnicity.1}}</option>
+                                {% endfor %}
                             </select>
                         </div>
                     </div>
@@ -92,33 +89,9 @@
                         <div class="form-input">
                             <select name="state" id="state" class="form-control">
                                 <option value="" disabled selected>Selecione o estado</option>
-                                <option value="AC">AC</option>
-                                <option value="AL">AL</option>
-                                <option value="AP">AP</option>
-                                <option value="AM">AM</option>
-                                <option value="BA">BA</option>
-                                <option value="CE">CE</option>
-                                <option value="DF">DF</option>
-                                <option value="ES">ES</option>
-                                <option value="GO">GO</option>
-                                <option value="MA">MA</option>
-                                <option value="MT">MT</option>
-                                <option value="MS">MS</option>
-                                <option value="MG">MG</option>
-                                <option value="PA">PA</option>
-                                <option value="PB">PB</option>
-                                <option value="PR">PR</option>
-                                <option value="PE">PE</option>
-                                <option value="PI">PI</option>
-                                <option value="RJ">RJ</option>
-                                <option value="RN">RN</option>
-                                <option value="RS">RS</option>
-                                <option value="RO">RO</option>
-                                <option value="RR">RR</option>
-                                <option value="SC">SC</option>
-                                <option value="SP">SP</option>
-                                <option value="SE">SE</option>
-                                <option value="TO">TO</option>
+                                {% for state in states %}
+                                <option value="{{state.0}}">{{state.1}}</option>
+                                {% endfor %}
                             </select>
                         </div>
                     </div>
@@ -147,9 +120,12 @@
 
                     <div class="form-field">
                         <label for="disabled">Qual deficiência?</label>
-                        <div class="form-input">
-                            <input type="text" name="disabled" placeholder="Visual">
-                        </div>
+                        <select name="disabled" id="disabled" class="form-control" disabled>
+                            <option value="" disabled selected>Selecione uma deficiência</option>
+                            {% for disable in disables %}
+                            <option value="{{disable.0}}">{{disable.1}}</option>
+                            {% endfor %}
+                        </select>
                     </div>
                 </div>
 
@@ -164,6 +140,15 @@
 
 <script>
     const inputFile = document.querySelector("#foto");
+    
+    var isDisabled = $('#is_disabled')
+    isDisabled.change(function(){
+        if (isDisabled.val() == 'True'){
+            document.getElementById('disabled').disabled = false
+        } else{
+            document.getElementById('disabled').disabled = true
+        }
+    })
     
 
     inputFile.addEventListener("change", function(e){

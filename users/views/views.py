@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
+from users.choices import GENDER_CHOICES, DISABLED_CHOICES, STATES, ETHNICITY_CHOICES
 from users.utils import string_to_date
 
 User = get_user_model()
@@ -112,4 +113,11 @@ def signup2(request):
         
         return redirect('profile', id=profile.id)
     
-    return render(request, 'users/profile/personalProfile.html')
+    context = {
+        'genders': GENDER_CHOICES,
+        'disables': DISABLED_CHOICES,
+        'states': STATES,
+        'ethnicities': ETHNICITY_CHOICES,
+    }
+    
+    return render(request, 'users/profile/personalProfile.html', context)
