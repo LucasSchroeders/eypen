@@ -121,7 +121,7 @@ hr {
     margin-right: 32%;
 }
 
-.div-icon a, .div-container a{
+.div-icon a, .div-container a, .icon-edit{
     height: 20px;
     cursor: pointer;
     color: #000;
