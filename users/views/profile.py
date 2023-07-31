@@ -1,12 +1,12 @@
-from django.contrib import messages
 from django.views.generic import TemplateView
 from django.shortcuts import render 
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from users.utils import string_to_date
+from users.choices import GENDER_CHOICES, DISABLED_CHOICES, STATES
 from users.models import Profile, Competence, Experience, AcademicFormation
+from users.utils import string_to_date
 
 
 class PersonalProfileInformation(TemplateView):
@@ -72,6 +72,54 @@ class ProfileApplicant(TemplateView):
 class BuscaPerfil(TemplateView):
     template_name = 'users/profile/busca_perfil.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        request = self.request
+        profile = request.user.profile
+
+        full_name = request.GET.get('full_name', request.session.get('full_name', None))
+        request.session["full_name"] = full_name
+
+        gender = request.GET.get('gender', request.session.get('gender', None))
+        request.session["gender"] = gender
+
+        disabled = request.GET.get('disabled', request.session.get('disabled', None))
+        request.session["disabled"] = disabled
+
+        state = request.GET.get('state', request.session.get('state', None))
+        request.session["state"] = state
+
+        city = request.GET.get('city', request.session.get('city', None))
+        request.session["city"] = city
+
+        data_query = {}
+
+        if full_name:
+            data_query['full_name__contains'] = full_name
+
+        if gender:
+            data_query['gender'] = gender
+
+        if disabled:
+            data_query['disabled'] = disabled
+
+        if state:
+            data_query['state'] = state
+
+        if city:
+            data_query['city'] = city
+
+        #TODO colocar o is_applicant = True no filter
+        profile_list = Profile.objects.filter(**data_query).exclude(id=profile.id)
+        
+        context['profile_user'] = profile
+        context['experience'] = profile.experience.filter(is_working=True).first()
+        context['profile_list'] = profile_list
+        context['genders'] = GENDER_CHOICES
+        context['disables'] = DISABLED_CHOICES
+        context['states'] = STATES
+
+        return context
 
 class CompetenceAPI(APIView):
     def get(self, request, id):

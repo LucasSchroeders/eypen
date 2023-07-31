@@ -1,2 +1,2 @@
 from .experience import JOB_TYPE, JOB_MODALITY
-from .state import STATES
+from .profile import STATES, GENDER_CHOICES, DISABLED_CHOICES
