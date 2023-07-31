@@ -123,3 +123,5 @@ MEDIA_URL = 'media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGOUT_REDIRECT_URL = '/login'
+
+PAGINATION_PAGE_DEFAULT = 2

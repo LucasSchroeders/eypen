@@ -1,12 +1,13 @@
-from django.contrib import messages
+from django.conf import settings
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.views.generic import TemplateView
-from django.shortcuts import render 
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from users.utils import string_to_date
+from users.choices import ETHNICITY_CHOICES, GENDER_CHOICES, DISABLED_CHOICES, STATES
 from users.models import Profile, Competence, Experience, AcademicFormation
+from users.utils import string_to_date
 
 
 class PersonalProfileInformation(TemplateView):
@@ -17,6 +18,9 @@ class PersonalProfileInformation(TemplateView):
         user = self.request.user
         is_authenticated = self.request.user.is_authenticated
         context['profile'] = user.profile if is_authenticated else None
+        context['genders'] = GENDER_CHOICES
+        context['disables'] = DISABLED_CHOICES
+        context['states'] = STATES
         return context
 
 
@@ -56,14 +60,13 @@ class ProfileApplicant(TemplateView):
         is_same_person = True if profile.id == kwargs.get('id') else False
 
         context['profile_user'] = profile
+        if not is_same_person:
+            profile = Profile.objects.filter(id=kwargs.get('id')).first()
+
         context['competences'] = profile.competence.all()
         context['academic_educations'] = profile.academic_formation.all()
         context['experiences'] = profile.experience.all()
-        context['profile'] = (
-            profile
-            if is_same_person 
-            else Profile.objects.filter(id=kwargs.get('id'))
-        )
+        context['profile'] = profile
         context['is_same_profile'] = is_same_person
 
         return context
@@ -72,6 +75,73 @@ class ProfileApplicant(TemplateView):
 class BuscaPerfil(TemplateView):
     template_name = 'users/profile/busca_perfil.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        request = self.request
+        profile = request.user.profile
+
+        full_name = request.GET.get('full_name', request.session.get('full_name', None))
+        request.session["full_name"] = full_name
+
+        gender = request.GET.get('gender', request.session.get('gender', None))
+        request.session["gender"] = gender
+
+        disabled = request.GET.get('disabled', request.session.get('disabled', None))
+        request.session["disabled"] = disabled
+
+        state = request.GET.get('state', request.session.get('state', None))
+        request.session["state"] = state
+
+        city = request.GET.get('city', request.session.get('city', None))
+        request.session["city"] = city
+
+        data_query = {}
+
+        if full_name:
+            data_query['full_name__contains'] = full_name
+
+        if gender:
+            data_query['gender'] = gender
+
+        if disabled:
+            data_query['disabled'] = disabled
+
+        if state:
+            data_query['state'] = state
+
+        if city:
+            data_query['city'] = city
+
+        #TODO colocar o is_applicant = True no filter
+        profile_list = Profile.objects.filter(**data_query).exclude(id=profile.id)
+
+        page = request.GET.get('page', 1)
+
+        paginator = Paginator(profile_list, settings.PAGINATION_PAGE_DEFAULT)
+
+        try:
+            profile_pag = paginator.page(page)
+        except PageNotAnInteger:
+            profile_pag = paginator.page(1)
+        except EmptyPage:
+            profile_pag = paginator.page(paginator.num_pages)
+
+        index = profile_pag.number - 1
+        max_index = len(paginator.page_range)
+        start_index = index - 3 if index >= 3 else 0
+        end_index = index + 3 if index <= max_index - 3 else max_index
+        page_range = list(paginator.page_range)[start_index:end_index]
+            
+        context['profile_user'] = profile
+        context['experience'] = profile.experience.filter(is_working=True).first()
+        context['profile_list'] = profile_pag
+        context['genders'] = GENDER_CHOICES
+        context['disables'] = DISABLED_CHOICES
+        context['states'] = STATES
+        context['ethnicities'] = ETHNICITY_CHOICES
+        context['page_range'] = page_range
+
+        return context
 
 class CompetenceAPI(APIView):
     def get(self, request, id):

@@ -1,29 +1,32 @@
 {% extends 'base.html' %} {%load static%} 
+{% block title %}Busca perfil{% endblock %}
 {% block css %}
-<link rel="stylesheet" href="{% static 'css/users/busca_perfil.css' %}" />
 <link rel="stylesheet" href="{% static 'css/utils/filtro.css' %}" />
 <link rel="stylesheet" href="{% static 'css/utils/container_default.css' %}" />
+<link rel="stylesheet" href="{% static 'css/users/busca_perfil.css' %}" />
 {% endblock css%} 
 {% block body %}
 <div class="div-form">
   <form action="">
+    {% csrf_token %}
     <h5 class="form-h5">Pesquisa de Perfis</h5>
 
     <!-- row -->
     <div class="div-row1">
       <div class="form-field">
-        <label for="nome">Nome:</label>
+        <label for="full_name">Nome:</label>
         <div class="form-input">
-          <input type="Nome" placeholder="Nome" name="Nome" class="form-control"/>
+          <input type="text" placeholder="Nome completo" name="full_name" class="form-control" value="{{request.session.full_name|default_if_none:''}}"/>
         </div>
       </div>
 
       <div class="form-field form-label2">
         <label for="genero">Gênero:</label>
         <select name="genero" id="genero" class="form-control">
-          <option value="masculino">Masculino</option>
-          <option value="feminino">Feminino</option>
-          <option value="na">Não desejo informar</option>
+          <option value="">Todos</option>
+          {% for gender in genders %}
+          <option value="{{gender.0}}" {% if request.session.gender == gender.0 %} selected {% endif %}>{{gender.1}}</option>
+          {% endfor %}
         </select>
       </div>
     </div>
@@ -31,53 +34,29 @@
     <!-- row -->
     <div class="div-row2">
       <div class="form-field">
-        <label for="deficiencia">Deficiência:</label>
-        <select name="deficiencia" id="deficiencia" class="form-control">
-          <option value="" disabled selected>Selecione uma deficiência</option>
-          <option value="cego">Cego</option>
-          <option value="surdo">Surdo</option>
-          <option value="mudo">Mudo</option>
+        <label for="disabled">Deficiência:</label>
+        <select name="disabled" id="disabled" class="form-control">
+          <option value="">Todas</option>
+          {% for disable in disables %}
+          <option value="{{disable.0}}" {% if request.session.disabled == disable.0 %} selected {% endif %}>{{disable.1}}</option>
+          {% endfor %}
         </select>
       </div>
 
       <div class="form-field">
         <label for="state">Estado:</label>
         <select name="state" id="state" class="form-control">
-          <option value="" disabled selected>Selecione um estado</option>
-          <option value="AC">AC</option>
-          <option value="AL">AL</option>
-          <option value="AP">AP</option>
-          <option value="AM">AM</option>
-          <option value="BA">BA</option>
-          <option value="CE">CE</option>
-          <option value="DF">DF</option>
-          <option value="ES">ES</option>
-          <option value="GO">GO</option>
-          <option value="MA">MA</option>
-          <option value="MT">MT</option>
-          <option value="MS">MS</option>
-          <option value="MG">MG</option>
-          <option value="PA">PA</option>
-          <option value="PB">PB</option>
-          <option value="PR">PR</option>
-          <option value="PE">PE</option>
-          <option value="PI">PI</option>
-          <option value="RJ">RJ</option>
-          <option value="RN">RN</option>
-          <option value="RS">RS</option>
-          <option value="RO">RO</option>
-          <option value="RR">RR</option>
-          <option value="SC">SC</option>
-          <option value="SP">SP</option>
-          <option value="SE">SE</option>
-          <option value="TO">TO</option>
+          <option value="" selected>Selecione um estado</option>
+          {% for state in states %}
+          <option value="{{state.0}}" {% if request.session.state == state.0 %} selected {% endif %}>{{state.1}}</option>
+          {% endfor %}
         </select>
       </div>
 
       <div class="form-field">
         <label for="city">Cidade:</label>
         <select name="city" id="city" class="form-control">
-          <option value="" disbaled selected>Selecione uma cidade</option>
+          <option value="" selected>Selecione uma cidade</option>
         </select>
       </div>
     </div>
@@ -85,38 +64,98 @@
     <input type="submit" class="form-button" value="Filtrar" />
   </form>
 </div>
-  
-<a href="" class="div-container">
-    <img
-      class="img-container"
-      src="{% static 'images/foto-perfil.jpg' %}"
-      alt="Imagem de Perfil"
-    />
 
-    <div class="div-dados">
-      <p class="p-dados p-negrito">Nome pessoa</p>
-      <p class="p-dados">Cargo pessoa</p>
-      <p class="p-dados">Estado/cidade</p>
-    </div>
+{% for profile in profile_list %}
+<a href="{% url 'profile' profile.id%}" class="div-container">
+  <div class="photo">
+    {% if profile.photo %}
+    <img src="{{ profile.photo.url }}" class="photo-img" alt="foto de perfil">
+    {% else %}
+    <i class="fa-solid fa-user icon-img"></i>
+    {% endif %}
+  </div>
+  <div class="div-dados">
+    <p class="p-dados p-negrito">{{profile.full_name}}</p>
+    <p class="p-dados">{{experience.position}}</p>
+    <p class="p-dados">{{profile.city}}, {{profile.state}}</p>
+  </div>
 </a>
+{% endfor %}
+
+{% if profile_list.has_other_pages %}
+<ul class="pagination">
+  {% if profile_list.has_previous %}
+  <li class="page-item">
+    <a class="page-link" href="?page=1">
+      First
+    </a>
+  </li>
+  <li class="page-item">
+    <a class="page-link"
+      href="?page={{ profile_list.previous_page_number }}">
+      &laquo;
+    </a>
+  </li>
+  {% else %}
+  <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+  {% endif %}
+  {% for i in page_range %}
+  {% if profile_list.number == i %}
+  <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
+  {% else %}
+  <li class="page-item">
+    <a class="page-link"
+      href="?page={{ i }}">
+      {{ i }}
+    </a>
+  </li>
+  {% endif %}
+  {% endfor %}
+  {% if profile_list.has_next %}
+  <li class="page-item">
+    <a class="page-link"
+      href="?page={{ profile_list.next_page_number }}">
+      &raquo;
+    </a>
+  </li>
+  <li class="page-item">
+    <a class="page-link"
+      href="?page={{ profile_list.paginator.num_pages }}">
+      Last
+    </a>
+  </li>
+  {% else %}
+  <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+  {% endif %}
+</ul>
+{% endif %}
+
 {% endblock body%}
 {% block js %}
 <script>
   var state = document.querySelector("#state");
 
-  state.addEventListener("change", function (e) {
+  document.body.onload = getCities
+
+  state.addEventListener("change", getCities);
+
+  function getCities(){
     let url = `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${state.value}/municipios`;
     $("#city").empty();
     $("#city").append(
-      `<option value="" disabled selected>Selecione a cidade</option>`
+      `<option value="" selected>Selecione a cidade</option>`
     );
 
     let conteudo = "<optiongroup>";
     $.getJSON(url, function (data) {
       $.each(data, function (k, v) {
-        $("#city").append(`<option value="${v.nome}">${v.nome}</option>`);
+        if ('{{request.session.city}}' == v.nome){
+          $("#city").append(`<option value="${v.nome}" selected>${v.nome}</option>`);
+        } else{
+          $("#city").append(`<option value="${v.nome}">${v.nome}</option>`);
+        }
       });
     });
-  });
+  }
 </script>
 {% endblock js %}
