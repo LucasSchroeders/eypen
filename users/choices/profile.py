@@ -27,3 +27,21 @@ STATES = [
     ('SE', 'Sergipe'),
     ('TO', 'Tocantins'),
 ]
+
+GENDER_CHOICES = [
+    ('masculino', 'Masculino'),
+    ('feminino', 'Feminino'),
+    ('neutro', 'Neutro'),
+    ('nao_binario', 'Não binário'),
+    ('transgenero', 'Transgênero'),
+    ('outro', 'Outro'),
+    ('desejo_nao_informar', 'Desejo não informar'),
+]
+
+DISABLED_CHOICES = [
+    ('auditiva', 'Auditiva'),
+    ('visual', 'Visual'),
+    ('motora', 'Motora'),
+    ('mental', 'Metal'),
+    ('desejo_nao_informar', 'Desejo não informar'),
+]
