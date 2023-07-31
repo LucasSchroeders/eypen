@@ -56,14 +56,13 @@ class ProfileApplicant(TemplateView):
         is_same_person = True if profile.id == kwargs.get('id') else False
 
         context['profile_user'] = profile
+        if not is_same_person:
+            profile = Profile.objects.filter(id=kwargs.get('id')).first()
+
         context['competences'] = profile.competence.all()
         context['academic_educations'] = profile.academic_formation.all()
         context['experiences'] = profile.experience.all()
-        context['profile'] = (
-            profile
-            if is_same_person 
-            else Profile.objects.filter(id=kwargs.get('id'))
-        )
+        context['profile'] = profile
         context['is_same_profile'] = is_same_person
 
         return context
