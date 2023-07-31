@@ -135,11 +135,11 @@ nav.sidebar:hover .txt-link {
 }
 
 .div-icon-accessibility{
-  position: absolute;
+  position: fixed;
+  top: 23px;
+  right: 10px;
   display: flex;
-  width: 100%;
   flex-direction: row;
-  justify-content: end;
   padding: 2rem 2rem;
 }
 
