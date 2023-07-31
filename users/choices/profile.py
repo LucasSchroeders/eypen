@@ -45,3 +45,11 @@ DISABLED_CHOICES = [
     ('mental', 'Metal'),
     ('desejo_nao_informar', 'Desejo não informar'),
 ]
+
+ETHNICITY_CHOICES = [
+    ('branco', 'Branco'),
+    ('preto', 'Preto'),
+    ('amarelo', 'Amarelo'),
+    ('indigena', 'Indígena'),
+    ('pardo', 'Pardo'),
+]
