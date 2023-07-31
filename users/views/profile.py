@@ -1,5 +1,6 @@
+from django.conf import settings
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.views.generic import TemplateView
-from django.shortcuts import render 
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -110,13 +111,31 @@ class BuscaPerfil(TemplateView):
 
         #TODO colocar o is_applicant = True no filter
         profile_list = Profile.objects.filter(**data_query).exclude(id=profile.id)
-        
+
+        page = request.GET.get('page', 1)
+
+        paginator = Paginator(profile_list, settings.PAGINATION_PAGE_DEFAULT)
+
+        try:
+            profile_pag = paginator.page(page)
+        except PageNotAnInteger:
+            profile_pag = paginator.page(1)
+        except EmptyPage:
+            profile_pag = paginator.page(paginator.num_pages)
+
+        index = profile_pag.number - 1
+        max_index = len(paginator.page_range)
+        start_index = index - 3 if index >= 3 else 0
+        end_index = index + 3 if index <= max_index - 3 else max_index
+        page_range = list(paginator.page_range)[start_index:end_index]
+            
         context['profile_user'] = profile
         context['experience'] = profile.experience.filter(is_working=True).first()
-        context['profile_list'] = profile_list
+        context['profile_list'] = profile_pag
         context['genders'] = GENDER_CHOICES
         context['disables'] = DISABLED_CHOICES
         context['states'] = STATES
+        context['page_range'] = page_range
 
         return context
 
