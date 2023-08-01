@@ -13,5 +13,3 @@ from .profile import (
     ExperienceAPI,
     AcademicFormationAPI,
 )
-
-from .company import CompanyProfile
