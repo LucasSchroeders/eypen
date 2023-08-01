@@ -2,11 +2,11 @@ from django.conf import settings
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.views.generic import TemplateView
 
-from users.models import Company
+from company.models import Company
 
 
 class CompanyProfile(TemplateView):
-    template_name = 'users/company/company_profile.html'
+    template_name = 'company/company_profile.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -17,7 +17,7 @@ class CompanyProfile(TemplateView):
     
 
 class BuscaCompany(TemplateView):
-    template_name = 'users/company/busca_company.html'
+    template_name = 'company/busca_company.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
