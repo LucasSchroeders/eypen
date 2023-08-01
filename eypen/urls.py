@@ -21,5 +21,6 @@ from users.views import index
 urlpatterns = [
     path('admin-django/', admin.site.urls),
     path('', include('users.urls')),
-    path('', index, name='Index')
+    path('', index, name='Index'),
+    path('', include('company.urls')),
 ]
