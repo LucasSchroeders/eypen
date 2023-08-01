@@ -7,10 +7,11 @@ from .views import (
 from .profile import (
     PersonalProfileInformation,
     PersonalProfileInformationAPI,
-    ProfileCompany,
     ProfileApplicant,
     BuscaPerfil,
     CompetenceAPI,
     ExperienceAPI,
     AcademicFormationAPI,
 )
+
+from .company import CompanyProfile
