@@ -102,6 +102,18 @@
 
 </body>
 
+{% for message in messages %}
+  <script type="text/javascript">
+    $(document).ready(function () {
+      new PNotify({
+        title: '{{ message.extra_tags }}',
+        text: '{{ message.message }}',
+        type: '{{ message.level_tag }}',
+      });
+    });
+  </script>
+{% endfor %}
+
 <script>
   //Seleciona os itens clicando
   var menuItem = document.querySelectorAll('.menu-item')
