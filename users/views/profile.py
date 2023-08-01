@@ -47,10 +47,6 @@ class PersonalProfileInformationAPI(APIView):
         return
 
 
-class ProfileCompany(TemplateView):
-    template_name = 'users/company/company_profile.html'
-
-
 class ProfileApplicant(TemplateView):
     template_name = 'users/profile/applicant_profile.html'
 
@@ -142,6 +138,7 @@ class BuscaPerfil(TemplateView):
         context['page_range'] = page_range
 
         return context
+
 
 class CompetenceAPI(APIView):
     def get(self, request, id):

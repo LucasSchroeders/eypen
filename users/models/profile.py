@@ -50,6 +50,14 @@ class Profile(models.Model):
     is_applicant = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Criado em")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Atualizado em")
+    company = models.ForeignKey(
+        'users.Company',
+        related_name='company_profile',
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+        verbose_name='Empresa',
+    )
 
     class Meta:
         verbose_name = "Perfil"

@@ -31,6 +31,7 @@ def signup(request):
         
         #TODO fazer verificação com a planilha da EY
 
+        #TODO fazer validação de senhas
 
         user = User.objects.create_user(username=email, email=email, password=password)
         full_name = ' '.join(
@@ -49,7 +50,9 @@ def signup(request):
 
 def login_view(request):
     if request.user.is_authenticated:
-        return redirect('profile', id=request.user.profile.id)
+        if request.user.profile.is_applicant:
+            return redirect('profile', id=request.user.profile.id)
+        # TODO return para a pagina de entrada da empresa
     
     if request.method == 'POST':
         post = request.POST
@@ -67,7 +70,12 @@ def login_view(request):
             if not user.profile:
                 return redirect('signup2')
             
-            return redirect(f'profile', id=user.profile.id)
+            if user.profile.is_company:
+                # TODO return para a pagina de entrada da empresa
+                company = user.profile.company
+                return redirect()
+            
+            return redirect('profile', id=user.profile.id)
         
         # TODO colocar um retorno para a mesma pagina para dar um retorno para o cliente
         return HttpResponse("E-mail ou senha inválidos")
