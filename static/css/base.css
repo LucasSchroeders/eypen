@@ -1,83 +1,167 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300&display=swap');
 
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: 'Outfit', sans-serif;
 }
 
-body{
-  height: 900vh;
+body {
+  height: 100vh;
 }
 
-nav.sidebar{
+nav.sidebar {
   width: 90px;
   height: 100%;
   background-color: #2B2525;
-  padding: 40px 0 40px 1%;
-  box-shadow: 3px 0 0 #ffff00;
-
+  padding-top: 40px;
   position: fixed;
   top: 0;
   left: 0;
   overflow: hidden;
-  transition: .2s;
-
+  transition: .5s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 999;
 }
 
-nav.sidebar:hover{
+nav.sidebar:hover {
   width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.expand-button{
-  width: 100%;  
-  padding-left: 10px;
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  margin-bottom: 20px;
 }
 
-.expand-button > i{
+.profile-image {
+  border: 8px solid #000;
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-info img {
+  width: 186px;
+  height: 186px;
+  border-radius: 50%;
+}
+
+.profile-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-name {
+  font-size: 20px;
+  margin-bottom: 5px;
+  color: #fff;
+}
+
+.profile-age {
+  color: #fff; 
+}
+
+.expand-button {
+  width: 100%;
+  margin-bottom: 100px;
+  display: flex;
+  justify-content: center;
+}
+
+.expand-button>i {
   color: #fff;
   font-size: 24px;
-  cursor: pointer;  
 }
 
-.expand-button > h5{
-  color: #fff;
-  font-size: 18px;
-  cursor: pointer; 
-  margin-bottom: 10px; 
-}
-
-
-ul{
+ul {
   height: 100%;
+  display: flex;
+  flex-direction: column;
   list-style-type: none;
+  margin-top: 10px;
 }
 
-ul li.menu-item{
+.menu-item-sair{
+  height: 100%;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+li.menu-item {
   transition: .2s;
+  margin-bottom: 20px;
 }
 
-ul li.menu-item:hover{
-  background: #ffff00;
-} 
 
-ul li.menu-item a{
+li.menu-item:hover {
+  background: #f7f757bb;
+}
+
+li.menu-item a {
   color: #fff;
   text-decoration: none;
   font-size: 20px;
-  padding: 20px 4%;
+  padding: 10px 0;
   display: flex;
-  margin-bottom: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   line-height: 40px;
 }
 
-ul li.menu-item a .txt-link{
-  margin-left: 40px;
-
+li.menu-item a .txt-link {
+  transition: .5s;
+  opacity: 0;
 }
 
-ul li.menu-item a .icon > i{
-  margin-left: 30px;
+nav.sidebar:hover .txt-link {
+  margin-left: 20px;
+  opacity: 1;
+  
+}
 
+.div-icon-accessibility{
+  position: fixed;
+  top: 23px;
+  right: 10px;
+  display: flex;
+  flex-direction: row;
+  padding: 2rem 2rem;
+}
+
+.div-icon-accessibility .icon{
+  font-size: 30px;
+  margin-top: 0.75rem;
+  margin-right: 1rem;
+}
+
+.overlay {
+  position: fixed;
+  display: none; 
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100%;
+  background-color: #00000080;
+  backdrop-filter: blur(2px);
+  pointer-events: none;
+  z-index: 990;  
+}
+
+nav.sidebar:hover ~ .overlay {
+  display: flex;
 }

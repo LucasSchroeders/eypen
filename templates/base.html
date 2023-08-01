@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,72 +10,149 @@
     <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/utils/pnotify.custom.min.css' %}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
     <script src="{% static 'js/jquery.mask.min.js' %}"></script>
-    {% block css %}
-    {% endblock css %}
+    <script src="{% static 'js/pnotify.custom.min.js' %}"></script>
+  {% block css %}
+  {% endblock css %}
 
-    <title>EYpen | {% block title %}{% endblock title %}</title>
-    
+  <title>EYpen | {% block title %}{% endblock title %}</title>
+
 </head>
+
 <body>
-    <nav class="sidebar">
-      
-      <div class="expand-button">
-        <h5>Eypen</h5>
-        <i class="fa-solid fa-list"></i>
+  <nav class="sidebar">
+
+    <div class="expand-button">
+      <i class="fa-solid fa-list"></i>
+    </div>
+
+    <div class="profile-info" style="display: none;">
+
+      <div class="profile-image">
+        <a href="{% url 'profile' id=profile_user.id %}">
+          {% if profile_user.photo %}
+          <img src="{{ profile_user.photo.url }}" class="img" alt="foto de perfil">
+          {% else %}
+          <i class="fa-solid fa-user icon"></i>
+          {% endif %}
+        </a>
       </div>
+      <div class="profile-text">
+        <p class="profile-name">{{ profile_user.full_name }}</p>
+      </div>
+    </div>
 
-      <ul>
-        <li class="menu-item">
-          <a href="#">
-            <span class="icon"><i class="fa-regular fa-suitcase"></i></span>
-            <span class="txt-link">Procurar vagas</span>
-          </a>
-        </li>
+    <ul>
+      <li class="menu-item">
+        <a href="#">
+          <span class="icon"><i class="fa-regular fa-suitcase"></i></span>
+          <span class="txt-link">Procurar vagas</span>
+        </a>
+      </li>
 
-        <li class="menu-item">
-          <a href="#">
-            <span class="icon"><i class="fa-regular fa-building"></i></span>
-            <span class="txt-link">Procurar empresas</span>
-          </a>
-        </li>
+      <li class="menu-item">
+        <a href="#">
+          <span class="icon"><i class="fa-regular fa-building"></i></span>
+          <span class="txt-link">Procurar empresas</span>
+        </a>
+      </li>
 
-        <li class="menu-item">
-          <a href="#">
-            <span class="icon"><i class="fa-regular fa-user"></i></span>
-            <span class="txt-link">Procurar perfis</span>
-          </a>
-        </li>
+      <li class="menu-item">
+        <a href="{% url 'busca_perfil' %}">
+          <span class="icon"><i class="fa-regular fa-user"></i></span>
+          <span class="txt-link">Procurar perfis</span>
+        </a>
+      </li>
 
-        <li class="menu-item">
-          <a href="#">
-            <span class="icon"><i class="fa-solid fa-clipboard"></i></span>
-            <span class="txt-link">Cadastrar vagas</span>
-          </a>
-        </li>
-
-        <li class="menu-item">
-          <a href="#">
+      <li class="menu-item">
+        <a href="#">
+          <span class="icon"><i class="fa-solid fa-clipboard"></i></span>
+          <span class="txt-link">Cadastrar vagas</span>
+        </a>
+      </li>
+      <div class="menu-item-sair">
+        <li class="menu-item" id="sair">
+          <a href="{% url 'logout' %}">
             <span class="icon"><i class="fa-regular fa-right-from-bracket"></i></span>
             <span class="txt-link">Sair</span>
           </a>
         </li>
+      </div>
 
-      </ul>
+    </ul>
+  </nav>
+  
+  <div class="div-icon-accessibility">
+    <i class="fa-sharp fa-solid fa-universal-access icon"></i>
+  </div>
+  
+  <div class="overlay"></div>
+  <div class="body">
+    {% block body %}
+    {% endblock body %}
+  </div>
+  
+  
+  {% block js %}
+  {% endblock js %}
 
-    </nav>
-
-    
-
-
-{% block body %}
-{% endblock body %}
-
-{% block js %}
-{% endblock js %}
-    
 </body>
+
+{% for message in messages %}
+  <script type="text/javascript">
+    $(document).ready(function () {
+      new PNotify({
+        title: '{{ message.extra_tags }}',
+        text: '{{ message.message }}',
+        type: '{{ message.level_tag }}',
+      });
+    });
+  </script>
+{% endfor %}
+
+<script>
+  //Seleciona os itens clicando
+  var menuItem = document.querySelectorAll('.menu-item')
+
+  function selectLink() {
+    menuItem.forEach((item) =>
+      item.classList.remove('ativo')
+    )
+    this.classList.add('ativo')
+
+  }
+
+  menuItem.forEach((item) =>
+    item.addEventListener('click', selectLink)
+  )
+
+  //Foto de perfil
+  var sidebar = document.querySelector('.sidebar');
+  var profileInfo = document.querySelector('.profile-info');
+  var expandButton = document.querySelector('.expand-button')
+
+  // Função para mostrar o perfil
+  function showProfileInfo() {
+    profileInfo.style.display = 'flex';
+    expandButton.style.display = 'none';
+  }
+
+  // Função para ocultar o perfil
+  function hideProfileInfo() {
+    profileInfo.style.display = 'none';
+    expandButton.style.display = 'flex';
+  }
+
+  // Evento de passar o mouse na sidebar
+  sidebar.addEventListener('mouseenter', showProfileInfo);
+
+  // Evento de tirar o mouse da sidebar
+  sidebar.addEventListener('mouseleave', hideProfileInfo);
+
+</script>
+
 </html>

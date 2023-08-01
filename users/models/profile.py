@@ -4,7 +4,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from users.choices import STATES
-from users.models import Competence
+from users.models import Experience, AcademicFormation
 from users.utils import string_to_date
 
 User = get_user_model()
@@ -50,6 +50,14 @@ class Profile(models.Model):
     is_applicant = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Criado em")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Atualizado em")
+    company = models.ForeignKey(
+        'users.Company',
+        related_name='company_profile',
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+        verbose_name='Empresa',
+    )
 
     class Meta:
         verbose_name = "Perfil"
@@ -64,21 +72,24 @@ class Profile(models.Model):
         return str(self.pk)
     
     def create_competence(self, context):
-        academic_formation = self.academic_formation.filter(id=context.get('academic_formation_id'))
-        experience = self.experience.filter(id=context.get('experience_id'))
-
         competence_data = {
-            'competence_name': context.get('competence_name'),
-            'academic_formation': academic_formation,
-            'experience': experience,
+            'competence_name': context.get('competence'),
         }
+        competence = self.competence.create(**competence_data)
 
-        self.competence.create(**competence_data)
-        return True
+        if context.get('experience_list'):
+            for experience in context.get('experience_list'):
+                competence.experience.add(Experience.objects.filter(id=experience).first())
 
+        if context.get('academic_list'):
+            for academic in context.get('academic_list'):
+                competence.academic_formation.add(AcademicFormation.objects.filter(id=academic).first())
+
+        competence.save()
+        return competence.to_dict()
+     
     def create_experience(self, context):
         started_at = string_to_date(context.get('started_at'))
-        ended_at = string_to_date(context.get('ended_at'))
 
         experience_data = {
             'position': context.get('position'),
@@ -88,11 +99,14 @@ class Profile(models.Model):
             'company': context.get('company'),
             'business_area': context.get('business_area'),
             'started_at': started_at,
-            'ended_at': ended_at,
         }
 
-        self.experience.create(**experience_data)
-        return True
+        if context.get('ended_at'):
+            ended_at = string_to_date(context.get('ended_at'))
+            experience_data['ended_at'] = ended_at
+
+        experience = self.experience.create(**experience_data)
+        return experience.to_dict()
     
     def create_academic_formation(self, context):
         started_at = string_to_date(context.get('started_at'))
@@ -106,8 +120,8 @@ class Profile(models.Model):
             'ended_at': ended_at,
         }
 
-        self.academic_formation.create(**academic_formation_data)
-        return True
+        academic = self.academic_formation.create(**academic_formation_data)
+        return academic.to_dict()
 
 
 @receiver(post_save, sender=User)

@@ -1,20 +1,179 @@
-<!-- Inicio modal Nova Competencia -->
-<!-- <div id="modal-add-competence" class="modal">
-    <h1>ola</h1>
-</div> -->
-<!-- Fim modal nova Competencia -->
-
-<!-- Inicio modal nova experiencia -->
-<!-- <div class="modal" id="modal-add-experience" role="dialog">
-    <h1>ola</h1>
-</div> -->
-<!-- Fim modal nova experiencia -->
-
-<div class="janela-modal" id="janela-modal">
+<!-- Inicio modal Competencia -->
+<div class="janela-modal" id="modal-competence">
     <div class="modal">
         <div class="modal-header">
             <h4>Adicionar Competência</h4>
-            <a onclick="closeModal()"><i class="fa-solid fa-xmark"></i></a>
+            <a onclick="closeModalCompetence()"><i class="fa-solid fa-xmark"></i></a>
         </div>
+        <form enctype="multipart/form-data" id="form-competence">
+            {% csrf_token %}
+            <div class="modal-body">
+                <div class="form-field">
+                    <label for="competence">Competência</label>
+                    <div class="form-input">
+                        <input class="form-control" type="text" id="competence" required>
+                    </div>
+                </div>
+                <div class="form-field">
+                    <p>Experiência</p>
+                    {% for experience in experiences %}
+                    <div class="form-input">
+                        <input class="checkbox" type="checkbox" id="experience-{{experience.id}}">
+                        <label for="experience-{{experience.id}}">{{experience.position}} | {{experience.company}}</label>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="form-field">
+                    <p>Formação Acadêmica</p>
+                    {% for academic in academic_educations %}
+                    <div class="form-input">
+                        <input class="checkbox" type="checkbox" id="academic_education-{{academic.id}}">
+                        <label for="academic_education-{{academic.id}}">{{academic.course}} | {{academic.educational_institution}}</label>
+                    </div>
+                    {% endfor %}
+                </div>
+                <p>Selecione um ou mais itens no qual essa competência se encaixa</p>
+            </div>
+            <div class="modal-footer">
+                <button onclick="closeModalCompetence()" type="button" class="form-button form-button-cancel">Cancelar</button>
+                <button onclick="saveCompetence()" type="button" class="form-button" id="button-save-competence">Salvar</button>
+            </div>
+        </form>
     </div>
 </div>
+<!-- Fim modal Competencia -->
+
+<!-- Inicio modal formação academica -->
+<div class="janela-modal" id="modal-academic-formation">
+    <div class="modal">
+        <div class="modal-header">
+            <h4>Adicionar Formação Acadêmica</h4>
+            <a onclick="closeModalAcademicFormation()"><i class="fa-solid fa-xmark"></i></a>
+        </div>
+        <form enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="modal-body">
+                <div class="form-field">
+                    <label for="educational_institution">Intituição de Ensino</label>
+                    <div class="form-input">
+                        <input class="form-control" type="text" id="educational_institution" required>
+                    </div>
+                </div>          
+                <div class="form-field">
+                    <label for="course">Curso</label>
+                    <div class="form-input">
+                        <input class="form-control" type="text" id="course" required>
+                    </div>
+                </div>
+                <div class="form-field">
+                    <label for="knowledge_area">Área de conhecimento</label>
+                    <div class="form-input">
+                        <input class="form-control" type="text" id="knowledge_area" required>
+                    </div>
+                </div>
+                <div class="date-row">
+                    <div class="form-field">
+                        <label for="started_date">Data de início</label>
+                        <div class="form-input">
+                            <input type="date" id="started_date" required>
+                        </div>
+                    </div>
+                    <div class="form-field">
+                        <label for="ended_date">Data de finalização</label>
+                        <div class="form-input">
+                            <input type="date" id="ended_date" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button onclick="closeModalAcademicFormation()" type="button" class="form-button form-button-cancel">Cancelar</button>
+                <button onclick="saveAcademicFormation()" type="button" class="form-button" id="button-save-academic">Salvar</button>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Fim modal formação academica -->
+
+<!-- Inicio modal experiencia -->
+<div class="janela-modal" id="modal-experience">
+    <div class="modal">
+        <div class="modal-header">
+            <h4>Adicionar Experiência</h4>
+            <a onclick="closeModalExperience()"><i class="fa-solid fa-xmark"></i></a>
+        </div>
+        <form enctype="multipart/form-data" id="form-experience">
+            {% csrf_token %}
+            <div class="modal-body">
+                <div class="form-field">
+                    <label for="position">Cargo</label>
+                    <div class="form-input">
+                        <input class="form-control" type="text" id="position" required>
+                    </div>
+                </div>          
+                <div class="form-field">
+                    <label for="job_type">Tipo de Emprego</label>
+                    <div class="form-input">
+                        <select id="job_type" class="form-control" required>
+                            <option value="" disabled selected>Selecione um tipo de emprego</option>
+                            <option value="autonomo">Autônomo</option>
+                            <option value="clt">CLT</option>
+                            <option value="freelance">Freelance</option>
+                            <option value="estagio">Estágio</option>
+                            <option value="aprendiz">Aprendiz</option>
+                            <option value="trainee">Trainee</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-field">
+                    <label for="company">Empresa</label>
+                    <div class="form-input">
+                        <input class="form-control" type="text" id="company" required>
+                    </div>
+                </div>
+                <div class="form-field">
+                    <label for="job_modality">Modalidade</label>
+                    <div class="form-input">
+                        <select id="job_modality" class="form-control" required>
+                            <option value="" disabled selected>Selecione uma modalidade</option>
+                            <option value="presencial">Presencial</option>
+                            <option value="hibrido">Híbrido</option>
+                            <option value="home_office">Home Office</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-field" style="margin-top:30px;">
+                    <div class="form-input">
+                        <input class="checkbox" type="checkbox" id="is_working">
+                        <label for="is_working">Atualmente neste trabalho</label>
+                    </div>
+                </div>
+                <div class="date-row">
+                    <div class="form-field">
+                        <label for="started_date">Data de início</label>
+                        <div class="form-input">
+                            <input type="date" id="started_date_experience" required>
+                        </div>
+                    </div>
+                    <div class="form-field">
+                        <label for="ended_date">Data de finalização</label>
+                        <div class="form-input">
+                            <input type="date" id="ended_date_experience">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-field">
+                    <label for="business_area">Setor de atuação da empresa</label>
+                    <div class="form-input">
+                        <input class="form-control" type="text" id="business_area">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button onclick="closeModalExperience()" type="button" class="form-button form-button-cancel">Cancelar</button>
+                <button onclick="saveExperience()" type="button" class="form-button" id="button-save-experience">Salvar</button>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Fim modal experiencia -->

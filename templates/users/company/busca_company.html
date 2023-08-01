@@ -6,40 +6,92 @@
 {%endblock css%}
 
 {%block body%}
-<div class="body">
-    <div class="div-form">
-        <form action="">
-            <h5 class="form-h5">Pesquisa de Empresas</h5>
+<div class="div-form">
+    <form action="">
+        <h5 class="form-h5">Pesquisa de Empresas</h5>
 
-            <div class="div-row1">
-                <div class="form-field">
-                    <label for="empresa">Empresa:</label>
-                    <div class="form-input">
-                        <input type="Empresa" placeholder="Empresa" class="form-control">
-                    </div>
-                </div>
-
-                <div class="form-field">
-                    <label for="setor">Setor</label>
-                    <select name="setor" id="setor" class="form-control">
-                        <option value="TI">TI</option>
-                        <option value="RH">RH</option>
-                        <option value="financa">Finanças</option>
-                    </select>
+        <div class="div-row1">
+            <div class="form-field">
+                <label for="company">Empresa:</label>
+                <div class="form-input">
+                    <input type="text" name="company" placeholder="Empresa" class="form-control">
                 </div>
             </div>
-            <input type="submit" class="form-button" value="Filtrar" />
-        </form>
-    </div>
 
-<a href="" class="div-container">
-    <img class="img-container" src="" alt="Imagem da Empresa">
+            <div class="form-field">
+                <label for="business_area">Setor</label>
+                <select name="business_area" id="business_area" class="form-control">
+                    <option value="TI">TI</option>
+                    <option value="RH">RH</option>
+                    <option value="financa">Finanças</option>
+                </select>
+            </div>
+        </div>
+        <input type="submit" class="form-button" value="Filtrar" />
+    </form>
+</div>
 
+{% for company in company_list %}
+<a href="{% url 'company_profile' id=company.id %}" class="div-container">
+    {% if company.photo %}
+    <img class="img-container" src="{{ company.photo.url }}" alt="Imagem da Empresa">
+    {% else %}
+    <i class="fa-solid fa-building icon-img"></i>
+    {% endif %}
     <div class="div-dados div-company">
-        <p class="p-dados p-negrito">Nome empresa</p>
-        <p class="p-dados">Setor</p>
-        <p class="p-dados">Estado/Cidade</p>
+        <p class="p-dados p-negrito">{{company.name}}</p>
+        <p class="p-dados">{{company.business_area}}</p>
+        <p class="p-dados">{{company.city}}, {{company.state}}</p>
     </div>
 </a>
-</div>
-{%endblock body%}
+{% endfor %}
+
+{% if company_list.has_other_pages %}
+<ul class="pagination">
+  {% if company_list.has_previous %}
+  <li class="page-item">
+    <a class="page-link" href="?page=1">
+      First
+    </a>
+  </li>
+  <li class="page-item">
+    <a class="page-link"
+      href="?page={{ company_list.previous_page_number }}">
+      &laquo;
+    </a>
+  </li>
+  {% else %}
+  <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+  {% endif %}
+  {% for i in page_range %}
+  {% if company_list.number == i %}
+  <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
+  {% else %}
+  <li class="page-item">
+    <a class="page-link"
+      href="?page={{ i }}">
+      {{ i }}
+    </a>
+  </li>
+  {% endif %}
+  {% endfor %}
+  {% if company_list.has_next %}
+  <li class="page-item">
+    <a class="page-link"
+      href="?page={{ company_list.next_page_number }}">
+      &raquo;
+    </a>
+  </li>
+  <li class="page-item">
+    <a class="page-link"
+      href="?page={{ company_list.paginator.num_pages }}">
+      Last
+    </a>
+  </li>
+  {% else %}
+  <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+  {% endif %}
+</ul>
+{% endif %}
+
+{% endblock body%}

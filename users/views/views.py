@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
+from users.choices import GENDER_CHOICES, DISABLED_CHOICES, STATES, ETHNICITY_CHOICES
 from users.utils import string_to_date
 
 User = get_user_model()
@@ -13,10 +14,6 @@ User = get_user_model()
 
 def index(request):
     return render(request, 'index.html')
-
-
-def home(request):
-    return render(request, '')
 
 
 def signup(request):
@@ -34,6 +31,7 @@ def signup(request):
         
         #TODO fazer verificação com a planilha da EY
 
+        #TODO fazer validação de senhas
 
         user = User.objects.create_user(username=email, email=email, password=password)
         full_name = ' '.join(
@@ -52,7 +50,9 @@ def signup(request):
 
 def login_view(request):
     if request.user.is_authenticated:
-        return redirect('profile', id=request.user.profile.id)
+        if request.user.profile.is_applicant:
+            return redirect('profile', id=request.user.profile.id)
+        # TODO return para a pagina de entrada da empresa
     
     if request.method == 'POST':
         post = request.POST
@@ -70,14 +70,19 @@ def login_view(request):
             if not user.profile:
                 return redirect('signup2')
             
-            return redirect(f'profile', id=user.profile.id)
+            if user.profile.is_company:
+                # TODO return para a pagina de entrada da empresa
+                company = user.profile.company
+                return redirect()
+            
+            return redirect('profile', id=user.profile.id)
         
         # TODO colocar um retorno para a mesma pagina para dar um retorno para o cliente
         return HttpResponse("E-mail ou senha inválidos")
 
     return render(request, 'users/login.html')
 
-    
+
 @login_required
 def signup2(request):
     if request.method == 'POST':
@@ -110,10 +115,17 @@ def signup2(request):
         profile.is_disabled = is_disabled
         profile.disabled = disabled
         profile.photo = photo
+        profile.is_applicant = True
 
         profile.save()
-            
-        # TODO colocar para pag inicial do login
+        
         return redirect('profile', id=profile.id)
     
-    return render(request, 'users/profile/personalProfile.html')
+    context = {
+        'genders': GENDER_CHOICES,
+        'disables': DISABLED_CHOICES,
+        'states': STATES,
+        'ethnicities': ETHNICITY_CHOICES,
+    }
+    
+    return render(request, 'users/profile/personalProfile.html', context)
