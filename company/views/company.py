@@ -1,6 +1,11 @@
+import json
+
 from django.conf import settings
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.views.generic import TemplateView
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from company.models import Company
 
@@ -62,3 +67,47 @@ class BuscaCompany(TemplateView):
         context['page_range'] = page_range
 
         return context
+
+
+class CompanyRegisterTemplateView(TemplateView):
+    template_name = 'company/company_register.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        company = Company.objects.filter(id=kwargs.get('id')).first()
+        jsonDec = json.decoder.JSONDecoder()
+        business_areas = jsonDec.decode(company.business_areas)
+
+        context['company'] = company
+        context['business_areas'] = business_areas
+        return context
+    
+
+class CompanyRegisterAPI(APIView):
+    def post(self, request, id):
+        post = request.POST
+        name = post.get('name')
+        cnpj = post.get('cnpj')
+        photo = request.FILES.get('foto')
+        about_us = post.get('about_us')
+        business_areas = post.get('business_areas')
+        business_areas = json.dumps(business_areas)
+        state = post.get('state')
+        city = post.get('city')
+
+        company = Company.objects.filter(id=id).first()
+
+        company.name = name
+        company.cnpj = cnpj
+        company.photo = photo
+        company.about_us = about_us
+        company.business_areas = business_areas
+        company.state = state
+        company.city = city
+        
+        return Response(
+            {
+                "detail": "Empresa atualizada com sucesso!",
+                "status": status.HTTP_200_OK,
+            }
+        )

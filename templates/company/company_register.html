@@ -21,7 +21,8 @@
     </div>
     <div class="body">
         <div class="form-div">
-            <form action="">
+            <form method='post' action="">
+                {% csrf_token %}
                 <div class="div-row">
                     <div class="div-column">
                         <div class="photo">
@@ -80,6 +81,29 @@
     </div>
 </body>
 <script>
+    const inputFile = document.querySelector("#foto");
+    inputFile.addEventListener("change", function(e){
+        var divPhoto = document.querySelector(".photo__div");
+        const inputTarget = e.target;
+        const file = inputTarget.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.addEventListener("load", function(e){
+                const readerTarget = e.target;
+
+                const img = document.createElement("img");
+                img.src = readerTarget.result;
+                img.classList.add("photo-img");
+
+                divPhoto.innerHTML = "";
+                divPhoto.appendChild(img);
+            })
+
+            reader.readAsDataURL(file);
+        }
+    })
 
 </script>
 </html>

@@ -1,1 +1,1 @@
-from .company import CompanyProfile
+from .company import CompanyProfile, CompanyRegisterTemplateView, CompanyRegisterAPI

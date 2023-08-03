@@ -1,11 +1,13 @@
+import json
 import re
 
-# from django.contrib.auth.models import User
+from django.contrib import messages
 from django.contrib.auth import get_user_model, authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
+from company.models import Company
 from users.choices import GENDER_CHOICES, DISABLED_CHOICES, STATES, ETHNICITY_CHOICES
 from users.utils import string_to_date
 
@@ -98,7 +100,7 @@ def signup2(request):
         city = post.get('city')
         is_disabled = post.get('is_disabled', False)
         disabled = post.get('disabled', '')
-        photo = request.FILES.get('photo')
+        photo = request.FILES.get('foto')
 
         birthdate = string_to_date(birthdate) if birthdate else None
 
@@ -129,3 +131,43 @@ def signup2(request):
     }
     
     return render(request, 'users/profile/personalProfile.html', context)
+
+
+def signup_company(request):
+    if request.method == 'POST':
+
+        post = request.POST
+        name = post.get('name')
+        cnpj = post.get('cnpj')
+
+        company = Company.objects.filter(cnpj=cnpj).first()
+        if company:
+            messages.add_message(
+                request,
+                messages.ERROR,
+                'Já existe uma empresa cadastrada com esse CNPJ!',
+                extra_tags='Empresa Cadastra'
+            )
+            return render(request, 'company/company_register.html')
+        
+        photo = request.FILES.get('foto')
+        business_areas = post.get('business_areas')
+        business_areas = json.dumps(business_areas)
+        state = post.get('state')
+        city = post.get('city')
+
+        data_company = {
+            'name': name,
+            'cnpj': cnpj,
+            'photo': photo,
+            'business_areas': business_areas,
+            'city': city,
+            'state': state,
+        }
+
+        Company.objects.create(**data_company)
+        
+        # TODO colocar o redirect quando a pagina de perfil de empresa estiver pronta
+        return redirect
+    
+    return render(request, 'company/company_register.html')
