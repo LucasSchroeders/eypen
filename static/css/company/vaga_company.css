@@ -1,0 +1,45 @@
+.body{
+    background-color: #F8F4F4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5%;
+}
+
+.div-row{
+    display: flex;
+    flex-direction: row;
+    padding: 2%;
+}
+
+.img-vaga{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}
+
+.div-text{
+    display: flex;
+    flex-direction: column;
+    padding: 2%;
+}
+
+.p-title{
+    font-weight: bold;
+}
+
+.p-title1{
+    font-weight: bold;
+}
+
+.button{
+    font-size: 1.4rem;
+    color: #fff;
+    width: 6rem;
+    background-color: #208BE8;
+    border-radius: 15px;
+    border: none;
+    float: right;
+    margin: 1rem;
+}
