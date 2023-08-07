@@ -51,7 +51,7 @@ class Profile(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Criado em")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Atualizado em")
     company = models.ForeignKey(
-        'users.Company',
+        'company.Company',
         related_name='company_profile',
         blank=True,
         null=True,
