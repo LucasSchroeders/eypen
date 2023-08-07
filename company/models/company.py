@@ -14,6 +14,9 @@ class Company(models.Model):
         null=True,
         verbose_name="Empresa",
     )
+    cnpj = models.CharField(
+        max_length=14, db_index=True, blank=True, null=True, verbose_name="CNPJ"
+    )
     photo = models.ImageField(
         blank=True, null=True, upload_to='', verbose_name='Logo empresa'
     )
@@ -23,8 +26,7 @@ class Company(models.Model):
         null=True,
         verbose_name="Empresa",
     )
-    business_areas = models.CharField(
-        max_length=50,
+    business_areas = models.TextField(
         blank=True,
         null=True,
         verbose_name="Areas de atuação",
