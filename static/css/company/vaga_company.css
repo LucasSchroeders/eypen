@@ -4,7 +4,13 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 5%;
+    padding: 2%;
+}
+
+.div-b{
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 2%;
 }
 
 .div-row{
@@ -22,7 +28,7 @@
 .div-text{
     display: flex;
     flex-direction: column;
-    padding: 2%;
+    padding-left: 2%;
 }
 
 .p-title{
@@ -42,4 +48,8 @@
     border: none;
     float: right;
     margin: 1rem;
+}
+
+.list-style{
+    list-style: square;
 }
