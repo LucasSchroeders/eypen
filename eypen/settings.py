@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #app local
     'users',
+    'company',
     #apis
     'fontawesomefree',
     'rest_framework',
