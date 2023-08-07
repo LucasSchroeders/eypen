@@ -1,0 +1,87 @@
+{% load static %}
+{% extends 'base.html' %}
+{%block css%}
+<link rel="stylesheet" href="{% static 'css/company/vaga_company.css' %}">
+{%endblock css%}
+{% block body %}
+<div class="body">
+   
+    <div class="div-row">
+        <div class="imagem">
+            <img src="" alt="Imagem empresa" class="img-vaga">
+        </div>
+        <div class="div-text">
+            <p class="p-title1">Nome Empresa</p>
+            <p class="p-title1">Nome Vaga</p>
+            <p>Tempo Integral</p>
+            <p>Remoto</p>
+            <p>Sao Paulo, SP</p>
+        </div>
+    </div>
+
+    <div class="div-content">
+        <p class="p-title">Descrição Vaga</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil tempora et laudantium, neque dignissimos in nulla iste fuga voluptate, quia commodi perspiciatis quae necessitatibus veniam unde dolore hic saepe delectus?</p>
+    </div>
+
+    <div class="div-content">
+        <p class="p-title">Principais funções a serem cumpridas</p>
+        <ul>
+            <li>item 1</li>
+            <li>item 2</li>
+            <li>item 3</li>
+            <li>item 4</li>
+        </ul> 
+    </div>
+
+    <div class="div-content">
+        <p class="p-title">Competência necessária</p>
+        <ul>
+            <li>item 1</li>
+            <li>item 2</li>
+            <li>item 3</li>
+            <li>item 4</li>
+        </ul> 
+    </div>
+
+    <div class="div-content">
+        <p class="p-title">Diferenciais</p>
+        <ul>
+            <li>item 1</li>
+            <li>item 2</li>
+            <li>item 3</li>
+            <li>item 4</li>
+        </ul> 
+    </div>
+
+    <div class="div-content">
+        <p class="p-title">Benefícios</p>
+        <ul>
+            <li>item 1</li>
+            <li>item 2</li>
+            <li>item 3</li>
+            <li>item 4</li>
+        </ul> 
+    </div>
+
+    <div class="div-content">
+        <p class="p-title">Etapas</p>
+        <ol type="1">
+            <li>Etapa 1</li>
+                <p>Descrição:</p>
+            <li>etapa 2</li>
+                <p>Descrição:</p>
+            <li>etapa 3</li>
+                <p>Descrição:</p>
+            <li>etapa 4</li>
+                <p>Descrição:</p>
+        </ol>
+    </div>
+
+    <div>
+        <button class="button">Inscrever-se</button>
+        <button class="button">Ativar</button>
+    </div>
+
+</div>
+{% endblock body%}
