@@ -1,1 +1,2 @@
 from .company import CompanyProfile, CompanyRegisterTemplateView, CompanyRegisterAPI
+from .vacancy import VacancyRegisterTemplateView, VacancyTemplateView
