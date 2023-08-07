@@ -17,9 +17,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from users.views import index
+from users import views as views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin-django/', admin.site.urls),
+    path('', index, name='Index'),
+    path('cadastro', views.signup, name='signup'),
+    path('login', views.login_view, name='login'),
+    path('logout', auth_views.LogoutView.as_view, name="logout"),
+    path('cadastro/2', views.signup2, name='signup2'),
     path('', include('users.urls')),
-    path('', index, name='Index')
+    path('', include('company.urls')),
 ]

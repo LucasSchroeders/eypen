@@ -1,0 +1,95 @@
+{$load static%}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/company/vaga_register.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'js/jquery.mask.min.js' %}"></script>
+    <title>Cadastro Vagas</title>
+</head>
+<body>
+    <div class="div-icon-accessibility">
+        <i class="fa-sharp fa-solid fa-universal-access"></i>
+    </div>
+
+    <div class="body">
+        <div class="form-div">
+            <p class="p-title">Cadastro de Vagas</p>
+            <form action="">
+                <div class="div-row">
+                    <div class="div-column">
+                        <div class="form-field">
+                            <label for="cargo">Cargo:</label>
+                            <div class="form-imput">
+                                <input type="text" name="cargo" id="cargo" required class="input-line">
+                            </div>
+                        </div>
+                        <div class="form-field">
+                            <label for="senioridade">Senioridade:</label>
+                            <select name="senioridade" id="senioridade">
+                                <option value="junior">Junior</option>
+                                <option value="senior">Sênior</option>
+                                <option value="pleno">Pleno</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="div-column">
+                        <div class="form-field">
+                            <label for="state">Estado:</label>
+                            <select name="state" id="state" class="form-control">
+                              <option value="" selected>Selecione um estado</option>
+                              {% for state in states %}
+                              <option value="{{state.0}}" {% if request.session.state == state.0 %} selected {% endif %}>{{state.1}}</option>
+                              {% endfor %}
+                            </select>
+                          </div>
+                    
+                          <div class="form-field">
+                            <label for="city">Cidade:</label>
+                            <select name="city" id="city" class="form-control">
+                              <option value="" selected>Selecione uma cidade</option>
+                            </select>
+                          </div>
+                    </div>
+                </div>
+
+                <div class="div-row">
+                    <div class="form-field">
+                        <label for="modalidade">Modalidade:</label>
+                        <select name="modalidade" id="modalidade">
+                            <option value="remoto">Remoto</option>
+                            <option value="presencial">Presencial</option>
+                            <option value="hibrido">Hibrido</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="descricao">
+                    <label for="descricao-vaga">Descrição da vaga:</label>
+                    <textarea class="textarea"></textarea>
+                </div>
+
+                <div class="etapas">
+                    <label for="etapas">Etapas:</label>
+                    <button class="button-etp">Adicionar</button>
+                </div>
+
+                <div class="div-button">
+                    <button type="submit" class="button">Salvar</button>
+                    <button type="button" class="button">Cancelar</button>
+                </div>
+            </form>
+            
+        </div>
+    </div>
+</body>
+</html>
