@@ -25,7 +25,7 @@ urlpatterns = [
     path('', index, name='Index'),
     path('cadastro', views.signup, name='signup'),
     path('login', views.login_view, name='login'),
-    path('logout', auth_views.LogoutView.as_view, name="logout"),
+    path('logout', auth_views.LogoutView.as_view(), name="logout"),
     path('cadastro/2', views.signup2, name='signup2'),
     path('', include('users.urls')),
     path('', include('company.urls')),
