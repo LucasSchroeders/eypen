@@ -7,7 +7,6 @@
 logs/
 .DS_Store
 LICENSE.txt
-media/**
 gulpStatic/node_modules
 Pipfile.lock
 db.sqlite3
