@@ -68,11 +68,7 @@
 {% for profile in profile_list %}
 <a href="{% url 'profile' profile.id %}" class="div-container">
   <div class="photo">
-    {% if profile.photo %}
-    <img src="{{ profile.photo.url }}" class="photo-img" alt="foto de perfil">
-    {% else %}
-    <i class="fa-solid fa-user icon-img"></i>
-    {% endif %}
+    <img src="{{ profile.get_url_photo }}" class="photo-img" alt="foto de perfil">
   </div>
   <div class="div-dados">
     <p class="p-dados p-negrito">{{profile.full_name}}</p>

@@ -123,6 +123,12 @@ class Profile(models.Model):
         academic = self.academic_formation.create(**academic_formation_data)
         return academic.to_dict()
 
+    @property
+    def get_url_photo(self):
+        if self.photo and hasattr(self.photo, 'url'):
+            return self.photo.url
+        else:
+            return "/static/images/user.png"
 
 @receiver(post_save, sender=User)
 def update_user_profile(sender, instance, created, **kwargs):
