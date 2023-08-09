@@ -5,10 +5,11 @@
 {%endblock css%}
 {% block body %}
 <div class="body">
-   
+   <div class="div-b">
+
     <div class="div-row">
         <div class="imagem">
-            <img src="" alt="Imagem empresa" class="img-vaga">
+            <img src="{% static 'images/foto-perfil.jpg' %}" alt="Imagem empresa" class="img-vaga">
         </div>
         <div class="div-text">
             <p class="p-title1">Nome Empresa</p>
@@ -26,7 +27,7 @@
 
     <div class="div-content">
         <p class="p-title">Principais funções a serem cumpridas</p>
-        <ul>
+        <ul class="list-style">
             <li>item 1</li>
             <li>item 2</li>
             <li>item 3</li>
@@ -36,7 +37,7 @@
 
     <div class="div-content">
         <p class="p-title">Competência necessária</p>
-        <ul>
+        <ul class="list-style">
             <li>item 1</li>
             <li>item 2</li>
             <li>item 3</li>
@@ -46,7 +47,7 @@
 
     <div class="div-content">
         <p class="p-title">Diferenciais</p>
-        <ul>
+        <ul class="list-style">
             <li>item 1</li>
             <li>item 2</li>
             <li>item 3</li>
@@ -56,7 +57,7 @@
 
     <div class="div-content">
         <p class="p-title">Benefícios</p>
-        <ul>
+        <ul class="list-style">
             <li>item 1</li>
             <li>item 2</li>
             <li>item 3</li>
@@ -82,6 +83,9 @@
         <button class="button">Inscrever-se</button>
         <button class="button">Ativar</button>
     </div>
+
+   </div>
+   
 
 </div>
 {% endblock body%}
