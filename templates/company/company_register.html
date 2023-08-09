@@ -9,10 +9,12 @@
     <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/utils/pnotify.custom.min.css' %}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
     <script src="{% static 'js/jquery.mask.min.js' %}"></script>
+    <script src="{% static 'js/pnotify.custom.min.js' %}"></script>
     <title>Informações da Empresa</title>
 </head>
 <body>
@@ -21,13 +23,13 @@
     </div>
     <div class="body">
         <div class="form-div">
-            <form method='post' action="">
+            <form>
                 {% csrf_token %}
                 <div class="div-row">
                     <div class="div-column">
                         <div class="photo">
                             <div class="photo__div">
-                                <i class="fa-solid fa-user icon"></i>
+                                <i class="fa-solid fa-building icon"></i>
                             </div>
                         </div>
                         <label class="picture" for="foto" tabindex="0">
@@ -43,9 +45,9 @@
                             </div>
                         </div>
                         <div class="form-field">
-                            <label for="nome">Nome:</label>
+                            <label for="name">Nome:</label>
                             <div class="form-input">
-                                <input type="text" name="nome" id="nome" required class="input-line">
+                                <input type="text" name="name" id="name" required class="input-line">
                             </div>
                         </div>
                     </div>
@@ -55,25 +57,47 @@
                     <div class="form-field">
                         <label for="setor">Setor de Atuação</label>
                         <div class="form-input">
-                           <input type="checkbox" name="ti" id="ti">
+                           <input class="checkbox" type="checkbox" name="ti" id="ti">
                            <label for="ti">Tecnologia da Informação</label>
-                           <input type="checkbox" name="rh" id="rh">
+                           <input class="checkbox" type="checkbox" name="rh" id="rh">
                            <label for="rh">RH</label>
-                           <input type="checkbox" name="adm" id="adm">
+                           <input class="checkbox" type="checkbox" name="adm" id="adm">
                            <label for="adm">Administração</label>
                         </div>
                     </div>
                 </div>
         
                 <div class="div-row2">
-                    
-                        <label for="sobre-empresa">Sobre a empresa</label>
-                        <textarea class="textarea"></textarea>
-                
+                    <label for="about-us">Sobre a empresa</label>
+                    <div class="form-input">
+                        <textarea name="about-us" id="about-us" class="textarea"></textarea>
+                    </div>
+                </div>
+                <div class="div-row">
+                    <div class="form-field">
+                        <label for="state">Estado:</label>
+                        <div class="form-input">
+                            <select name="state" id="state" class="form-control">
+                                <option value="" disabled selected>Selecione o estado</option>
+                                {% for state in states %}
+                                <option value="{{state.0}}">{{state.1}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-field form-city">
+                        <label for="city">Cidade:</label>
+                        <div class="form-input">
+                            <select name="city" id="city" class="form-control">
+                                <option value="" disabled selected>Selecione a cidade</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
         
                 <div class="div-button">
-                    <button type="submit" class="button">Salvar</button>
+                    <button type="button" id="form-button" class="button">Salvar</button>
                     <button type="button" class="button">Cancelar</button>
                 </div>
             </form>
@@ -104,6 +128,87 @@
             reader.readAsDataURL(file);
         }
     })
+
+    var state = document.querySelector("#state");
+    state.addEventListener("change", function(e){
+        let url = `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${state.value}/municipios`
+        $("#city").empty();
+        $("#city").append(`<option value="" disabled selected>Selecione a cidade</option>`);
+
+        let conteudo = "<optiongroup>";
+        $.getJSON(url, function(data){
+            $.each(data, function(k, v){
+                $("#city").append( `<option value="${v.nome}">${v.nome}</option>`);
+            });
+        });
+    });
+
+    $("#cnpj").mask('00.000.000/0000-00');
+
+    var formBtn = document.getElementById('form-button')
+    formBtn.addEventListener('click',saveCompany)
+
+    function saveCompany() {
+        var photo = document.getElementById('foto').value
+        var cnpj = document.getElementById('cnpj').value
+        var name = document.getElementById('name').value
+        var checkboxes = document.querySelectorAll('.checkbox')
+        var aboutUs = document.getElementById('about-us').value     
+        var state = document.getElementById('state').value
+        var city = document.getElementById('city').value
+
+        var business_area = []
+        var url = 'cadastro/empresa'
+        if (window.sessionStorage['edit']){
+            url = `company/${'{{company.id}}'}/edit`
+        }
+
+        checkboxes.forEach(function(e){
+            if (e.checked) {
+                business_area.push(e.name)
+            }
+        })
+
+        const data = {
+            'photo': photo,
+            'cnpj': cnpj,
+            'name': name,
+            'aboutUs': aboutUs,
+            'state': state,
+            'city': city,
+            'business_area': business_area,
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: window.sessionStorage['edit'] ? `/company/${'{{company.id}}'}/edit` : '/cadastro/empresa',
+            dataType: 'json',
+            headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
+            data: JSON.stringify(data),
+            success: function (retorno) {
+                new PNotify({
+                    title:'Empresa salva',
+                    text: retorno.detail,
+                    type: 'success',
+                    delay:'5000'
+                });
+
+            },
+            error: function (error) {
+                if (error.statusText == 'timeout') {
+                new PNotify({
+                    title: 'Requisição Cancelada',
+                    text: 'Requisição ao serviço cancelada. Tente novamente em alguns minutos.',
+                    type: 'error',
+                    delay: '5000'
+                });
+                }
+
+                console.log(error);
+            }
+        });
+
+    }
 
 </script>
 </html>
