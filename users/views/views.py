@@ -1,11 +1,14 @@
 import json
 import re
 
+from ast import literal_eval
 from django.contrib import messages
 from django.contrib.auth import get_user_model, authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from rest_framework import status
+from rest_framework.response import Response
 
 from company.models import Company
 from users.choices import GENDER_CHOICES, DISABLED_CHOICES, STATES, ETHNICITY_CHOICES
@@ -136,25 +139,24 @@ def signup2(request):
 def signup_company(request):
     if request.method == 'POST':
 
-        post = request.POST
-        name = post.get('name')
-        cnpj = post.get('cnpj')
+        data = request.body
+
+        if isinstance(data, bytes):
+            data = literal_eval(data.decode('utf8'))
+        name = data.get('name')
+        cnpj = data.get('cnpj')
 
         company = Company.objects.filter(cnpj=cnpj).first()
         if company:
-            messages.add_message(
-                request,
-                messages.ERROR,
-                'Já existe uma empresa cadastrada com esse CNPJ!',
-                extra_tags='Empresa Cadastra'
+            return Response(
+                {'detail': 'Já existe uma empresa cadastrada com esse CNPJ!', 'status': status.HTTP_400_BAD_REQUEST}
             )
-            return render(request, 'company/company_register.html')
         
-        photo = request.FILES.get('foto')
-        business_areas = post.get('business_areas')
+        photo = request.FILES.get('photo')
+        business_areas = data.get('business_area')
         business_areas = json.dumps(business_areas)
-        state = post.get('state')
-        city = post.get('city')
+        state = data.get('state')
+        city = data.get('city')
 
         data_company = {
             'name': name,
@@ -165,9 +167,8 @@ def signup_company(request):
             'state': state,
         }
 
-        Company.objects.create(**data_company)
+        company = Company.objects.create(**data_company)
         
-        # TODO colocar o redirect quando a pagina de perfil de empresa estiver pronta
-        return redirect
+        return redirect('company_profile', id=company.id)
     
-    return render(request, 'company/company_register.html')
+    return render(request, 'company/company_register.html', {'states': STATES})
