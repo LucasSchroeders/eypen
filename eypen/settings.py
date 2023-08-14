@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     #apis
     'fontawesomefree',
     'rest_framework',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
