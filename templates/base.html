@@ -34,7 +34,7 @@
 
       <div class="profile-image">
         <a href="{% url 'profile' id=profile_user.id %}">
-          <img src="{{ profile.get_url_photo }}" class="img" alt="foto de perfil">
+          <img src="{{ profile_user.get_url_photo }}" class="img" alt="foto de perfil">
         </a>
       </div>
       <div class="profile-text">
@@ -51,7 +51,7 @@
       </li>
 
       <li class="menu-item">
-        <a href="#">
+        <a href="{% url 'busca_empresa' %}">
           <span class="icon"><i class="fa-regular fa-building"></i></span>
           <span class="txt-link">Procurar empresas</span>
         </a>
