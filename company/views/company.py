@@ -1,18 +1,22 @@
 import json
 
 from django.conf import settings
-from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
 from rest_framework import status
+from rest_framework.decorators import permission_classes
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.shortcuts import render, redirect
 
 from company.models import Company
 from users.choices import STATES
+from users.decorator import company_only, applicant_only
+from users.permission import AllowOnlyCompany
 
 
+@method_decorator(login_required, 'dispatch')
 class CompanyProfile(TemplateView):
     template_name = 'company/company_profile.html'
 
@@ -26,6 +30,7 @@ class CompanyProfile(TemplateView):
         return context
     
 
+@method_decorator(applicant_only, 'dispatch')
 class BuscaCompany(TemplateView):
     template_name = 'company/busca_company.html'
 
@@ -74,6 +79,7 @@ class BuscaCompany(TemplateView):
         return context
 
 
+@method_decorator(company_only, 'dispatch')
 class CompanyRegisterTemplateView(TemplateView):
     template_name = 'company/company_register.html'
 
@@ -90,8 +96,9 @@ class CompanyRegisterTemplateView(TemplateView):
         context['states'] = STATES
 
         return context
-    
 
+
+@permission_classes((AllowOnlyCompany,))
 class CompanyRegisterAPI(APIView):
     def post(self, request, id):
         data = request.data

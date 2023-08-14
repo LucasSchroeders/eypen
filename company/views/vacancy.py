@@ -1,8 +1,12 @@
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
 
 from users.choices import STATES
+from users.decorator import company_only
 
 
+@method_decorator(login_required, 'dispatch')
 class VacancyTemplateView(TemplateView):
     template_name = 'company/vaga_company.html'
 
@@ -16,6 +20,7 @@ class VacancyTemplateView(TemplateView):
         return context
 
 
+@method_decorator(company_only, 'dispatch')
 class VacancyRegisterTemplateView(TemplateView):
     template_name = 'company/vaga_register.html'
     
@@ -26,7 +31,8 @@ class VacancyRegisterTemplateView(TemplateView):
         context['states'] = STATES
 
         return context
-    
 
+
+@method_decorator(company_only, 'dispatch')
 class VacancySelectiveProcessTemplateView(TemplateView):
     template_name = 'company/vagas_approve'

@@ -1,15 +1,21 @@
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
 from rest_framework import status
+from rest_framework.decorators import permission_classes
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from users.choices import ETHNICITY_CHOICES, GENDER_CHOICES, DISABLED_CHOICES, STATES
+from users.decorator import applicant_only
 from users.models import Profile, Competence, Experience, AcademicFormation
+from users.permission import AllowOnlyApplicant
 from users.utils import string_to_date
 
 
+@method_decorator(applicant_only, 'dispatch')
 class PersonalProfileInformation(TemplateView):
     template_name='users/profile/personalProfile.html'
 
@@ -24,6 +30,7 @@ class PersonalProfileInformation(TemplateView):
         return context
 
 
+@permission_classes((AllowOnlyApplicant,))
 class PersonalProfileInformationAPI(APIView):
     def post(self, request):
         post = request.POST
@@ -47,6 +54,7 @@ class PersonalProfileInformationAPI(APIView):
         return
 
 
+@method_decorator(login_required, 'dispatch')
 class ProfileApplicant(TemplateView):
     template_name = 'users/profile/applicant_profile.html'
 
@@ -68,6 +76,7 @@ class ProfileApplicant(TemplateView):
         return context
 
 
+@method_decorator(login_required, 'dispatch')
 class BuscaPerfil(TemplateView):
     template_name = 'users/profile/busca_perfil.html'
 
@@ -140,6 +149,7 @@ class BuscaPerfil(TemplateView):
         return context
 
 
+@permission_classes((AllowOnlyApplicant,))
 class CompetenceAPI(APIView):
     def get(self, request, id):
         competence = Competence.objects.filter(profile__id=request.user.profile.id, id=id).first()
@@ -199,6 +209,7 @@ class CompetenceAPI(APIView):
             )
 
 
+@permission_classes((AllowOnlyApplicant,))
 class ExperienceAPI(APIView):
     def get(self, request, id):
         experience = Experience.objects.filter(profile__id=request.user.profile.id, id=id).first()
@@ -269,6 +280,7 @@ class ExperienceAPI(APIView):
             )
     
 
+@permission_classes((AllowOnlyApplicant,))
 class AcademicFormationAPI(APIView):
     def get(self, request, id):
         academic = AcademicFormation.objects.filter(profile__id=request.user.profile.id, id=id).first()
