@@ -55,3 +55,9 @@ class Company(models.Model):
         profile.company = self
         profile.save()
     
+    @property
+    def get_url_photo(self):
+        if self.photo and hasattr(self.photo, 'url'):
+            return self.photo.url
+        else:
+            return "/static/images/company.png"
