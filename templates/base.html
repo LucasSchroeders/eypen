@@ -34,11 +34,7 @@
 
       <div class="profile-image">
         <a href="{% url 'profile' id=profile_user.id %}">
-          {% if profile_user.photo %}
-          <img src="{{ profile_user.photo.url }}" class="img" alt="foto de perfil">
-          {% else %}
-          <i class="fa-solid fa-user icon"></i>
-          {% endif %}
+          <img src="{{ profile.get_url_photo }}" class="img" alt="foto de perfil">
         </a>
       </div>
       <div class="profile-text">

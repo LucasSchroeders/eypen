@@ -18,11 +18,7 @@
    <div class="div-content">
         <div class="photo">
             <div>
-                {% if profile.photo %}
-                <img src="{{ profile.photo.url }}" class="photo-img" alt="foto de perfil">
-                {% else %}
-                <i class="fa-solid fa-user icon"></i>
-                {% endif %}
+                <img src="{{ profile.get_url_photo }}" class="photo-img" alt="foto de perfil">
             </div>
         </div>
         <div class="infos">
@@ -105,7 +101,7 @@
     {% for academic in academic_educations %}
     <div class="div-several-content">
         <div class="div-several-row" id="div-academic-{{academic.id}}">
-            <img src="{{ profile.photo.url }}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
+            <img src="{{ profile.get_url_photo }}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
             <div class="several-row-text2">
                 <p>{{academic.educational_institution}}</p>
                 <p>{{academic.course}}</p>
@@ -137,7 +133,7 @@
     {% for experience in experiences %}
     <div class="div-several-content" id="div-experience-{{experience.id}}">
         <div class="div-several-row">
-            <img src="{{ profile.photo.url }}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
+            <img src="{{ profile.get_url_photo }}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
             <div class="several-row-text2">
                 <p>{{experience.position}}</p>
                 <p>{{experience.company}} • {{experience.job_modality}}</p>
@@ -383,7 +379,7 @@
                 text = `
                 <div class="div-several-content" id="div-experience-${experience.id}">
                     <div class="div-several-row">
-                        <img src="${"{{profile.photo.url}}"}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
+                        <img src="${"{{profile.get_url_photo}}"}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
                         <div class="several-row-text2">
                             <p>${experience.position}</p>
                             <p>${experience.company} • ${experience.job_modality}</p>
@@ -449,7 +445,7 @@
 
                 text = `
                 <div class="div-several-row" id="div-academic-${academic.id}">
-                    <img src="${"{{profile.photo.url}}"}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
+                    <img src="${"{{profile.get_url_photo}}"}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
                     <div class="several-row-text2">
                         <p>${academic.educational_institution}</p>
                         <p>${academic.course}</p>
@@ -833,7 +829,7 @@
 
                 text = `
                     <div class="div-several-row">
-                        <img src="${"{{profile.photo.url}}"}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
+                        <img src="${"{{profile.get_url_photo}}"}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
                         <div class="several-row-text2">
                             <p>${experience.position}</p>
                             <p>${experience.company} • ${experience.job_modality}</p>
@@ -899,7 +895,7 @@
                 var academicDiv = document.getElementById(`div-academic-${academic_id}`)
 
                 text = `
-                    <img src="${"{{profile.photo.url}}"}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
+                    <img src="${"{{profile.get_url_photo}}"}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
                     <div class="several-row-text2">
                         <p>${academic.educational_institution}</p>
                         <p>${academic.course}</p>

@@ -20,6 +20,8 @@ class CompanyProfile(TemplateView):
         context = super().get_context_data(**kwargs)
         company = Company.objects.filter(id=kwargs.get('id')).first()
         context['company'], context['profile_user'] = company
+        context['company'] = Company.objects.filter(id=kwargs.get('id')).first()
+        context['profile_user'] = self.request.user.profile
         #TODO precisa enviar as vagas relacionadas a empresa
 
         return context

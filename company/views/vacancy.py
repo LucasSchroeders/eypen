@@ -26,3 +26,7 @@ class VacancyRegisterTemplateView(TemplateView):
         context['states'] = STATES
 
         return context
+    
+
+class VacancySelectiveProcessTemplateView(TemplateView):
+    template_name = 'company/vagas_approve'
