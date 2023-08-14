@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,9 +18,6 @@
     <title>Informações da Empresa</title>
 </head>
 <body>
-    <div class="div-icon-accessibility">
-        <i class="fa-sharp fa-solid fa-universal-access"></i>
-    </div>
     <div class="body">
         <div class="form-div">
             <form>
@@ -61,14 +58,14 @@
                 <div class="div-row">
                     <div class="form-field">
                         <label for="setor">Setor de Atuação</label>
-                        <div class="form-input">
+                        <div class="divcheckbox">
                             <!-- TODO quando ficar choices para setor de atuação de empresa, fazer com que fique selecionado ao entrar no edit -->
                             <input class="checkbox" type="checkbox" name="ti" id="ti">
-                            <label for="ti">Tecnologia da Informação</label>
+                            <label class="label-checkbox" for="ti">Tecnologia da Informação</label>
                             <input class="checkbox" type="checkbox" name="rh" id="rh">
-                            <label for="rh">RH</label>
+                            <label class="label-checkbox" for="rh">RH</label>
                             <input class="checkbox" type="checkbox" name="adm" id="adm">
-                            <label for="adm">Administração</label>
+                            <label class="label-checkbox" for="adm">Administração</label>
                         </div>
                     </div>
                 </div>
@@ -76,7 +73,7 @@
                 <div class="div-row2">
                     <label for="about-us">Sobre a empresa</label>
                     <div class="form-input">
-                        <textarea name="about-us" id="about-us" class="textarea">{% if company %}{{company.about_us}}{% endif %}</textarea>
+                        <textarea name="about-us" id="about-us" class="form-control">{% if company %}{{company.about_us}}{% endif %}</textarea>
                     </div>
                 </div>
                 <div class="div-row">
@@ -108,6 +105,9 @@
                 </div>
             </form>
         </div>
+    </div>
+    <div class="div-icon-accessibility">
+        <i class="fa-sharp fa-solid fa-universal-access icon"></i>
     </div>
 </body>
 <script>
