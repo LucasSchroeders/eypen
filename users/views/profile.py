@@ -27,8 +27,8 @@ class PersonalProfileInformation(TemplateView):
 class PersonalProfileInformationAPI(APIView):
     def post(self, request):
         post = request.POST
-        full_name = post.get('full_name')
-        full_name = full_name.strip()
+        name = post.get('name')
+        name = name.strip()
         cpf = post.get('cpf')
         rg = post.get('rg')
         gender = post.get('gender')
@@ -76,8 +76,8 @@ class BuscaPerfil(TemplateView):
         request = self.request
         profile = request.user.profile
 
-        full_name = request.GET.get('full_name', request.session.get('full_name', None))
-        request.session["full_name"] = full_name
+        name = request.GET.get('name', request.session.get('name', None))
+        request.session["name"] = name
 
         gender = request.GET.get('gender', request.session.get('gender', None))
         request.session["gender"] = gender
@@ -93,8 +93,8 @@ class BuscaPerfil(TemplateView):
 
         data_query = {}
 
-        if full_name:
-            data_query['full_name__contains'] = full_name
+        if name:
+            data_query['name__contains'] = name
 
         if gender:
             data_query['gender'] = gender

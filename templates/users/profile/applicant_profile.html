@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}{{ profile.full_name }}{% endblock title %}
+{% block title %}{{ profile.name }}{% endblock title %}
 {% block css %}
 <link href="{% static 'css/utils/container_default.css' %}" rel="stylesheet" type="text/css">
 <link href="{% static 'css/users/applicant_profile.css' %}" rel="stylesheet" type="text/css">
@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="infos">
-            <h3>{{ profile.full_name }}</h1>
+            <h3>{{ profile.name }}</h1>
             <p>{{ profile.birthdate }}</p>
             <p>{{ profile.city }}, {{ profile.state }}</p>
             

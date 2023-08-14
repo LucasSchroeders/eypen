@@ -26,8 +26,8 @@ def signup(request):
         post = request.POST
         email = post.get('email')
         password = post.get('password')
-        full_name = post.get('name')
-        full_name = full_name.strip() if full_name else full_name
+        name = post.get('name')
+        name = name.strip() if name else name
         users = User.objects.filter(username=email).first()
 
         if users:
@@ -39,11 +39,11 @@ def signup(request):
         #TODO fazer validação de senhas
 
         user = User.objects.create_user(username=email, email=email, password=password)
-        full_name = ' '.join(
-            re.sub(r'[^\w ]+', '', full_name.replace('&#x27;', '')).split()
+        name = ' '.join(
+            re.sub(r'[^\w ]+', '', name.replace('&#x27;', '')).split()
         )
-        user.first_name = full_name.split()[0].capitalize()[:30]
-        user.last_name = ' '.join(full_name.split()[1:])
+        user.first_name = name.split()[0].capitalize()[:30]
+        user.last_name = ' '.join(name.split()[1:])
         user.save()
         
         user = authenticate(username=email, password=password)
@@ -109,7 +109,7 @@ def signup2(request):
 
         profile = user.profile
         
-        profile.full_name = ' '.join([user.first_name, user.last_name])
+        profile.name = ' '.join([user.first_name, user.last_name])
         profile.cpf = cpf
         profile.rg = rg
         profile.birthdate = birthdate

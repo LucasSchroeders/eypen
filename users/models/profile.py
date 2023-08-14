@@ -17,7 +17,7 @@ class Profile(models.Model):
         verbose_name="Usuário",
         on_delete=models.CASCADE,
     )
-    full_name = models.CharField(
+    name = models.CharField(
         max_length=80,
         db_index=True,
         blank=True,
@@ -63,7 +63,7 @@ class Profile(models.Model):
         verbose_name = "Perfil"
         verbose_name_plural = "Perfis"
         indexes = [
-            models.Index(fields=['full_name']),
+            models.Index(fields=['name']),
             models.Index(fields=['cpf', 'cpf_hashed']),
             models.Index(fields=['is_disabled']),
         ]
