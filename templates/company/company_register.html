@@ -35,19 +35,24 @@
                         <label class="picture" for="foto" tabindex="0">
                             <span class="picture__image">Escolha uma imagem</span>
                         </label>
-                        <input type="file" id="foto" class="file"/>
+                        <input type="file" id="foto" class="file"
+                        {% if company %} value="{{company.get_url_photo}}"{% endif %}/>
                     </div>
                     <div class="div-column">
                         <div class="form-field">
                             <label for="cnpj">CNPJ:</label>
                             <div class="form-imput">
-                                <input type="text" name="cnpj" id="cnpj" required class="input-line">
+                                <input type="text" name="cnpj" id="cnpj"
+                                {% if company %} value="{{company.cnpj}}"{% endif %}
+                                 required class="input-line">
                             </div>
                         </div>
                         <div class="form-field">
                             <label for="name">Nome:</label>
                             <div class="form-input">
-                                <input type="text" name="name" id="name" required class="input-line">
+                                <input type="text" name="name" id="name" 
+                                {% if company %} value="{{company.name}}"{% endif %}
+                                required class="input-line">
                             </div>
                         </div>
                     </div>
@@ -57,12 +62,13 @@
                     <div class="form-field">
                         <label for="setor">Setor de Atuação</label>
                         <div class="form-input">
-                           <input class="checkbox" type="checkbox" name="ti" id="ti">
-                           <label for="ti">Tecnologia da Informação</label>
-                           <input class="checkbox" type="checkbox" name="rh" id="rh">
-                           <label for="rh">RH</label>
-                           <input class="checkbox" type="checkbox" name="adm" id="adm">
-                           <label for="adm">Administração</label>
+                            <!-- TODO quando ficar choices para setor de atuação de empresa, fazer com que fique selecionado ao entrar no edit -->
+                            <input class="checkbox" type="checkbox" name="ti" id="ti">
+                            <label for="ti">Tecnologia da Informação</label>
+                            <input class="checkbox" type="checkbox" name="rh" id="rh">
+                            <label for="rh">RH</label>
+                            <input class="checkbox" type="checkbox" name="adm" id="adm">
+                            <label for="adm">Administração</label>
                         </div>
                     </div>
                 </div>
@@ -70,7 +76,7 @@
                 <div class="div-row2">
                     <label for="about-us">Sobre a empresa</label>
                     <div class="form-input">
-                        <textarea name="about-us" id="about-us" class="textarea"></textarea>
+                        <textarea name="about-us" id="about-us" class="textarea">{% if company %}{{company.about_us}}{% endif %}</textarea>
                     </div>
                 </div>
                 <div class="div-row">
@@ -80,7 +86,7 @@
                             <select name="state" id="state" class="form-control">
                                 <option value="" disabled selected>Selecione o estado</option>
                                 {% for state in states %}
-                                <option value="{{state.0}}">{{state.1}}</option>
+                                <option value="{{state.0}}" {%if company.state == state.0%} selected {%endif%}>{{state.1}}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -129,8 +135,12 @@
         }
     })
 
+    document.body.onload = getCities
+
     var state = document.querySelector("#state");
-    state.addEventListener("change", function(e){
+    state.addEventListener("change", getCities);
+
+    function getCities() {
         let url = `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${state.value}/municipios`
         $("#city").empty();
         $("#city").append(`<option value="" disabled selected>Selecione a cidade</option>`);
@@ -138,16 +148,22 @@
         let conteudo = "<optiongroup>";
         $.getJSON(url, function(data){
             $.each(data, function(k, v){
-                $("#city").append( `<option value="${v.nome}">${v.nome}</option>`);
+                if ('{{company.city}}' == v.nome){
+                    $("#city").append(`<option value="${v.nome}" selected>${v.nome}</option>`);
+                }else{
+                    $("#city").append( `<option value="${v.nome}">${v.nome}</option>`);
+                }
             });
         });
-    });
+    }
 
     $("#cnpj").mask('00.000.000/0000-00');
 
     var formBtn = document.getElementById('form-button')
     formBtn.addEventListener('click',saveCompany)
 
+    var edit = '{{request.session.edit}}'
+    
     function saveCompany() {
         var photo = document.getElementById('foto').value
         var cnpj = document.getElementById('cnpj').value
@@ -158,10 +174,6 @@
         var city = document.getElementById('city').value
 
         var business_area = []
-        var url = 'cadastro/empresa'
-        if (window.sessionStorage['edit']){
-            url = `company/${'{{company.id}}'}/edit`
-        }
 
         checkboxes.forEach(function(e){
             if (e.checked) {
@@ -169,19 +181,24 @@
             }
         })
 
+        cnpj = cnpj.replace('.', '')
+        cnpj = cnpj.replace('.', '')
+        cnpj = cnpj.replace('/', '')
+        cnpj = cnpj.replace('-', '')
+
         const data = {
             'photo': photo,
             'cnpj': cnpj,
             'name': name,
-            'aboutUs': aboutUs,
+            'about_us': aboutUs,
             'state': state,
             'city': city,
-            'business_area': business_area,
+            'business_areas': business_area,
         }
 
         $.ajax({
             type: 'POST',
-            url: window.sessionStorage['edit'] ? `/company/${'{{company.id}}'}/edit` : '/cadastro/empresa',
+            url: edit == 'true' ? `/api/company/${'{{company.id}}'}/edit` : '/cadastro/empresa',
             dataType: 'json',
             headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
             data: JSON.stringify(data),
