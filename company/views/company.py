@@ -1,13 +1,16 @@
 import json
 
 from django.conf import settings
+from django.contrib import messages
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.views.generic import TemplateView
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.shortcuts import render, redirect
 
 from company.models import Company
+from users.choices import STATES
 
 
 class CompanyProfile(TemplateView):
@@ -15,7 +18,8 @@ class CompanyProfile(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['company'] = Company.objects.filter(id=kwargs.get('id')).first()
+        company = Company.objects.filter(id=kwargs.get('id')).first()
+        context['company'], context['profile_user'] = company
         #TODO precisa enviar as vagas relacionadas a empresa
 
         return context
@@ -78,22 +82,26 @@ class CompanyRegisterTemplateView(TemplateView):
         jsonDec = json.decoder.JSONDecoder()
         business_areas = jsonDec.decode(company.business_areas)
 
+        self.request.session['edit'] = 'true'
+
         context['company'] = company
         context['business_areas'] = business_areas
+        context['states'] = STATES
+
         return context
     
 
 class CompanyRegisterAPI(APIView):
     def post(self, request, id):
-        post = request.POST
-        name = post.get('name')
-        cnpj = post.get('cnpj')
+        data = request.data
+        name = data.get('name')
+        cnpj = data.get('cnpj')
         photo = request.FILES.get('foto')
-        about_us = post.get('about_us')
-        business_areas = post.get('business_areas')
+        about_us = data.get('about_us')
+        business_areas = data.get('business_areas')
         business_areas = json.dumps(business_areas)
-        state = post.get('state')
-        city = post.get('city')
+        state = data.get('state')
+        city = data.get('city')
 
         company = Company.objects.filter(id=id).first()
 
@@ -104,6 +112,8 @@ class CompanyRegisterAPI(APIView):
         company.business_areas = business_areas
         company.state = state
         company.city = city
+
+        company.save()
         
         return Response(
             {
