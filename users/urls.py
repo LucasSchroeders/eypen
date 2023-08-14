@@ -11,7 +11,7 @@ urlpatterns = [
     path('api/profile/<int:id>/competence', views.CompetenceAPI.as_view(), name='save_competence'),
     path('api/profile/<int:id>/experience', views.ExperienceAPI.as_view(), name='save_experience'),
     path('api/profile/<int:id>/academic-formation', views.AcademicFormationAPI.as_view(), name='save_academic_formation'),
-    path('profile/busca-empresa', views_company.CompanyProfile.as_view(), name='busca_empresa')
+    path('profile/busca-empresa', views_company.BuscaCompany.as_view(), name='busca_empresa')
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
