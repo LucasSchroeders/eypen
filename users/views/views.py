@@ -78,7 +78,7 @@ def login_view(request):
             if user.profile.is_company:
                 # TODO return para a pagina de entrada da empresa
                 company = user.profile.company
-                return redirect('company_profile', id = company.id)
+                return redirect('company_profile', id=company.id)
             
             return redirect('profile', id=user.profile.id)
         
@@ -137,6 +137,8 @@ def signup2(request):
 
 
 def signup_company(request):
+    request.session['edit'] = 'false'
+
     if request.method == 'POST':
 
         data = request.body
@@ -168,6 +170,13 @@ def signup_company(request):
         }
 
         company = Company.objects.create(**data_company)
+
+        messages.add_message(
+            request,
+            messages.SUCCESS,
+            'Empresa criada com sucesso!',
+            extra_tags='Empresa criada',
+        )
         
         return redirect('company_profile', id=company.id)
     
