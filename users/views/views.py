@@ -78,7 +78,7 @@ def login_view(request):
             if user.profile.is_company:
                 # TODO return para a pagina de entrada da empresa
                 company = user.profile.company
-                return redirect()
+                return redirect('company_profile', id = company.id)
             
             return redirect('profile', id=user.profile.id)
         
