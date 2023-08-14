@@ -1,0 +1,33 @@
+.div-field{
+    height: 30%;
+    width: 70%;
+    background-color: #fff;
+    border-radius: 10px;
+    margin: 2rem;
+}
+
+.div-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 30% 0 5%;
+    margin: 15px 0;
+}
+
+.div-button{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 4%;
+}
+
+.form-button{
+    font-size: 1.4rem;
+    color: #fff;
+    width: 6rem;
+    background-color: #208BE8;
+    border-radius: 15px;
+    border: none;
+    float: right;
+    margin: 1rem;
+}

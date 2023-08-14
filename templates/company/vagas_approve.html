@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{%load static%}
+{%block css%}
+<link rel="stylesheet" href="{% static 'css/utils/container_default.css' %}" />
+<link rel="stylesheet" href="{% static 'css/company/vagas_approve.css' %}" />
+{%endblock css%}
+{%block body%}
+<div class="div-field">
+    <div class="div-row">
+        <p>Etapa 1</p>
+        <p>Formulario de conhecimento</p>
+    </div>
+    <div>
+        <p>Descrição:</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam et aliquid aliquam atque natus autem nihil a? Voluptatum, facilis consequuntur quidem hic non aliquam, ducimus quo quia, laudantium adipisci quod. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Maxime nam harum, velit alias incidunt molestiae facilis facere quaerat error libero cum at, iure, animi inventore aliquam eaque enim? Aliquid, laborum.</p>
+    </div>
+</div>
+
+<div class="div-field">
+    <p>Candidatos na etapa:</p>
+
+    <div class="div-container">
+        <div class="photo">
+          <img src="{{ profile.get_url_photo }}" class="photo-img" alt="foto de perfil">
+        </div>
+        <div class="div-dados">
+          <p class="p-dados p-negrito">{{profile.full_name}}</p>
+          <p class="p-dados">{{experience.position}}</p>
+          <p class="p-dados">{{profile.city}}, {{profile.state}}</p>
+        </div>
+        <div>
+            <input type="checkbox" id="approved" name="approved">
+        </div>
+    </div>
+</div>
+
+<div class="div-button">
+    <input type="submit" class="form-button" value="Aprovar" />
+</div>
+
+<div class="div-field">
+    <p>Candidatos Aprovados:</p>
+
+    <div class="div-container">
+        <div class="photo">
+          <img src="{{ profile.get_url_photo }}" class="photo-img" alt="foto de perfil">
+        </div>
+        <div class="div-dados">
+          <p class="p-dados p-negrito">{{profile.full_name}}</p>
+          <p class="p-dados">{{experience.position}}</p>
+          <p class="p-dados">{{profile.city}}, {{profile.state}}</p>
+        </div>
+        <div>
+            <input type="submit" id="approved" value="Retirar">
+        </div>
+    </div>
+</div>
+
+<div class="div-button">
+    <input type="submit" class="form-button" value="Finalizar Etapa" />
+</div>
+
+
+{%endblock body%}
