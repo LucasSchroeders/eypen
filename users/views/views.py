@@ -94,8 +94,8 @@ def signup2(request):
         post = request.POST
         user = request.user
 
-        cpf = post.get('cpf')
-        rg = post.get('rg')
+        cpf = post.get('cpf').replace('.', '').replace('.', '').replace('-', '')
+        rg = post.get('rg').replace('.', '').replace('.', '').replace('-', '')
         birthdate = post.get('birthdate')
         gender = post.get('gender')
         ethnicity = post.get('ethnicity')

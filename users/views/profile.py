@@ -37,8 +37,8 @@ from users.utils import string_to_date
 def personalProfileInformation(request, id):
     if request.method == 'POST':
         post = request.POST
-        cpf = post.get('cpf')
-        rg = post.get('rg')
+        cpf = post.get('cpf').replace('.', '').replace('.', '').replace('-', '')
+        rg = post.get('rg').replace('.', '').replace('.', '').replace('-', '')
         gender = post.get('gender')
         ethnicity = post.get('ethnicity')
         birthdate = post.get('birthdate')
