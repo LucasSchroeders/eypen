@@ -144,28 +144,33 @@ def signup2(request):
 
 
 def signup_company(request):
-    request.session['edit'] = 'false'
-
     if request.method == 'POST':
 
-        data = request.body
+        post = request.POST
 
-        if isinstance(data, bytes):
-            data = literal_eval(data.decode('utf8'))
-        name = data.get('name')
-        cnpj = data.get('cnpj')
+        name = post.get('name')
+        cnpj = post.get('cnpj').replace('.', '').replace('.', '').replace('/', '').replace('-', '')
 
         company = Company.objects.filter(cnpj=cnpj).first()
         if company:
-            return Response(
-                {'detail': 'Já existe uma empresa cadastrada com esse CNPJ!', 'status': status.HTTP_400_BAD_REQUEST}
-            )
+            messages.add_message(
+            request,
+            messages.ERROR,
+            'Já existe uma empresa cadastrada com esse CNPJ!',
+            extra_tags='Criação de Empresa',
+        )
+            return render(request, 'company/company_register.html', {'states': STATES})
         
-        photo = request.FILES.get('photo')
-        business_areas = data.get('business_area')
+        photo = request.FILES.get('foto')
+        #TODO descomentar quando colocar as choices
+        # areas_list = []
+        # for k, v in BUSINESS_AREAS_CHOICES:
+        #     if post.get(k):
+        #         areas_list.append(k)
+        # business_areas = json.dumps(areas_list)
         business_areas = json.dumps(business_areas)
-        state = data.get('state')
-        city = data.get('city')
+        state = post.get('state')
+        city = post.get('city')
 
         data_company = {
             'name': name,

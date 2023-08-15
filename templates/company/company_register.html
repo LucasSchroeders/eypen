@@ -20,20 +20,25 @@
 <body>
     <div class="body">
         <div class="form-div">
-            <form>
+            <form method="post"
+            {% if company %} action="{% url 'company_edit' id=company.id %}" {% else %} action="{% url 'signup_company' %}" {% endif %}
+            enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="div-row">
                     <div class="div-column">
                         <div class="photo">
                             <div class="photo__div">
+                                {% if company %}
+                                <img src="{{ company.get_url_photo }}" class="photo-img" alt="foto de perfil">
+                                {% else %}
                                 <i class="fa-solid fa-building icon"></i>
+                                {% endif %}
                             </div>
                         </div>
                         <label class="picture" for="foto" tabindex="0">
                             <span class="picture__image">Escolha uma imagem</span>
                         </label>
-                        <input type="file" id="foto" class="file"
-                        {% if company %} value="{{company.get_url_photo}}"{% endif %}/>
+                        <input type="file" name="foto" id="foto" class="file"/>
                     </div>
                     <div class="div-column">
                         <div class="form-field">
@@ -100,7 +105,7 @@
                 </div>
         
                 <div class="div-button">
-                    <button type="button" id="form-button" class="button">Salvar</button>
+                    <button type="submit" id="form-button" class="button">Salvar</button>
                     <button type="button" class="button">Cancelar</button>
                 </div>
             </form>
@@ -159,73 +164,85 @@
 
     $("#cnpj").mask('00.000.000/0000-00');
 
-    var formBtn = document.getElementById('form-button')
-    formBtn.addEventListener('click',saveCompany)
+    // var formBtn = document.getElementById('form-button')
+    // formBtn.addEventListener('click',saveCompany)
 
-    var edit = '{{request.session.edit}}'
+    // var edit = '{{request.session.edit}}'
     
-    function saveCompany() {
-        var photo = document.getElementById('foto').value
-        var cnpj = document.getElementById('cnpj').value
-        var name = document.getElementById('name').value
-        var checkboxes = document.querySelectorAll('.checkbox')
-        var aboutUs = document.getElementById('about-us').value     
-        var state = document.getElementById('state').value
-        var city = document.getElementById('city').value
+    // function saveCompany() {
+    //     var photo = document.getElementById('foto').value
+    //     var cnpj = document.getElementById('cnpj').value
+    //     var name = document.getElementById('name').value
+    //     var checkboxes = document.querySelectorAll('.checkbox')
+    //     var aboutUs = document.getElementById('about-us').value     
+    //     var state = document.getElementById('state').value
+    //     var city = document.getElementById('city').value
 
-        var business_area = []
+    //     var business_area = []
 
-        checkboxes.forEach(function(e){
-            if (e.checked) {
-                business_area.push(e.name)
-            }
-        })
+    //     checkboxes.forEach(function(e){
+    //         if (e.checked) {
+    //             business_area.push(e.name)
+    //         }
+    //     })
 
-        cnpj = cnpj.replace('.', '')
-        cnpj = cnpj.replace('.', '')
-        cnpj = cnpj.replace('/', '')
-        cnpj = cnpj.replace('-', '')
+    //     cnpj = cnpj.replace('.', '')
+    //     cnpj = cnpj.replace('.', '')
+    //     cnpj = cnpj.replace('/', '')
+    //     cnpj = cnpj.replace('-', '')
 
-        const data = {
-            'photo': photo,
-            'cnpj': cnpj,
-            'name': name,
-            'about_us': aboutUs,
-            'state': state,
-            'city': city,
-            'business_areas': business_area,
-        }
+    //     const data = {
+    //         'photo': photo,
+    //         'cnpj': cnpj,
+    //         'name': name,
+    //         'about_us': aboutUs,
+    //         'state': state,
+    //         'city': city,
+    //         'business_areas': business_area,
+    //     }
 
-        $.ajax({
-            type: 'POST',
-            url: edit == 'true' ? `/api/company/${'{{company.id}}'}/edit` : '/cadastro/empresa',
-            dataType: 'json',
-            headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
-            data: JSON.stringify(data),
-            success: function (retorno) {
-                new PNotify({
-                    title:'Empresa salva',
-                    text: retorno.detail,
-                    type: 'success',
-                    delay:'5000'
-                });
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: edit == 'true' ? `/api/company/${'{{company.id}}'}/edit` : '/cadastro/empresa',
+    //         dataType: 'json',
+    //         headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
+    //         data: JSON.stringify(data),
+    //         success: function (retorno) {
+    //             new PNotify({
+    //                 title:'Empresa salva',
+    //                 text: retorno.detail,
+    //                 type: 'success',
+    //                 delay:'5000'
+    //             });
 
-            },
-            error: function (error) {
-                if (error.statusText == 'timeout') {
-                new PNotify({
-                    title: 'Requisição Cancelada',
-                    text: 'Requisição ao serviço cancelada. Tente novamente em alguns minutos.',
-                    type: 'error',
-                    delay: '5000'
-                });
-                }
+    //         },
+    //         error: function (error) {
+    //             if (error.statusText == 'timeout') {
+    //             new PNotify({
+    //                 title: 'Requisição Cancelada',
+    //                 text: 'Requisição ao serviço cancelada. Tente novamente em alguns minutos.',
+    //                 type: 'error',
+    //                 delay: '5000'
+    //             });
+    //             }
 
-                console.log(error);
-            }
-        });
+    //             console.log(error);
+    //         }
+    //     });
 
-    }
+    // }
 
 </script>
+
+{% for message in messages %}
+  <script type="text/javascript">
+    $(document).ready(function () {
+      new PNotify({
+        title: '{{ message.extra_tags }}',
+        text: '{{ message.message }}',
+        type: '{{ message.level_tag }}',
+      });
+    });
+  </script>
+{% endfor %}
 </html>

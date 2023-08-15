@@ -1,8 +1,10 @@
 import json
 
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
 from rest_framework import status
@@ -79,53 +81,105 @@ class BuscaCompany(TemplateView):
         return context
 
 
-@method_decorator(company_only, 'dispatch')
-class CompanyRegisterTemplateView(TemplateView):
-    template_name = 'company/company_register.html'
+# @method_decorator(company_only, 'dispatch')
+# class CompanyRegisterTemplateView(TemplateView):
+#     template_name = 'company/company_register.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        company = Company.objects.filter(id=kwargs.get('id')).first()
-        jsonDec = json.decoder.JSONDecoder()
-        business_areas = jsonDec.decode(company.business_areas)
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         company = Company.objects.filter(id=kwargs.get('id')).first()
+#         jsonDec = json.decoder.JSONDecoder()
+#         business_areas = jsonDec.decode(company.business_areas)
 
-        self.request.session['edit'] = 'true'
+#         self.request.session['edit'] = 'true'
 
-        context['company'] = company
-        context['business_areas'] = business_areas
-        context['states'] = STATES
+#         context['company'] = company
+#         context['business_areas'] = business_areas
+#         context['states'] = STATES
 
-        return context
+#         return context
 
-
-@permission_classes((AllowOnlyCompany,))
-class CompanyRegisterAPI(APIView):
-    def post(self, request, id):
-        data = request.data
-        name = data.get('name')
-        cnpj = data.get('cnpj')
+@company_only
+def companyRegister(request, id):
+    if request.method == 'POST':
+        post = request.POST
+        name = post.get('name')
+        cnpj = post.get('cnpj').replace('.', '').replace('.', '').replace('/', '').replace('-', '')
         photo = request.FILES.get('foto')
-        about_us = data.get('about_us')
-        business_areas = data.get('business_areas')
+        about_us = post.get('about-us')
+        #TODO descomentar quando colocar as choices
+        # areas_list = []
+        # for k, v in BUSINESS_AREAS_CHOICES:
+        #     if post.get(k):
+        #         areas_list.append(k)
+        # business_areas = json.dumps(areas_list)
         business_areas = json.dumps(business_areas)
-        state = data.get('state')
-        city = data.get('city')
+        state = post.get('state')
+        city = post.get('city')
 
         company = Company.objects.filter(id=id).first()
 
         company.name = name
         company.cnpj = cnpj
-        company.photo = photo
+        if photo:
+            company.photo = photo
         company.about_us = about_us
         company.business_areas = business_areas
         company.state = state
         company.city = city
 
         company.save()
-        
-        return Response(
-            {
-                "detail": "Empresa atualizada com sucesso!",
-                "status": status.HTTP_200_OK,
-            }
+    
+        messages.add_message(
+            request,
+            messages.SUCCESS,
+            'Empresa atualizada com sucesso!',
+            extra_tags='Perfil salvo',
         )
+
+        return redirect('company_profile', id=company.id)
+
+    company = request.user.profile.company
+
+    jsonDec = json.decoder.JSONDecoder()
+    business_areas = jsonDec.decode(company.business_areas)
+
+    context = {
+        'company': company,
+        'business_areas': business_areas,
+        'states': STATES
+    }
+
+    return render(request, 'company/company_register.html', context)
+
+# @permission_classes((AllowOnlyCompany,))
+# class CompanyRegisterAPI(APIView):
+#     def post(self, request, id):
+#         data = request.data
+#         name = data.get('name')
+#         cnpj = data.get('cnpj')
+#         photo = request.FILES.get('foto')
+#         about_us = data.get('about_us')
+#         business_areas = data.get('business_areas')
+#         business_areas = json.dumps(business_areas)
+#         state = data.get('state')
+#         city = data.get('city')
+
+#         company = Company.objects.filter(id=id).first()
+
+#         company.name = name
+#         company.cnpj = cnpj
+#         company.photo = photo
+#         company.about_us = about_us
+#         company.business_areas = business_areas
+#         company.state = state
+#         company.city = city
+
+#         company.save()
+        
+#         return Response(
+#             {
+#                 "detail": "Empresa atualizada com sucesso!",
+#                 "status": status.HTTP_200_OK,
+#             }
+#         )
