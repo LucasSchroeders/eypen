@@ -124,6 +124,13 @@ def signup2(request):
 
         profile.save()
         
+        messages.add_message(
+            request,
+            messages.SUCCESS,
+            'Perfil criado com sucesso!',
+            extra_tags='Perfil criado',
+        )
+
         return redirect('profile', id=profile.id)
     
     context = {
