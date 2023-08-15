@@ -6,8 +6,8 @@ from .views import (
     signup_company,
 )
 from .profile import (
-    PersonalProfileInformation,
-    PersonalProfileInformationAPI,
+    # PersonalProfileInformation,
+    personalProfileInformation,
     ProfileApplicant,
     BuscaPerfil,
     CompetenceAPI,

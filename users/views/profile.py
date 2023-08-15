@@ -1,6 +1,8 @@
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
 from rest_framework import status
@@ -15,27 +17,26 @@ from users.permission import AllowOnlyApplicant
 from users.utils import string_to_date
 
 
-@method_decorator(applicant_only, 'dispatch')
-class PersonalProfileInformation(TemplateView):
-    template_name='users/profile/personalProfile.html'
+# @method_decorator(applicant_only, 'dispatch')
+# class PersonalProfileInformation(TemplateView):
+#     template_name='users/profile/personalProfile.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        user = self.request.user
-        is_authenticated = self.request.user.is_authenticated
-        context['profile'] = user.profile if is_authenticated else None
-        context['genders'] = GENDER_CHOICES
-        context['disables'] = DISABLED_CHOICES
-        context['states'] = STATES
-        return context
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         user = self.request.user
+#         self.request.session['edit'] = 'true'
+#         context['profile'] = user.profile
+#         context['genders'] = GENDER_CHOICES
+#         context['disables'] = DISABLED_CHOICES
+#         context['states'] = STATES
+#         context['ethnicities'] = ETHNICITY_CHOICES
+#         return context
 
 
-@permission_classes((AllowOnlyApplicant,))
-class PersonalProfileInformationAPI(APIView):
-    def post(self, request):
+@applicant_only
+def personalProfileInformation(request, id):
+    if request.method == 'POST':
         post = request.POST
-        name = post.get('name')
-        name = name.strip()
         cpf = post.get('cpf')
         rg = post.get('rg')
         gender = post.get('gender')
@@ -43,15 +44,56 @@ class PersonalProfileInformationAPI(APIView):
         birthdate = post.get('birthdate')
         try:
             birthdate = string_to_date(birthdate) if birthdate else None
-        except Exception:
-            # TODO fazer retorno com mensagem
-            return
+        except Exception as e:
+            messages.add_message(
+                request,
+                messages.ERROR,
+                f'ERRO! {str(e)}',
+                extra_tags='Alteração de perfil',
+            )
+            return redirect('profile_edit', id=id)
+        
         # TODO fazer com que vire 8bits
-        photo = post.get('photo')
+        photo = request.FILES.get('foto')
         state = post.get('state')
         city = post.get('city')
-        
-        return
+        is_disabled = post.get('is_disabled')
+        disabled = post.get('disabled')
+
+        profile = Profile.objects.filter(id=id).first()
+
+        profile.cpf = cpf
+        profile.rg = rg
+        profile.gender = gender
+        profile.ethnicity = ethnicity
+        profile.birthdate = birthdate
+        if photo:
+            profile.photo = photo
+        profile.state = state
+        profile.city = city
+        profile.is_disabled = is_disabled
+        profile.disabled = disabled
+
+        profile.save()
+
+        messages.add_message(
+            request,
+            messages.SUCCESS,
+            'Perfil salvo com sucesso!',
+            extra_tags='Perfil salvo',
+        )
+    
+        return redirect('profile', id=profile.id)
+    
+    context = {
+        'profile': request.user.profile,
+        'genders': GENDER_CHOICES,
+        'disables': DISABLED_CHOICES,
+        'states': STATES,
+        'ethnicities': ETHNICITY_CHOICES,
+    }
+    
+    return render(request, 'users/profile/personalProfile.html', context)
 
 
 @method_decorator(login_required, 'dispatch')
