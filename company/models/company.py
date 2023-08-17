@@ -26,7 +26,8 @@ class Company(models.Model):
         null=True,
         verbose_name="Empresa",
     )
-    business_areas = models.TextField(
+    business_area = models.CharField(
+        max_length=80,
         blank=True,
         null=True,
         verbose_name="Areas de atuação",
