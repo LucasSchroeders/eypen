@@ -77,6 +77,7 @@ class BuscaCompany(TemplateView):
         context['profile_user'] = profile
         context['company_list'] = company_pag
         context['page_range'] = page_range
+        context['business_areas'] = BUSINESS_AREAS_CHOICES
 
         return context
 

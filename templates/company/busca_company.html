@@ -14,17 +14,20 @@
             <div class="form-field">
                 <label for="company">Empresa:</label>
                 <div class="form-input">
-                    <input type="text" name="company" placeholder="Empresa" class="form-control">
+                    <input type="text" name="company" placeholder="Empresa" class="form-control" value="{{request.session.company|default_if_none:''}}">
                 </div>
             </div>
 
             <div class="form-field">
-                <label for="business_area">Setor</label>
-                <select name="business_area" id="business_area" class="form-control">
-                    <option value="TI">TI</option>
-                    <option value="RH">RH</option>
-                    <option value="financa">Finanças</option>
-                </select>
+              <label for="business_area">Setor de Atuação</label>
+              <div class="form-input">
+                  <select class="form-control" name="business_area" id="business_area" required>
+                      <option value="" disabled selected>Selecione um setor de atuação</option>
+                      {% for area in business_areas %}
+                      <option value="{{area.0}}" {%if request.session.business_area == area.0%} selected {%endif%}>{{area.1}}</option>
+                      {% endfor %}
+                  </select>
+              </div>
             </div>
         </div>
         <input type="submit" class="form-button" value="Filtrar" />
