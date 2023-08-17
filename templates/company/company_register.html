@@ -62,15 +62,14 @@
         
                 <div class="div-row">
                     <div class="form-field">
-                        <label for="setor">Setor de Atuação</label>
-                        <div class="divcheckbox">
-                            <!-- TODO quando ficar choices para setor de atuação de empresa, fazer com que fique selecionado ao entrar no edit -->
-                            <input class="checkbox" type="checkbox" name="ti" id="ti">
-                            <label class="label-checkbox" for="ti">Tecnologia da Informação</label>
-                            <input class="checkbox" type="checkbox" name="rh" id="rh">
-                            <label class="label-checkbox" for="rh">RH</label>
-                            <input class="checkbox" type="checkbox" name="adm" id="adm">
-                            <label class="label-checkbox" for="adm">Administração</label>
+                        <label for="business_area">Setor de Atuação</label>
+                        <div class="form-input">
+                            <select class="form-control" name="business_area" id="business_area" required>
+                                <option value="" disabled selected>Selecione um setor de atuação</option>
+                                {% for area in business_areas %}
+                                <option value="{{area.0}}" {%if company.business_area == area.0%} selected {%endif%}>{{area.1}}</option>
+                                {% endfor %}
+                            </select>
                         </div>
                     </div>
                 </div>

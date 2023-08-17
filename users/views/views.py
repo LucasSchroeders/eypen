@@ -11,7 +11,7 @@ from rest_framework import status
 from rest_framework.response import Response
 
 from company.models import Company
-from users.choices import GENDER_CHOICES, DISABLED_CHOICES, STATES, ETHNICITY_CHOICES
+from users.choices import GENDER_CHOICES, DISABLED_CHOICES, STATES, ETHNICITY_CHOICES, BUSINESS_AREAS_CHOICES
 from users.utils import string_to_date
 
 User = get_user_model()
@@ -162,13 +162,7 @@ def signup_company(request):
             return render(request, 'company/company_register.html', {'states': STATES})
         
         photo = request.FILES.get('foto')
-        #TODO descomentar quando colocar as choices
-        # areas_list = []
-        # for k, v in BUSINESS_AREAS_CHOICES:
-        #     if post.get(k):
-        #         areas_list.append(k)
-        # business_areas = json.dumps(areas_list)
-        business_areas = json.dumps(business_areas)
+        business_area = post.get('business_area')
         state = post.get('state')
         city = post.get('city')
 
@@ -176,7 +170,7 @@ def signup_company(request):
             'name': name,
             'cnpj': cnpj,
             'photo': photo,
-            'business_areas': business_areas,
+            'business_area': business_area,
             'city': city,
             'state': state,
         }
@@ -192,4 +186,4 @@ def signup_company(request):
         
         return redirect('company_profile', id=company.id)
     
-    return render(request, 'company/company_register.html', {'states': STATES})
+    return render(request, 'company/company_register.html', {'states': STATES, 'business_areas': BUSINESS_AREAS_CHOICES})

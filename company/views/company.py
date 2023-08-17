@@ -13,7 +13,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from company.models import Company
-from users.choices import STATES
+from users.choices import STATES, BUSINESS_AREAS_CHOICES
 from users.decorator import company_only, applicant_only
 from users.permission import AllowOnlyCompany
 
@@ -107,13 +107,7 @@ def companyRegister(request, id):
         cnpj = post.get('cnpj').replace('.', '').replace('.', '').replace('/', '').replace('-', '')
         photo = request.FILES.get('foto')
         about_us = post.get('about-us')
-        #TODO descomentar quando colocar as choices
-        # areas_list = []
-        # for k, v in BUSINESS_AREAS_CHOICES:
-        #     if post.get(k):
-        #         areas_list.append(k)
-        # business_areas = json.dumps(areas_list)
-        business_areas = json.dumps(business_areas)
+        business_area = post.get('business_area')
         state = post.get('state')
         city = post.get('city')
 
@@ -124,7 +118,7 @@ def companyRegister(request, id):
         if photo:
             company.photo = photo
         company.about_us = about_us
-        company.business_areas = business_areas
+        company.business_area = business_area
         company.state = state
         company.city = city
 
@@ -141,12 +135,9 @@ def companyRegister(request, id):
 
     company = request.user.profile.company
 
-    jsonDec = json.decoder.JSONDecoder()
-    business_areas = jsonDec.decode(company.business_areas)
-
     context = {
         'company': company,
-        'business_areas': business_areas,
+        'business_areas': BUSINESS_AREAS_CHOICES,
         'states': STATES
     }
 
