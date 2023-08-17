@@ -10,7 +10,7 @@ from rest_framework.decorators import permission_classes
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from users.choices import ETHNICITY_CHOICES, GENDER_CHOICES, DISABLED_CHOICES, STATES
+from users.choices import ETHNICITY_CHOICES, GENDER_CHOICES, DISABLED_CHOICES, STATES, JOB_MODALITY, JOB_TYPE
 from users.decorator import applicant_only
 from users.models import Profile, Competence, Experience, AcademicFormation
 from users.permission import AllowOnlyApplicant
@@ -114,6 +114,8 @@ class ProfileApplicant(TemplateView):
         context['experiences'] = profile.experience.all()
         context['profile'] = profile
         context['is_same_profile'] = is_same_person
+        context['job_type'] = JOB_TYPE
+        context['job_modality'] = JOB_MODALITY
 
         return context
 
