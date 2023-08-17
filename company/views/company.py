@@ -20,7 +20,7 @@ from users.permission import AllowOnlyCompany
 
 @method_decorator(login_required, 'dispatch')
 class CompanyProfile(TemplateView):
-    template_name = 'company/company_profile.html'
+    template_name = 'company/comapny/company_profile.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -34,7 +34,7 @@ class CompanyProfile(TemplateView):
 
 @method_decorator(applicant_only, 'dispatch')
 class BuscaCompany(TemplateView):
-    template_name = 'company/busca_company.html'
+    template_name = 'company/company/busca_company.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -142,7 +142,7 @@ def companyRegister(request, id):
         'states': STATES
     }
 
-    return render(request, 'company/company_register.html', context)
+    return render(request, 'company/company/company_register.html', context)
 
 # @permission_classes((AllowOnlyCompany,))
 # class CompanyRegisterAPI(APIView):
