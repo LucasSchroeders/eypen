@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
-from users.choices import STATES
+from users.choices import STATES, BUSINESS_AREAS_CHOICES
 
 User = get_user_model()
 
@@ -31,6 +31,7 @@ class Company(models.Model):
         blank=True,
         null=True,
         verbose_name="Areas de atuação",
+        choices=BUSINESS_AREAS_CHOICES,
     )
     state = models.CharField(max_length=200, verbose_name="Estado", choices=STATES)
     city = models.CharField(max_length=200, verbose_name="Cidade")
