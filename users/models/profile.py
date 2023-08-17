@@ -52,7 +52,7 @@ class Profile(models.Model):
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Atualizado em")
     company = models.ForeignKey(
         'company.Company',
-        related_name='company_profile',
+        related_name='profile',
         blank=True,
         null=True,
         on_delete=models.CASCADE,
