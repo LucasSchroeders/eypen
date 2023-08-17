@@ -57,7 +57,8 @@ def login_view(request):
     if request.user.is_authenticated:
         if request.user.profile.is_applicant:
             return redirect('profile', id=request.user.profile.id)
-        # TODO return para a pagina de entrada da empresa
+        elif request.user.profile.is_company:
+            return redirect('company_profile', id = request.user.profile.company.id)
     
     if request.method == 'POST':
         post = request.POST
@@ -76,9 +77,7 @@ def login_view(request):
                 return redirect('signup2')
             
             if user.profile.is_company:
-                # TODO return para a pagina de entrada da empresa
-                company = user.profile.company
-                return redirect('company_profile', id=company.id)
+                return redirect('company_profile', id=user.profile.company.id)
             
             return redirect('profile', id=user.profile.id)
         
