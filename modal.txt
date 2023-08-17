@@ -1,0 +1,20 @@
+Usar o sgeuinte codigo como base para usar nos forms de modal para continuar com os required
+// $('#form').submit(function(event){
+    //     event.preventDefault()
+    //     var data = new FormData(this)
+    //     data.append('foto', document.getElementById('foto').value)
+
+    //     $.ajax({
+    //         url: `/api/profile/${'{{profile.id}}'}/edit`,
+    //         data: data,
+    //         type: 'POST',
+    //         contentType: false,
+    //         processData: false,
+    //         success: function(response){
+    //             console.log(response)
+    //         },
+    //         error: function(response){
+    //             console.log(response)
+    //         }
+    //     })
+    // })
