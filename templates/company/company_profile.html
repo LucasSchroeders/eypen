@@ -5,6 +5,7 @@
 {% block css %}
 <link href="{% static 'css/utils/container_default.css' %}" rel="stylesheet" type="text/css">
 <link href="{% static 'css/company/company_profile.css' %}" rel="stylesheet" type="text/css">
+
 {% endblock css %}
 
 <div class="div-container div-infos">
@@ -58,13 +59,11 @@
     <div class="div-several-content" id="div-vaga">
         
         <div class="div-several-row">
-            <img src="" class="img-several" alt="imagem referente ao logo da instituição ou empresa em que a vaga está disponivel">
-            <h5>Nome da Vagas</h5>
+            <img src="static/images/foto-perfil.jpg" class="img-several" alt="imagem referente ao logo da instituição ou empresa em que a vaga está disponivel">
 
-            <div class="several-row-text">
-                <p>Tempo Integral</p>
-                <p>São Paulo, São Paulo</p>
-                <p>Integral</p>
+            <div class="div-dados div-several-row-text">
+                <h5>Nome da Vagas</h5>
+                <p>Tempo Integral São Paulo,São Paulo Integral</p>
             </div>
             
             <div class="div-several-row-icon">
@@ -79,7 +78,4 @@
     </div>
 </div>
 
-
-
-    
 {% endblock body%}
