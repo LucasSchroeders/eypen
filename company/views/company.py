@@ -27,7 +27,11 @@ class CompanyProfile(TemplateView):
         company = Company.objects.filter(id=kwargs.get('id')).first()
         context['company'] = company
         context['profile_user'] = self.request.user.profile
-        #TODO precisa enviar as vagas relacionadas a empresa
+        context['is_same_company'] = (
+            self.request.user.profile.company.id == kwargs.get('id')
+            if self.request.user.profile.company
+            else False
+        )
 
         return context
     
