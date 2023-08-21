@@ -116,6 +116,15 @@
     margin-top: 2.5%;
 }
 
+.div-info-vagas{
+    display: flex;
+    flex-direction: row;
+}
+
+.text-vagas{
+    margin-right: 40px;
+}
+
 hr {
     display: block;
     margin-top: 0.5em;
