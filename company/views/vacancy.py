@@ -35,4 +35,10 @@ class VacancyRegisterTemplateView(TemplateView):
 
 @method_decorator(company_only, 'dispatch')
 class VacancySelectiveProcessTemplateView(TemplateView):
-    template_name = 'company/vagas/vagas_approve'
+    template_name = 'company/vagas/vagas_approve.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['profile_user'] = self.request.user.profile
+
+        return context
