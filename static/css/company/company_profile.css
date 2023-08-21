@@ -94,6 +94,11 @@
     justify-content: space-between;
 }
 
+.div-several-row-text {
+    align-items: center;
+    justify-content: center;
+}
+
 .div-several-row-icon{
     display: flex;
     flex: row;
