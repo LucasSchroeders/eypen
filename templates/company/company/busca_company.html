@@ -21,8 +21,8 @@
             <div class="form-field">
               <label for="business_area">Setor de Atuação</label>
               <div class="form-input">
-                  <select class="form-control" name="business_area" id="business_area" required>
-                      <option value="" disabled selected>Selecione um setor de atuação</option>
+                  <select class="form-control" name="business_area" id="business_area">
+                      <option value="" selected>Todos</option>
                       {% for area in business_areas %}
                       <option value="{{area.0}}" {%if request.session.business_area == area.0%} selected {%endif%}>{{area.1}}</option>
                       {% endfor %}

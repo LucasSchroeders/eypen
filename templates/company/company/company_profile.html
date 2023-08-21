@@ -1,4 +1,85 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block body %}
+
+{% block css %}
+<link href="{% static 'css/utils/container_default.css' %}" rel="stylesheet" type="text/css">
+<link href="{% static 'css/company/company_profile.css' %}" rel="stylesheet" type="text/css">
+
+{% endblock css %}
+
+<div class="div-container div-infos">
+
+    <div class="div-icon">
+        <a href="" class="icon-edit"><i class="fa-solid fa-pen-to-square icon"></i></a>
+    </div>
+
+   <div class="div-content">
+
+        <div class="photo">
+            <div>
+                <i class="fa-solid fa-user icon"></i>    
+            </div>
+        </div>
+
+        <div class="infos">
+            <h3>Nome Empresa</h1>
+            <p>Area Empresa</p>
+            <p>Local</p>
+        </div>
+
+    </div>
     
+</div>
+
+<div class="div-container div-several">
+   
+    <div class="div-icon">
+        <a href="" class="icon-edit"><i class="fa-solid fa-pen-to-square icon"></i></a>
+    </div>
+
+    <div class="div-head">
+        <h3>Sobre</h3>
+    </div>
+
+    <div class="div-text">
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam, modi accusantium velit doloremque est similique minus! Dolor harum odit velit inventore, ad, culpa, optio quia nemo dolorum quaerat officia repellat.</p>
+    </div>
+
+</div>
+
+<div class="div-container div-several" id="div-content-competence">
+
+    <div class="div-head">
+        <h3>Vagas</h3>
+        <a onclick="openModalCompetence()"><i class="fa-solid fa-plus icon"></i></a>
+    </div>
+    
+
+    <div class="div-several-content" id="div-vaga">
+        
+        <div class="div-several-row">
+            <img src="static/images/foto-perfil.jpg" class="img-several" alt="imagem referente ao logo da instituição ou empresa em que a vaga está disponivel">
+
+            <div class="div-dados div-several-row-text">
+                <h5>Nome da Vagas</h5>
+                <div class="div-info-vagas">
+                    <p class="text-vagas">Tempo Integral</p>
+                    <p class="text-vagas">São Paulo, São Paulo</p>
+                    <p>Integral</p>
+                </div>
+            </div>
+            
+            <div class="div-several-row-icon">
+                <a onclick="" class="icon-several"><i class="fa-solid fa-pen"></i></a>
+                <a onclick="" class="icon-several icon-trash"><i class="fa-solid fa-trash"></i></a>
+            </div>
+            
+        </div>
+
+        <hr>
+
+    </div>
+</div>
+
 {% endblock body%}

@@ -1,0 +1,152 @@
+.body{
+    background-color: #F8F4F4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1% 0;
+    min-height: 100vh;
+}
+
+.div-container{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 3%;
+}
+
+.div-infos{
+    margin-top: 2%;
+}
+
+.photo{
+    border: 8px solid #000;
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.photo-img{
+    width: 186px;
+    height: 186px;
+    border-radius: 50%;
+}
+
+.div-content{
+    display: flex;
+    flex-direction: row;
+    padding: 3%;
+}
+
+.div-icon{
+    display: flex;
+    justify-content: end;
+    width: 100%;
+    padding: 15px 20px 0 0;
+}
+
+.infos{
+    margin-left: 150px;
+    text-align: center;
+    /* flex-grow: 1; */
+}
+
+.experience-formation{
+    margin-left: 180px;
+}
+
+.div-container .icon{
+    font-size: 25px;
+}
+
+.div-head {
+    /* margin-left: 10px;
+    margin-bottom: 10px;
+    font-size: 24px; */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    padding: 15px 20px 0 0;
+}
+
+.div-text {
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 10px;
+}
+
+.div-several{
+    /* margin-top: 3%; */
+    padding: 0.5% 1% 0.5% 1%;
+    min-height: 130px;
+}
+
+.img-several{
+    width: 100px;
+    height: 100px;
+}
+
+.div-several-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.div-several-row-text {
+    align-items: center;
+    justify-content: center;
+}
+
+.div-several-row-icon{
+    display: flex;
+    flex: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.div-several-content{
+    margin-top: 0.5%;
+}
+
+.icon-several{
+    font-size: 20px;
+    margin-right: 22px;
+    margin-top: 2.5%;
+}
+
+.div-info-vagas{
+    display: flex;
+    flex-direction: row;
+}
+
+.text-vagas{
+    margin-right: 40px;
+}
+
+hr {
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 1px;
+    border-color: #ddd;
+}
+
+.div-icon a, .div-container a, .icon-edit{
+    height: 20px;
+    cursor: pointer;
+    color: #000;
+    text-decoration: none;
+    &:link{
+        color: #000;
+        text-decoration: none;
+    }
+    &:visited{
+        color: #000;
+        text-decoration: none;
+    }
+}
