@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}{{ profile.full_name }}{% endblock title %}
+{% block title %}{{ profile.name }}{% endblock title %}
 {% block css %}
 <link href="{% static 'css/utils/container_default.css' %}" rel="stylesheet" type="text/css">
 <link href="{% static 'css/users/applicant_profile.css' %}" rel="stylesheet" type="text/css">
@@ -22,8 +22,8 @@
             </div>
         </div>
         <div class="infos">
-            <h3>{{ profile.full_name }}</h1>
-            <p>{{ profile.birthdate }}</p>
+            <h3>{{ profile.name }}</h1>
+            <p>{{ profile.birthdate|date:'d/m/Y' }}</p>
             <p>{{ profile.city }}, {{ profile.state }}</p>
             
             {% if experience.last.is_working %}
@@ -176,6 +176,7 @@
             $("#business_area").val('');
         }
     }
+    
     function closeModalExperience(){
         $('#modal-experience').removeClass('abrir')
     }
@@ -191,6 +192,7 @@
             document.getElementById("ended_date").value = null
         }
     }
+    
     function closeModalAcademicFormation(){
         $('#modal-academic-formation').removeClass('abrir')
     }
@@ -216,6 +218,7 @@
             })
         }
     }
+    
     function closeModalCompetence(){
         $('#modal-competence').removeClass('abrir')
     }

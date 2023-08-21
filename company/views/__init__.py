@@ -1,2 +1,2 @@
-from .company import CompanyProfile, CompanyRegisterTemplateView, CompanyRegisterAPI
+from .company import BuscaCompany, CompanyProfile, companyRegister
 from .vacancy import VacancyRegisterTemplateView, VacancyTemplateView, VacancySelectiveProcessTemplateView

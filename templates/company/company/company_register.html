@@ -4,99 +4,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/users/personalProfile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/company/company_register.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="{% static 'css/utils/pnotify.custom.min.css' %}">
     <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/utils/pnotify.custom.min.css' %}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
     <script src="{% static 'js/jquery.mask.min.js' %}"></script>
     <script src="{% static 'js/pnotify.custom.min.js' %}"></script>
-    <title>Informações de Perfil</title>
+    <title>Informações da Empresa</title>
 </head>
 <body>
-    <div class="div-icon-accessibility">
-        <i class="fa-sharp fa-solid fa-universal-access"></i>
-    </div>
     <div class="body">
         <div class="form-div">
             <form method="post"
-            {% if profile %} action="{% url 'profile_edit' id=profile.id %}" {% else %} action="{% url 'signup2' %}" {% endif %}
+            {% if company %} action="{% url 'company_edit' id=company.id %}" {% else %} action="{% url 'signup_company' %}" {% endif %}
             enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="div-row">
                     <div class="div-column">
                         <div class="photo">
                             <div class="photo__div">
-                                {% if profile %}
-                                <img src="{{ profile.get_url_photo }}" class="photo-img" alt="foto de perfil">
+                                {% if company %}
+                                <img src="{{ company.get_url_photo }}" class="photo-img" alt="foto de perfil">
                                 {% else %}
-                                <i class="fa-solid fa-user icon"></i>
+                                <i class="fa-solid fa-building icon"></i>
                                 {% endif %}
                             </div>
                         </div>
                         <label class="picture" for="foto" tabindex="0">
                             <span class="picture__image">Escolha uma imagem</span>
                         </label>
-                        <input type="file" id="foto" name="foto" class="file" />
+                        <input type="file" name="foto" id="foto" class="file"/>
                     </div>
                     <div class="div-column">
                         <div class="form-field">
-                            <label for="cpf">CPF:</label>
-                            <div class="form-input">
-                                <input type="text" name="cpf" id="cpf"
-                                {% if profile %} value="{{profile.cpf}}"{% endif %}
-                                required>
+                            <label for="cnpj">CNPJ:</label>
+                            <div class="form-imput">
+                                <input type="text" name="cnpj" id="cnpj"
+                                {% if company %} value="{{company.cnpj}}"{% endif %}
+                                 required class="input-line">
                             </div>
                         </div>
                         <div class="form-field">
-                            <label for="rg">RG:</label>
+                            <label for="name">Nome:</label>
                             <div class="form-input">
-                                <input type="text" name="rg" id="rg"
-                                {% if profile %} value="{{profile.rg}}"{% endif %}
-                                required>
+                                <input type="text" name="name" id="name" 
+                                {% if company %} value="{{company.name}}"{% endif %}
+                                required class="input-line">
                             </div>
                         </div>
-                        <div class="form-field">
-                            <label for="birthdate">Data de Nascimento:</label>
-                            <div class="form-input">
-                                <input type="date" id="birthdate" name="birthdate"
-                                {% if profile %} value="{{profile.birthdate|date:'Y-m-d'}}"{% endif %}
-                                required>
-                            </div>
-                        </div>
-                    </div>                
+                    </div>
                 </div>
-
+        
                 <div class="div-row">
                     <div class="form-field">
-                    <label for="gender">Gênero:</label>
+                        <label for="business_area">Setor de Atuação</label>
                         <div class="form-input">
-                            <select name="gender" id="gender" class="form-control">
-                                <option value="" disabled selected>Selecione o gênero</option>
-                                {% for gender in genders %}
-                                <option value="{{gender.0}}" {%if profile.gender == gender.0%} selected {%endif%}>{{gender.1}}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-field form-ethnicity">
-                        <label for="ethnicity">Etnia:</label>
-                        <div class="form-input">
-                            <select name="ethnicity" id="ethnicity" class="form-control">
-                                <option value="" disabled selected>Selecione a entia</option>
-                                {% for ethnicity in ethnicities %}
-                                <option value="{{ethnicity.0}}" {%if profile.ethnicity == ethnicity.0%} selected {%endif%}>{{ethnicity.1}}</option>
+                            <select class="form-control" name="business_area" id="business_area" required>
+                                <option value="" disabled selected>Selecione um setor de atuação</option>
+                                {% for area in business_areas %}
+                                <option value="{{area.0}}" {%if company.business_area == area.0%} selected {%endif%}>{{area.1}}</option>
                                 {% endfor %}
                             </select>
                         </div>
                     </div>
                 </div>
-                
+        
+                <div class="div-row2">
+                    <label for="about-us">Sobre a empresa</label>
+                    <div class="form-input">
+                        <textarea name="about-us" id="about-us" class="form-control">{% if company %}{{company.about_us}}{% endif %}</textarea>
+                    </div>
+                </div>
                 <div class="div-row">
                     <div class="form-field">
                         <label for="state">Estado:</label>
@@ -104,7 +87,7 @@
                             <select name="state" id="state" class="form-control">
                                 <option value="" disabled selected>Selecione o estado</option>
                                 {% for state in states %}
-                                <option value="{{state.0}}" {%if profile.state == state.0%} selected {%endif%}>{{state.1}}</option>
+                                <option value="{{state.0}}" {%if company.state == state.0%} selected {%endif%}>{{state.1}}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -119,30 +102,7 @@
                         </div>
                     </div>
                 </div>
-                
-                <div class="div-row">
-                    <div class="form-field">
-                        <label for="is_disabled">Possui deficiência?</label>
-                        <div class="form-input">
-                            <select name="is_disabled" id="is_disabled" class="form-control">
-                                <option value="" disabled selected>Selecione uma opção</option>
-                                <option value="True" {%if profile.is_disabled == True%} selected {%endif%}>Sim</option>
-                                <option value="False" {%if profile.is_disabled == False%} selected {%endif%}>Não</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-field">
-                        <label for="disabled">Qual deficiência?</label>
-                        <select name="disabled" id="disabled" class="form-control" disabled>
-                            <option value="" disabled selected>Selecione uma deficiência</option>
-                            {% for disable in disables %}
-                            <option value="{{disable.0}}" {%if profile.disable == disable.0%} selected {%endif%}>{{disable.1}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-
+        
                 <div class="div-button">
                     <button type="submit" id="form-button" class="button">Salvar</button>
                     <button type="button" class="button">Cancelar</button>
@@ -150,21 +110,12 @@
             </form>
         </div>
     </div>
+    <div class="div-icon-accessibility">
+        <i class="fa-sharp fa-solid fa-universal-access icon"></i>
+    </div>
 </body>
-
 <script>
     const inputFile = document.querySelector("#foto");
-    
-    var isDisabled = $('#is_disabled')
-    isDisabled.change(function(){
-        if (isDisabled.val() == 'True'){
-            document.getElementById('disabled').disabled = false
-        } else{
-            document.getElementById('disabled').disabled = true
-        }
-    })
-    
-
     inputFile.addEventListener("change", function(e){
         var divPhoto = document.querySelector(".photo__div");
         const inputTarget = e.target;
@@ -201,7 +152,7 @@
         let conteudo = "<optiongroup>";
         $.getJSON(url, function(data){
             $.each(data, function(k, v){
-                if ('{{profile.city}}' == v.nome){
+                if ('{{company.city}}' == v.nome){
                     $("#city").append(`<option value="${v.nome}" selected>${v.nome}</option>`);
                 }else{
                     $("#city").append( `<option value="${v.nome}">${v.nome}</option>`);
@@ -210,10 +161,78 @@
         });
     }
 
-    $("#cpf").mask('000.000.000-00');
-    $("#rg").mask('00.000.000-0');
+    $("#cnpj").mask('00.000.000/0000-00');
+
+    // var formBtn = document.getElementById('form-button')
+    // formBtn.addEventListener('click',saveCompany)
+
+    // var edit = '{{request.session.edit}}'
+    
+    // function saveCompany() {
+    //     var photo = document.getElementById('foto').value
+    //     var cnpj = document.getElementById('cnpj').value
+    //     var name = document.getElementById('name').value
+    //     var checkboxes = document.querySelectorAll('.checkbox')
+    //     var aboutUs = document.getElementById('about-us').value     
+    //     var state = document.getElementById('state').value
+    //     var city = document.getElementById('city').value
+
+    //     var business_area = []
+
+    //     checkboxes.forEach(function(e){
+    //         if (e.checked) {
+    //             business_area.push(e.name)
+    //         }
+    //     })
+
+    //     cnpj = cnpj.replace('.', '')
+    //     cnpj = cnpj.replace('.', '')
+    //     cnpj = cnpj.replace('/', '')
+    //     cnpj = cnpj.replace('-', '')
+
+    //     const data = {
+    //         'photo': photo,
+    //         'cnpj': cnpj,
+    //         'name': name,
+    //         'about_us': aboutUs,
+    //         'state': state,
+    //         'city': city,
+    //         'business_areas': business_area,
+    //     }
+
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: edit == 'true' ? `/api/company/${'{{company.id}}'}/edit` : '/cadastro/empresa',
+    //         dataType: 'json',
+    //         headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
+    //         data: JSON.stringify(data),
+    //         success: function (retorno) {
+    //             new PNotify({
+    //                 title:'Empresa salva',
+    //                 text: retorno.detail,
+    //                 type: 'success',
+    //                 delay:'5000'
+    //             });
+
+    //         },
+    //         error: function (error) {
+    //             if (error.statusText == 'timeout') {
+    //             new PNotify({
+    //                 title: 'Requisição Cancelada',
+    //                 text: 'Requisição ao serviço cancelada. Tente novamente em alguns minutos.',
+    //                 type: 'error',
+    //                 delay: '5000'
+    //             });
+    //             }
+
+    //             console.log(error);
+    //         }
+    //     });
+
+    // }
 
 </script>
+
 {% for message in messages %}
   <script type="text/javascript">
     $(document).ready(function () {
