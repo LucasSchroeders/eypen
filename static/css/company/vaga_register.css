@@ -97,3 +97,7 @@
 .etapas{
     margin-top: 2%;
 }
+
+@media screen and(max-width: 480px) {
+    
+}
