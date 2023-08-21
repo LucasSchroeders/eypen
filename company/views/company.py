@@ -20,7 +20,7 @@ from users.permission import AllowOnlyCompany
 
 @method_decorator(login_required, 'dispatch')
 class CompanyProfile(TemplateView):
-    template_name = 'company/comapny/company_profile.html'
+    template_name = 'company/company/company_profile.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
