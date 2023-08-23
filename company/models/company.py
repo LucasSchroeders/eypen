@@ -46,8 +46,9 @@ class Company(models.Model):
     def __str__(self):
         return str(self.pk)
 
-    def create_vacancy(self):
-        return
+    def create_vacancy(self, **context):
+        return self.vacancies.create(**context)
+
     
     def create_company_profile(self, email):
         # TODO colocar try/except na view que chamar esse metodo django.db.utils.IntegrityError: UNIQUE constraint failed: auth_user.username
