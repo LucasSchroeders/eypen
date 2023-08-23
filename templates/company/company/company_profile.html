@@ -61,8 +61,8 @@
 
     <div class="div-several-content" id="div-vaga">
         
+        {% for vacancy in company.vacancies.all %}
         <div class="div-several-row">
-            {% for vacancy in company.vacancies %}
             <img src="{% static 'images/vaga.png' %}" class="img-several" alt="imagem representativa para vagas">
 
             <div class="div-dados div-several-row-text">
@@ -82,11 +82,12 @@
                 <a href="" class="icon-several icon-trash"><i class="fa-solid fa-trash"></i></a>
             </div>
             {% endif %}
-            {% endfor %}
-            
         </div>
-
+        {% if not company.vacancies.all|length == 1 %}
         <hr>
+        {% endif %}
+        {% endfor %}
+
 
     </div>
 </div>

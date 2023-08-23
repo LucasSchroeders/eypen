@@ -7,15 +7,10 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
-from rest_framework import status
-from rest_framework.decorators import permission_classes
-from rest_framework.response import Response
-from rest_framework.views import APIView
 
 from company.models import Company
 from users.choices import STATES, BUSINESS_AREAS_CHOICES
 from users.decorator import company_only, applicant_only
-from users.permission import AllowOnlyCompany
 
 
 @method_decorator(login_required, 'dispatch')
