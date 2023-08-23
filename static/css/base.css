@@ -165,3 +165,32 @@ nav.sidebar:hover .txt-link {
 nav.sidebar:hover ~ .overlay {
   display: flex;
 }
+
+@media (max-width: 480px) {
+  
+  nav.sidebar {
+    width: 50px;
+  }
+  
+  li.menu-item a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 20px;
+    padding: 10px 0;
+    display: flex;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 40px;
+  }
+
+  .div-icon-accessibility{
+    position: fixed;
+    top: 23px;
+    right: 0px;
+    display: flex;
+    flex-direction: row;
+    padding: 1rem 1rem;
+  }
+  
+}

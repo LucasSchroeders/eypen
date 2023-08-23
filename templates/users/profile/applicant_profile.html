@@ -21,18 +21,20 @@
                 <img src="{{ profile.get_url_photo }}" class="photo-img" alt="foto de perfil">
             </div>
         </div>
-        <div class="infos">
-            <h3>{{ profile.name }}</h1>
-            <p>{{ profile.birthdate|date:'d/m/Y' }}</p>
-            <p>{{ profile.city }}, {{ profile.state }}</p>
-            
-            {% if experience.last.is_working %}
-            <h5>{{ experience.last.position}} | {{ experience.last.company}}</h5>
-            {% endif %}
-        </div>
-        <div class="experience-formation">
-            <p>google</p>
-        </div>
+        <div class="div-row">
+            <div class="infos">
+                <h3>{{ profile.name }}</h1>
+                <p>{{ profile.birthdate|date:'d/m/Y' }}</p>
+                <p>{{ profile.city }}, {{ profile.state }}</p>
+                
+                {% if experience.last.is_working %}
+                <h5>{{ experience.last.position}} | {{ experience.last.company}}</h5>
+                {% endif %}
+            </div>
+            <div class="experience-formation">
+                <p>google</p>
+            </div>
+        </div>  
     </div>
 </div>
 

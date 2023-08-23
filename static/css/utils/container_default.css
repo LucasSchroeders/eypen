@@ -38,9 +38,3 @@ a:visited{
     color: #000;
     text-decoration: none;
 }
-
-@media screen and(max-width: 480px) {
-    .div-container{
-        
-    }
-}
