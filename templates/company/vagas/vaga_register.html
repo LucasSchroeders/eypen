@@ -23,22 +23,27 @@
     <div class="body">
         <div class="form-div">
             <p class="p-title1">Cadastro de Vagas</p>
-            <form action="">
+            <form method="post"
+            {% if not vacancy %} action="{% url 'registrar_vagas' id=company.id %}"
+            {% else %} action="{% url 'editar_vagas' id=company.id id_vacancy=vacancy.id %}" {% endif %}>
+                {% csrf_token %}
                 <div class="div-row">
                     <div class="div-column">
                         <div class="form-field">
                             <label for="cargo">Cargo:</label>
                             <div class="form-imput">
-                                <input type="text" name="cargo" id="cargo" required class="input-line form-control">
+                                <input type="text" name="cargo" id="cargo" required class="input-line form-control"
+                                {% if vacancy %} value="{{vacancy.job_position}}" {% endif %}>
                             </div>
                         </div>
                         <div class="form-field">
                             <label for="senioridade">Senioridade:</label>
                             <div class="form-input">
                                 <select name="senioridade" id="senioridade" class="form-control">
-                                    <option value="junior">Junior</option>
-                                    <option value="senior">Sênior</option>
-                                    <option value="pleno">Pleno</option>
+                                <option value="" disabled selected>Selecione um nivel de experiência</option>
+                                {% for seniority in seniorities %}
+                                <option value="{{seniority.0}}" {% if vacancy.seniority == seniority.0 %} selected {% endif %}>{{seniority.1}}</option>
+                                {% endfor %}
                                 </select>
                             </div>
                             
@@ -49,9 +54,9 @@
                         <div class="form-field">
                             <label for="state">Estado:</label>
                             <select name="state" id="state" class="form-control">
-                              <option value="" selected>Selecione um estado</option>
+                              <option value="" disabled selected>Selecione um estado</option>
                               {% for state in states %}
-                              <option value="{{state.0}}" {% if request.session.state == state.0 %} selected {% endif %}>{{state.1}}</option>
+                              <option value="{{state.0}}" {% if vacancy.state == state.0 %} selected {% endif %}>{{state.1}}</option>
                               {% endfor %}
                             </select>
                           </div>
@@ -71,18 +76,31 @@
                         <label for="modalidade">Modalidade:</label>
                         <div class="form-input">
                             <select name="modalidade" id="modalidade" class="form-control">
-                                <option value="remoto">Remoto</option>
-                                <option value="presencial">Presencial</option>
-                                <option value="hibrido">Hibrido</option>
+                                <option value="" disabled selected>Selecione uma modalidade</option>
+                                {% for modality in modalities %}
+                                <option value="{{modality.0}}" {% if vacancy.job_modality == modality.0 %} selected {% endif %}>{{modality.1}}</option>
+                                {% endfor %}
                             </select>
                         </div>
-                        
+    
+                    </div>
+
+                    <div class="form-field">
+                        <label for="job_type">Tipo de Emprego</label>
+                        <div class="form-input">
+                            <select name="job_type" id="job_type" class="form-control" required>
+                                <option value="" disabled selected>Selecione um tipo de emprego</option>
+                                {% for job in job_type %}
+                                <option value="{{job.0}}" {% if vacancy.job_type == job.0 %} selected {% endif %}>{{job.1}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
                     </div>
                 </div>
 
                 <div class="descricao">
                     <label for="descricao-vaga">Descrição da vaga:</label>
-                    <textarea class="textarea"></textarea>
+                    <textarea class="textarea form-control" name="descricao-vaga">{% if vacancy %}{{vacancy.description}}{% endif %}</textarea>
                 </div>
 
                 <div class="etapas">
@@ -99,4 +117,28 @@
         </div>
     </div>
 </body>
+
+<script>
+document.body.onload = getCities
+
+var state = document.querySelector("#state");
+state.addEventListener("change", getCities);
+
+function getCities() {
+    let url = `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${state.value}/municipios`
+    $("#city").empty();
+    $("#city").append(`<option value="" disabled selected>Selecione a cidade</option>`);
+
+    let conteudo = "<optiongroup>";
+    $.getJSON(url, function(data){
+        $.each(data, function(k, v){
+            if ('{{vacancy.city}}' == v.nome){
+                $("#city").append(`<option value="${v.nome}" selected>${v.nome}</option>`);
+            }else{
+                $("#city").append( `<option value="${v.nome}">${v.nome}</option>`);
+            }
+        });
+    });
+}
+</script>
 </html>
