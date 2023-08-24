@@ -1,52 +1,170 @@
-{% extends 'base.html' %} {%load static%} 
+{% extends 'base.html' %} {%load static%} {% load custom_filter %}
 {%block css%}
-<link rel="stylesheet" href="{% static 'css/users/busca_vaga.css' %}" />
 <link rel="stylesheet" href="{% static 'css/utils/filtro.css' %}" />
 <link rel="stylesheet" href="{% static 'css/utils/container_default.css' %}" />
+<link rel="stylesheet" href="{% static 'css/company/busca_vaga.css' %}" />
 {%endblock css%}
 
 {%block body%}
 <div class="div-form">
     <form action="">
         <h5 class="form-h5">Pesquisa de Vagas</h5>
-
         <div class="div-row1">
             <div class="form-field">
-                <label for="vaga">Vaga:</label>
+                <label for="vacancy">Vaga:</label>
                 <div class="form-input">
-                    <input type="Vaga" placeholder="Vaga" class="form-control">
+                    <input type="text" name="vacancy" id="vacancy"
+                     placeholder="Vaga" class="form-control" value="{{request.session.vacancy|default_if_none:''}}">
                 </div>
             </div>
             <div class="form-field">
                 <label for="empresa">Empresa:</label>
                 <div class="form-input">
-                    <input type="Empresa" placeholder="Empresa" class="form-control">
+                    <input type="text" name="company" id="company"
+                     placeholder="Empresa" class="form-control" value="{{request.session.company|default_if_none:''}}">
                 </div>
             </div>
         </div>
 
         <div class="div-row1">
-            <div class="form-field">
-                <label for="area">Área</label>
-                <select name="area" id="area" class="form-control">
-                    <option value="TI">TI</option>
-                    <option value="RH">RH</option>
-                    <option value="financa">Finanças</option>
+          <div class="form-field">
+            <label for="business_area">Setor de Atuação</label>
+            <div class="form-input">
+                <select class="form-control" name="business_area" id="business_area">
+                    <option value="" selected>Todos</option>
+                    {% for area in business_areas %}
+                    <option value="{{area.0}}" {%if request.session.business_area == area.0%} selected {%endif%}>{{area.1}}</option>
+                    {% endfor %}
                 </select>
             </div>
+          </div>
+
+          <div class="form-field">
+            <label for="vulnerability">Vulnerabilidade</label>
+            <div class="form-input">
+              <select class="form-control" name="vulnerability" id="vulnerability">
+                <option value="" selected>Todos</option>
+                {% for vulnerability in vulnerabilities %}
+                <option value="{{vulnerability.0}}" {%if request.session.vulnerability == vulnerability.0%} selected {%endif%}>{{vulnerability.1}}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
         </div>
+
+        <div class="div-row1">
+          <div class="form-field">
+            <label for="seniority">Senioridade</label>
+            <div class="form-input">
+                <select class="form-control" name="seniority" id="seniority">
+                    <option value="" selected>Todos</option>
+                    {% for seniority in seniorities %}
+                    <option value="{{seniority.0}}" {%if request.session.seniority == seniority.0%} selected {%endif%}>{{seniority.1}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="job_modality">Modalidade</label>
+            <div class="form-input">
+                <select class="form-control" name="job_modality" id="job_modality">
+                    <option value="" selected>Todos</option>
+                    {% for modality in job_modality %}
+                    <option value="{{modality.0}}" {%if request.session.job_modality == modality.0%} selected {%endif%}>{{modality.1}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="job_type">Tipo de emprego:</label>
+            <div class="form-input">
+              <select class="form-control" name="job_type" id="job_type">
+                <option value="" selected>Todos</option>
+                {% for type in job_type %}
+                <option value="{{type.0}}" {%if request.session.job_type == type.0%} selected {%endif%}>{{type.1}}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+        </div>
+
         <input type="submit" class="form-button" value="Filtrar" />
     </form>
 </div>
 
-<a href="" class="div-container">
-    <img class="img-container" src="" alt="Imagem da Empresa/vaga">
-
-    <div class="div-dados div-company">
-        <p class="p-dados p-negrito">Nome vaga</p>
-        <p class="p-dados">tipo vaga</p>
-        <p class="p-dados">lugar</p>
-        <p class="p-dados">Estado/cidade</p>
-    </div>
+{% for vacancy in vacancy_list %}
+<a href="{% url 'exibir_vagas' id=vacancy.company.id id_vacancy=vacancy.id %}" class="div-container">
+  <div class="photo">  
+    <img src="{{ vacancy.get_url_photo }}" class="photo-img" alt="imagem meramente ilustrativa">
+  </div>  
+  <div class="div-dados">
+    <!-- TODO mudar os atributos -->
+        <p class="p-dados p-negrito">{{vacancy.job_position}}</p>
+        <div class="div-dados-content">
+          <div class="div-dados-content-column">
+            <p class="p-dados">{{vacancy.seniority|display_seniority}}</p>
+            <p class="p-dados">{{vacancy.job_modality|display_job_modality}}</p>
+            <p class="p-dados">{{vacancy.business_area|display_business_area}}</p>
+          </div>
+          <div class="div-dados-content-column">
+            <p class="p-dados">{{vacancy.job_type|display_job_type}}</p>
+            <p class="p-dados">{{vacancy.vulnerability|display_vulnerabilities}}</p>
+            <p class="p-dados">{{vacancy.city}}, {{vacancy.state}}</p>
+          </div>
+        </div>
+  </div>
+  <p></p>
 </a>
+{% endfor %}
+
+{% if vacancy_list.has_other_pages %}
+<ul class="pagination">
+  {% if vacancy_list.has_previous %}
+  <li class="page-item">
+    <a class="page-link" href="?page=1">
+      First
+    </a>
+  </li>
+  <li class="page-item">
+    <a class="page-link"
+      href="?page={{ vacancy_list.previous_page_number }}">
+      &laquo;
+    </a>
+  </li>
+  {% else %}
+  <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+  {% endif %}
+  {% for i in page_range %}
+  {% if vacancy_list.number == i %}
+  <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
+  {% else %}
+  <li class="page-item">
+    <a class="page-link"
+      href="?page={{ i }}">
+      {{ i }}
+    </a>
+  </li>
+  {% endif %}
+  {% endfor %}
+  {% if vacancy_list.has_next %}
+  <li class="page-item">
+    <a class="page-link"
+      href="?page={{ vacancy_list.next_page_number }}">
+      &raquo;
+    </a>
+  </li>
+  <li class="page-item">
+    <a class="page-link"
+      href="?page={{ vacancy_list.paginator.num_pages }}">
+      Last
+    </a>
+  </li>
+  {% else %}
+  <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+  {% endif %}
+</ul>
+{% endif %}
+
 {%endblock body%}
