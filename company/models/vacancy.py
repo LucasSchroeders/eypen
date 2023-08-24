@@ -1,6 +1,13 @@
 from django.db import models
 
-from users.choices import STATES, SENIORITY_CHOICES, JOB_MODALITY, JOB_TYPE
+from users.choices import (
+    STATES,
+    SENIORITY_CHOICES,
+    JOB_MODALITY,
+    JOB_TYPE,
+    BUSINESS_AREAS_CHOICES,
+    VULNERABILITIES_CHOICES,
+)
 
 
 class Vacancy(models.Model):
@@ -26,6 +33,20 @@ class Vacancy(models.Model):
         verbose_name="Tipo de trabalho",
         choices=JOB_TYPE,
     )
+    business_area = models.CharField(
+        max_length=80,
+        blank=True,
+        null=True,
+        verbose_name="Areas de aplicação",
+        choices=BUSINESS_AREAS_CHOICES,
+    )
+    vulnerability = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True,
+        verbose_name="Vulnerabilidade",
+        choices=VULNERABILITIES_CHOICES,
+    )
     state = models.CharField(max_length=200, blank=True, null=True, verbose_name="Estado", choices=STATES)
     city = models.CharField(max_length=200, blank=True, null=True, verbose_name="Cidade")
     description = models.CharField(max_length=2000, verbose_name='Descrição')
@@ -42,3 +63,6 @@ class Vacancy(models.Model):
     
     def create_step(self):
         return
+    
+    def get_url_photo(self):
+        return "/static/images/vaga.png"
