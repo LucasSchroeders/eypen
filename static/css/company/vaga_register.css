@@ -32,11 +32,17 @@
 .p-title{
     font-weight: bold;
 }
+
+.p-title1{
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
 .div-row{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 0 30% 0 5%;
+    padding: 0 30% 0 0;
     margin: 15px 0;
 }
 .div-column{
@@ -70,7 +76,7 @@
     border-radius: 15px;
     border: none;
     outline: none;
-    margin: 0 2%;
+    margin: 0 0.5%;
 }
 
 .div-button{
@@ -86,4 +92,12 @@
     width: 100%;
     overflow: hidden;
     resize: none;
+}
+
+.etapas{
+    margin-top: 2%;
+}
+
+@media screen and(max-width: 480px) {
+    
 }

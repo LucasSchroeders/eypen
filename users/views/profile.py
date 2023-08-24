@@ -1,52 +1,102 @@
 from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.shortcuts import render, redirect
+from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
 from rest_framework import status
+from rest_framework.decorators import permission_classes
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from users.choices import ETHNICITY_CHOICES, GENDER_CHOICES, DISABLED_CHOICES, STATES
+from users.choices import ETHNICITY_CHOICES, GENDER_CHOICES, DISABLED_CHOICES, STATES, JOB_MODALITY, JOB_TYPE
+from users.decorator import applicant_only
 from users.models import Profile, Competence, Experience, AcademicFormation
+from users.permission import AllowOnlyApplicant
 from users.utils import string_to_date
 
 
-class PersonalProfileInformation(TemplateView):
-    template_name='users/profile/personalProfile.html'
+# @method_decorator(applicant_only, 'dispatch')
+# class PersonalProfileInformation(TemplateView):
+#     template_name='users/profile/personalProfile.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        user = self.request.user
-        is_authenticated = self.request.user.is_authenticated
-        context['profile'] = user.profile if is_authenticated else None
-        context['genders'] = GENDER_CHOICES
-        context['disables'] = DISABLED_CHOICES
-        context['states'] = STATES
-        return context
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         user = self.request.user
+#         self.request.session['edit'] = 'true'
+#         context['profile'] = user.profile
+#         context['genders'] = GENDER_CHOICES
+#         context['disables'] = DISABLED_CHOICES
+#         context['states'] = STATES
+#         context['ethnicities'] = ETHNICITY_CHOICES
+#         return context
 
 
-class PersonalProfileInformationAPI(APIView):
-    def post(self, request):
+@applicant_only
+def personalProfileInformation(request, id):
+    if request.method == 'POST':
         post = request.POST
-        full_name = post.get('full_name')
-        full_name = full_name.strip()
-        cpf = post.get('cpf')
-        rg = post.get('rg')
+        cpf = post.get('cpf').replace('.', '').replace('.', '').replace('-', '')
+        rg = post.get('rg').replace('.', '').replace('.', '').replace('-', '')
         gender = post.get('gender')
         ethnicity = post.get('ethnicity')
         birthdate = post.get('birthdate')
         try:
             birthdate = string_to_date(birthdate) if birthdate else None
-        except Exception:
-            # TODO fazer retorno com mensagem
-            return
+        except Exception as e:
+            messages.add_message(
+                request,
+                messages.ERROR,
+                f'ERRO! {str(e)}',
+                extra_tags='Alteração de perfil',
+            )
+            return redirect('profile_edit', id=id)
+        
         # TODO fazer com que vire 8bits
-        photo = post.get('photo')
+        photo = request.FILES.get('foto')
         state = post.get('state')
         city = post.get('city')
-        
-        return
+        is_disabled = post.get('is_disabled')
+        disabled = post.get('disabled')
+
+        profile = Profile.objects.filter(id=id).first()
+
+        profile.cpf = cpf
+        profile.rg = rg
+        profile.gender = gender
+        profile.ethnicity = ethnicity
+        profile.birthdate = birthdate
+        if photo:
+            profile.photo = photo
+        profile.state = state
+        profile.city = city
+        profile.is_disabled = is_disabled
+        profile.disabled = disabled
+
+        profile.save()
+
+        messages.add_message(
+            request,
+            messages.SUCCESS,
+            'Perfil salvo com sucesso!',
+            extra_tags='Perfil salvo',
+        )
+    
+        return redirect('profile', id=profile.id)
+    
+    context = {
+        'profile': request.user.profile,
+        'genders': GENDER_CHOICES,
+        'disables': DISABLED_CHOICES,
+        'states': STATES,
+        'ethnicities': ETHNICITY_CHOICES,
+    }
+    
+    return render(request, 'users/profile/personalProfile.html', context)
 
 
+@method_decorator(login_required, 'dispatch')
 class ProfileApplicant(TemplateView):
     template_name = 'users/profile/applicant_profile.html'
 
@@ -64,10 +114,13 @@ class ProfileApplicant(TemplateView):
         context['experiences'] = profile.experience.all()
         context['profile'] = profile
         context['is_same_profile'] = is_same_person
+        context['job_type'] = JOB_TYPE
+        context['job_modality'] = JOB_MODALITY
 
         return context
 
 
+@method_decorator(login_required, 'dispatch')
 class BuscaPerfil(TemplateView):
     template_name = 'users/profile/busca_perfil.html'
 
@@ -76,8 +129,8 @@ class BuscaPerfil(TemplateView):
         request = self.request
         profile = request.user.profile
 
-        full_name = request.GET.get('full_name', request.session.get('full_name', None))
-        request.session["full_name"] = full_name
+        name = request.GET.get('name', request.session.get('name', None))
+        request.session["name"] = name
 
         gender = request.GET.get('gender', request.session.get('gender', None))
         request.session["gender"] = gender
@@ -93,8 +146,8 @@ class BuscaPerfil(TemplateView):
 
         data_query = {}
 
-        if full_name:
-            data_query['full_name__contains'] = full_name
+        if name:
+            data_query['name__contains'] = name
 
         if gender:
             data_query['gender'] = gender
@@ -140,6 +193,7 @@ class BuscaPerfil(TemplateView):
         return context
 
 
+@permission_classes((AllowOnlyApplicant,))
 class CompetenceAPI(APIView):
     def get(self, request, id):
         competence = Competence.objects.filter(profile__id=request.user.profile.id, id=id).first()
@@ -199,6 +253,7 @@ class CompetenceAPI(APIView):
             )
 
 
+@permission_classes((AllowOnlyApplicant,))
 class ExperienceAPI(APIView):
     def get(self, request, id):
         experience = Experience.objects.filter(profile__id=request.user.profile.id, id=id).first()
@@ -269,6 +324,7 @@ class ExperienceAPI(APIView):
             )
     
 
+@permission_classes((AllowOnlyApplicant,))
 class AcademicFormationAPI(APIView):
     def get(self, request, id):
         academic = AcademicFormation.objects.filter(profile__id=request.user.profile.id, id=id).first()

@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
-from users.choices import STATES
+from users.choices import STATES, BUSINESS_AREAS_CHOICES
 
 User = get_user_model()
 
@@ -14,6 +14,9 @@ class Company(models.Model):
         null=True,
         verbose_name="Empresa",
     )
+    cnpj = models.CharField(
+        max_length=14, db_index=True, blank=True, null=True, verbose_name="CNPJ"
+    )
     photo = models.ImageField(
         blank=True, null=True, upload_to='', verbose_name='Logo empresa'
     )
@@ -23,11 +26,12 @@ class Company(models.Model):
         null=True,
         verbose_name="Empresa",
     )
-    business_areas = models.CharField(
-        max_length=50,
+    business_area = models.CharField(
+        max_length=80,
         blank=True,
         null=True,
         verbose_name="Areas de atuação",
+        choices=BUSINESS_AREAS_CHOICES,
     )
     state = models.CharField(max_length=200, verbose_name="Estado", choices=STATES)
     city = models.CharField(max_length=200, verbose_name="Cidade")
@@ -42,8 +46,9 @@ class Company(models.Model):
     def __str__(self):
         return str(self.pk)
 
-    def create_vacancy(self):
-        return
+    def create_vacancy(self, **context):
+        return self.vacancies.create(**context)
+
     
     def create_company_profile(self, email):
         # TODO colocar try/except na view que chamar esse metodo django.db.utils.IntegrityError: UNIQUE constraint failed: auth_user.username
@@ -53,3 +58,9 @@ class Company(models.Model):
         profile.company = self
         profile.save()
     
+    @property
+    def get_url_photo(self):
+        if self.photo and hasattr(self.photo, 'url'):
+            return self.photo.url
+        else:
+            return "/static/images/company.png"

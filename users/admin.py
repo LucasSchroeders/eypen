@@ -7,7 +7,7 @@ from .models import Profile, Experience, AcademicFormation, Competence
 class ProfileAdmin(admin.ModelAdmin):
     list_display = (
         'id',
-        'full_name',
+        'name',
         'cpf',
     )
     search_fields = ('user__email', 'cpf')
@@ -24,7 +24,7 @@ class ProfileAdmin(admin.ModelAdmin):
 class ExperienceAdmin(admin.ModelAdmin):
     list_display = (
         'id',
-        # 'profile__full_name',
+        # 'profile__name',
         'position',
         'company',
         'business_area'
@@ -58,7 +58,7 @@ class AcademicFormationAdmin(admin.ModelAdmin):
 class CompetenceAdmin(admin.ModelAdmin):
     list_display = (
         'id',
-        # 'profile__full_name',
+        # 'profile__name',
         # 'position',
         # 'company',
         # 'business_area'

@@ -1,8 +1,8 @@
-{% extends 'base.html' %} {%load static%} 
+{% extends 'base.html' %} {%load static %} {% load custom_filter %}
 {%block css%}
-<link rel="stylesheet" href="{% static 'css/users/busca_company.css' %}" />
 <link rel="stylesheet" href="{% static 'css/utils/filtro.css' %}" />
 <link rel="stylesheet" href="{% static 'css/utils/container_default.css' %}" />
+<link rel="stylesheet" href="{% static 'css/users/busca_company.css' %}" />
 {%endblock css%}
 
 {%block body%}
@@ -14,17 +14,20 @@
             <div class="form-field">
                 <label for="company">Empresa:</label>
                 <div class="form-input">
-                    <input type="text" name="company" placeholder="Empresa" class="form-control">
+                    <input type="text" name="company" placeholder="Empresa" class="form-control" value="{{request.session.company|default_if_none:''}}">
                 </div>
             </div>
 
             <div class="form-field">
-                <label for="business_area">Setor</label>
-                <select name="business_area" id="business_area" class="form-control">
-                    <option value="TI">TI</option>
-                    <option value="RH">RH</option>
-                    <option value="financa">Finanças</option>
-                </select>
+              <label for="business_area">Setor de Atuação</label>
+              <div class="form-input">
+                  <select class="form-control" name="business_area" id="business_area">
+                      <option value="" selected>Todos</option>
+                      {% for area in business_areas %}
+                      <option value="{{area.0}}" {%if request.session.business_area == area.0%} selected {%endif%}>{{area.1}}</option>
+                      {% endfor %}
+                  </select>
+              </div>
             </div>
         </div>
         <input type="submit" class="form-button" value="Filtrar" />
@@ -33,16 +36,15 @@
 
 {% for company in company_list %}
 <a href="{% url 'company_profile' id=company.id %}" class="div-container">
-    {% if company.photo %}
-    <img class="img-container" src="{{ company.photo.url }}" alt="Imagem da Empresa">
-    {% else %}
-    <i class="fa-solid fa-building icon-img"></i>
-    {% endif %}
-    <div class="div-dados div-company">
+  <div class="photo">  
+    <img src="{{ company.get_url_photo }}" class="photo-img" alt="foto da empresa">
+  </div>  
+  <div class="div-dados">
         <p class="p-dados p-negrito">{{company.name}}</p>
-        <p class="p-dados">{{company.business_area}}</p>
+        <p class="p-dados">{{company.business_areas|display_business_area}}</p>
         <p class="p-dados">{{company.city}}, {{company.state}}</p>
-    </div>
+  </div>
+  <p></p>
 </a>
 {% endfor %}
 

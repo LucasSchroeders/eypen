@@ -29,9 +29,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #app local
     'users',
+    'company',
     #apis
     'fontawesomefree',
     'rest_framework',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -122,6 +124,9 @@ MEDIA_URL = 'media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+LOGIN_URL = 'login'
+LOGIN_ERROR_URL = '/login'
+LOGIN_REDIRECT_URL = '/login'
 LOGOUT_REDIRECT_URL = '/login'
 
 PAGINATION_PAGE_DEFAULT = 8

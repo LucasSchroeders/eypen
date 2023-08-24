@@ -17,7 +17,7 @@ class Profile(models.Model):
         verbose_name="Usuário",
         on_delete=models.CASCADE,
     )
-    full_name = models.CharField(
+    name = models.CharField(
         max_length=80,
         db_index=True,
         blank=True,
@@ -51,8 +51,8 @@ class Profile(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Criado em")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Atualizado em")
     company = models.ForeignKey(
-        'users.Company',
-        related_name='company_profile',
+        'company.Company',
+        related_name='profile',
         blank=True,
         null=True,
         on_delete=models.CASCADE,
@@ -63,7 +63,7 @@ class Profile(models.Model):
         verbose_name = "Perfil"
         verbose_name_plural = "Perfis"
         indexes = [
-            models.Index(fields=['full_name']),
+            models.Index(fields=['name']),
             models.Index(fields=['cpf', 'cpf_hashed']),
             models.Index(fields=['is_disabled']),
         ]
@@ -123,6 +123,12 @@ class Profile(models.Model):
         academic = self.academic_formation.create(**academic_formation_data)
         return academic.to_dict()
 
+    @property
+    def get_url_photo(self):
+        if self.photo and hasattr(self.photo, 'url'):
+            return self.photo.url
+        else:
+            return "/static/images/user.png"
 
 @receiver(post_save, sender=User)
 def update_user_profile(sender, instance, created, **kwargs):

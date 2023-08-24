@@ -1,0 +1,247 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/company/company_register.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/utils/pnotify.custom.min.css' %}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'js/jquery.mask.min.js' %}"></script>
+    <script src="{% static 'js/pnotify.custom.min.js' %}"></script>
+    <title>Informações da Empresa</title>
+</head>
+<body>
+    <div class="body">
+        <div class="form-div">
+            <form method="post"
+            {% if company %} action="{% url 'company_edit' id=company.id %}" {% else %} action="{% url 'signup_company' %}" {% endif %}
+            enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="div-row">
+                    <div class="div-column">
+                        <div class="photo">
+                            <div class="photo__div">
+                                {% if company %}
+                                <img src="{{ company.get_url_photo }}" class="photo-img" alt="foto de perfil">
+                                {% else %}
+                                <i class="fa-solid fa-building icon"></i>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <label class="picture" for="foto" tabindex="0">
+                            <span class="picture__image">Escolha uma imagem</span>
+                        </label>
+                        <input type="file" name="foto" id="foto" class="file"/>
+                    </div>
+                    <div class="div-column">
+                        <div class="form-field">
+                            <label for="cnpj">CNPJ:</label>
+                            <div class="form-imput">
+                                <input type="text" name="cnpj" id="cnpj"
+                                {% if company %} value="{{company.cnpj}}"{% endif %}
+                                 required class="input-line">
+                            </div>
+                        </div>
+                        <div class="form-field">
+                            <label for="name">Nome:</label>
+                            <div class="form-input">
+                                <input type="text" name="name" id="name" 
+                                {% if company %} value="{{company.name}}"{% endif %}
+                                required class="input-line">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="div-row">
+                    <div class="form-field">
+                        <label for="business_area">Setor de Atuação</label>
+                        <div class="form-input">
+                            <select class="form-control" name="business_area" id="business_area" required>
+                                <option value="" disabled selected>Selecione um setor de atuação</option>
+                                {% for area in business_areas %}
+                                <option value="{{area.0}}" {%if company.business_area == area.0%} selected {%endif%}>{{area.1}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="div-row2">
+                    <label for="about-us">Sobre a empresa</label>
+                    <div class="form-input">
+                        <textarea name="about-us" id="about-us" class="form-control">{% if company %}{{company.about_us}}{% endif %}</textarea>
+                    </div>
+                </div>
+                <div class="div-row">
+                    <div class="form-field">
+                        <label for="state">Estado:</label>
+                        <div class="form-input">
+                            <select name="state" id="state" class="form-control">
+                                <option value="" disabled selected>Selecione o estado</option>
+                                {% for state in states %}
+                                <option value="{{state.0}}" {%if company.state == state.0%} selected {%endif%}>{{state.1}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-field form-city">
+                        <label for="city">Cidade:</label>
+                        <div class="form-input">
+                            <select name="city" id="city" class="form-control">
+                                <option value="" disabled selected>Selecione a cidade</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="div-button">
+                    <button type="submit" id="form-button" class="button">Salvar</button>
+                    <button type="button" class="button">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="div-icon-accessibility">
+        <i class="fa-sharp fa-solid fa-universal-access icon"></i>
+    </div>
+</body>
+<script>
+    const inputFile = document.querySelector("#foto");
+    inputFile.addEventListener("change", function(e){
+        var divPhoto = document.querySelector(".photo__div");
+        const inputTarget = e.target;
+        const file = inputTarget.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.addEventListener("load", function(e){
+                const readerTarget = e.target;
+
+                const img = document.createElement("img");
+                img.src = readerTarget.result;
+                img.classList.add("photo-img");
+
+                divPhoto.innerHTML = "";
+                divPhoto.appendChild(img);
+            })
+
+            reader.readAsDataURL(file);
+        }
+    })
+
+    document.body.onload = getCities
+
+    var state = document.querySelector("#state");
+    state.addEventListener("change", getCities);
+
+    function getCities() {
+        let url = `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${state.value}/municipios`
+        $("#city").empty();
+        $("#city").append(`<option value="" disabled selected>Selecione a cidade</option>`);
+
+        let conteudo = "<optiongroup>";
+        $.getJSON(url, function(data){
+            $.each(data, function(k, v){
+                if ('{{company.city}}' == v.nome){
+                    $("#city").append(`<option value="${v.nome}" selected>${v.nome}</option>`);
+                }else{
+                    $("#city").append( `<option value="${v.nome}">${v.nome}</option>`);
+                }
+            });
+        });
+    }
+
+    $("#cnpj").mask('00.000.000/0000-00');
+
+    // var formBtn = document.getElementById('form-button')
+    // formBtn.addEventListener('click',saveCompany)
+
+    // var edit = '{{request.session.edit}}'
+    
+    // function saveCompany() {
+    //     var photo = document.getElementById('foto').value
+    //     var cnpj = document.getElementById('cnpj').value
+    //     var name = document.getElementById('name').value
+    //     var checkboxes = document.querySelectorAll('.checkbox')
+    //     var aboutUs = document.getElementById('about-us').value     
+    //     var state = document.getElementById('state').value
+    //     var city = document.getElementById('city').value
+
+    //     var business_area = []
+
+    //     checkboxes.forEach(function(e){
+    //         if (e.checked) {
+    //             business_area.push(e.name)
+    //         }
+    //     })
+
+    //     cnpj = cnpj.replace('.', '')
+    //     cnpj = cnpj.replace('.', '')
+    //     cnpj = cnpj.replace('/', '')
+    //     cnpj = cnpj.replace('-', '')
+
+    //     const data = {
+    //         'photo': photo,
+    //         'cnpj': cnpj,
+    //         'name': name,
+    //         'about_us': aboutUs,
+    //         'state': state,
+    //         'city': city,
+    //         'business_areas': business_area,
+    //     }
+
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: edit == 'true' ? `/api/company/${'{{company.id}}'}/edit` : '/cadastro/empresa',
+    //         dataType: 'json',
+    //         headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
+    //         data: JSON.stringify(data),
+    //         success: function (retorno) {
+    //             new PNotify({
+    //                 title:'Empresa salva',
+    //                 text: retorno.detail,
+    //                 type: 'success',
+    //                 delay:'5000'
+    //             });
+
+    //         },
+    //         error: function (error) {
+    //             if (error.statusText == 'timeout') {
+    //             new PNotify({
+    //                 title: 'Requisição Cancelada',
+    //                 text: 'Requisição ao serviço cancelada. Tente novamente em alguns minutos.',
+    //                 type: 'error',
+    //                 delay: '5000'
+    //             });
+    //             }
+
+    //             console.log(error);
+    //         }
+    //     });
+
+    // }
+
+</script>
+
+{% for message in messages %}
+  <script type="text/javascript">
+    $(document).ready(function () {
+      new PNotify({
+        title: '{{ message.extra_tags }}',
+        text: '{{ message.message }}',
+        type: '{{ message.level_tag }}',
+      });
+    });
+  </script>
+{% endfor %}
+</html>

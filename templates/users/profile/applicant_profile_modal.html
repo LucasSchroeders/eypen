@@ -116,12 +116,9 @@
                     <div class="form-input">
                         <select id="job_type" class="form-control" required>
                             <option value="" disabled selected>Selecione um tipo de emprego</option>
-                            <option value="autonomo">Autônomo</option>
-                            <option value="clt">CLT</option>
-                            <option value="freelance">Freelance</option>
-                            <option value="estagio">Estágio</option>
-                            <option value="aprendiz">Aprendiz</option>
-                            <option value="trainee">Trainee</option>
+                            {% for job in job_type %}
+                            <option value="{{job.0}}">{{job.1}}</option>
+                            {% endfor %}
                         </select>
                     </div>
                 </div>
@@ -136,9 +133,9 @@
                     <div class="form-input">
                         <select id="job_modality" class="form-control" required>
                             <option value="" disabled selected>Selecione uma modalidade</option>
-                            <option value="presencial">Presencial</option>
-                            <option value="hibrido">Híbrido</option>
-                            <option value="home_office">Home Office</option>
+                            {% for job in job_modality %}
+                            <option value="{{job.0}}">{{job.1}}</option>
+                            {% endfor %}
                         </select>
                     </div>
                 </div>
