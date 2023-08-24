@@ -1,13 +1,46 @@
 from django import template
 
+from users.choices import (
+    BUSINESS_AREAS_CHOICES,
+    SENIORITY_CHOICES,
+    JOB_MODALITY,
+    JOB_TYPE,
+    VULNERABILITIES_CHOICES
+)
+
 register = template.Library()
 
 
 @register.filter
 def display_business_area(value):
-    value = value.replace('[', '')
-    value = value.replace(']', '')
-    for v in value:
-        if v == '\"':
-            value = value.replace('\"', '')
-    return value
+    for k, v in BUSINESS_AREAS_CHOICES:
+        if k == value:
+            return v
+
+
+@register.filter
+def display_seniority(value):
+    for k, v in SENIORITY_CHOICES:
+        if k == value:
+            return v
+
+
+@register.filter
+def display_job_modality(value):
+    for k, v in JOB_MODALITY:
+        if k == value:
+            return v
+
+
+@register.filter
+def display_job_type(value):
+    for k, v in JOB_TYPE:
+        if k == value:
+            return v
+        
+
+@register.filter
+def display_vulnerabilities(value):
+    for k, v in VULNERABILITIES_CHOICES:
+        if k == value:
+            return v
