@@ -60,7 +60,7 @@
     <div class="div-several-content" id="div-vaga">
         {% for vacancy in company.vacancies.all %}
         <div class="div-several-row">
-            <img src="{% static 'images/vaga.png' %}" class="img-several" alt="imagem representativa para vagas">
+            <img src="{{ vacancy.get_url_photo }}" class="img-several" alt="imagem representativa para vagas">
 
             <div class="div-dados div-several-row-text">
                 <h5>{{vacancy.job_position}}</h5>
