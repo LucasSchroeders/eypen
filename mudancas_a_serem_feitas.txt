@@ -1,0 +1,25 @@
+ - fazer retorno de pop-up para senha e/ou user não encontrado
+ - Quando estiver na parte final do desenvolviment, colocar validação de CPF e RG existentes
+ - colocar um icone de seta para baixo nos selects
+ - colocar url de redirecionamento no botão cancelar na pagina de edicao/cadastro de perfil
+ - Colocar as ultimas experiencias e formações academicas na de informações de perfil
+ - Centralizar as informações no conteiner de informações de perfil eixo y (formatação)
+ - melhorar o modal - procurar uma forma melhor para fazer
+ - verificar se tem API para pegar instiuições academicas (opcional)
+ - Alterar as datas de experiencias e formações academicas para pegar somente mes e ano
+ - colocar filtro de data para exibir nos templates (todas as paginas) - filtro: date:"M, Y"
+ - Fazer com que ao escrever a empresa ao adicionar experiencia, pesquisar se existe a empresa cadastrada
+ - colocar os choices como opção no setor de atuação da empresa ao adiconar experiencia
+ - Fazer com que desabilite/suma o setor de atuação da empresa ao adicionar experiencia (opcional)
+ - colocar filtro de escolhas ao exibir infos retiradas dos choices (todas as paginas)
+ - colocar verificação se for apenas uma formação academica, competencia ou experiencia, não ter a tag hr
+ - verificar e fazer com que apareçam as opções de experiencia e formação academica na adição de competencias ao serem cadastradas sem carregar a pagina
+ - colocar espaço para exibir/fazer download de curriculo (ter input para receber no cadastro/edicao e mudar no model)
+ - retirar o botão "sou uma empresa" (falar com o Kaneto)
+ - rever todos os caminhos de url para carregar template e verificar se estão corretos
+ - Ter uma opção para receber as informações para criar um perfil de empresa vinculada a ela
+ - Fazer verificação do user vinculado a empresa para ao fazer login, caso n tenha empresa ainda ser redirecionado para fazer o cadastro da empresa
+ - na tela de empresa, colocar centralido as informações da empresa (formatação)
+ - Rever todos os choices - verificar se tem mais alguma opção que pode entrar
+ - Fazer ajuste no consumo da api de competencias, experiencias e formações academicas - seguir o arquivo modal.txt
+
