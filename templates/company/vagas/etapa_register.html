@@ -1,0 +1,64 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/company/etapa_register.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'js/jquery.mask.min.js' %}"></script>
+    <title>Cadastro Vagas</title>
+</head>
+<body>
+    <div class="div-icon-accessibility">
+        <i class="fa-sharp fa-solid fa-universal-access"></i>
+    </div>
+
+    <div class="body">
+        <div class="form-div">
+            <div class="add-etapa">
+                <p class="p-title1">Cadastro de Etapas</p>
+                <label for="etapas">Etapas:</label>
+                <button class="button-etp" data-toggle="modal" data-target="#modalEtapa">Adicionar</button>
+                <hr>
+            </div>
+            <div class="div-content">
+                <div class="div-etapas-cadastradas">
+                    <div class="etapas-cadastradas" id="etapas-cadastradas">
+                        <p class="etapa-title">1 - Entrevista</p>
+                        <div class="div-row">
+                            <div class="div-column">
+                                <p class="etapa-text">Etapa será feita de forma remota</p>
+                                <p class="etapa-text">Etapa será aplicada para deficientes visuais</p>
+                            </div>
+                            <div class="div-description-icon">
+                                <p class="etapa-text description">Descrição da etapa: </p>
+                                <div class="buttons-icon">
+                                    <a onclick="" class="icon-several"><i class="fa-solid fa-pen"></i></a>
+                                    <a onclick="" class="icon-several icon-trash"><i class="fa-solid fa-trash"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="linha">
+                    </div>
+                </div>
+
+                <div class="div-button">
+                    <a href="{% url 'exibir_vagas' id=id_company id_vacancy=id_vacancy %}" class="button">Finalizar</a>
+                </div>
+            </div>
+        </div>
+
+        {% block modal%}
+        {% include "company/vagas/etapa_register_modal.html" %}
+        {% endblock modal %}
+    </div>
+</body>
+</html>
