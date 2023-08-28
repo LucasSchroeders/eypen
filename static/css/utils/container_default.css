@@ -38,3 +38,13 @@ a:visited{
     color: #000;
     text-decoration: none;
 }
+
+@media (max-width: 480px) {
+    .div-container{
+        width: 70%;
+        background-color: #fff;
+        display: flex;
+        flex-direction: column;
+        border-radius: 10px;
+    }
+}

@@ -53,51 +53,51 @@
       {% endif %}
     </div>
 
-    <ul>
+    <div class="div-list">
       {% if profile_user.is_applicant %}
-      <li class="menu-item">
+      <span class="menu-item">
         <a href="#">
           <span class="icon"><i class="fa-regular fa-suitcase"></i></span>
           <span class="txt-link">Procurar vagas</span>
         </a>
-      </li>
+      </span>
       {% endif %}
 
       {% if profile_user.is_applicant %}
-      <li class="menu-item">
+      <span class="menu-item">
         <a href="{% url 'busca_empresa' %}">
           <span class="icon"><i class="fa-regular fa-building"></i></span>
           <span class="txt-link">Procurar empresas</span>
         </a>
-      </li>
+      </span>
       {% endif %}
 
-      <li class="menu-item">
+      <span class="menu-item">
         <a href="{% url 'busca_perfil' %}">
           <span class="icon"><i class="fa-regular fa-user"></i></span>
           <span class="txt-link">Procurar perfis</span>
         </a>
-      </li>
+      </span>
 
       {% if profile_user.is_company %}
-      <li class="menu-item">
+      <span class="menu-item">
         <a href="#">
           <span class="icon"><i class="fa-solid fa-clipboard"></i></span>
           <span class="txt-link">Cadastrar vagas</span>
         </a>
-      </li>
+      </span>
       {% endif %}
 
       <div class="menu-item-sair">
-        <li class="menu-item" id="sair">
+        <span class="menu-item" id="sair">
           <a href="{% url 'logout' %}">
             <span class="icon"><i class="fa-regular fa-right-from-bracket"></i></span>
             <span class="txt-link">Sair</span>
           </a>
-        </li>
+        </span>
       </div>
 
-    </ul>
+    </div>
   </nav>
   
   <div class="div-icon-accessibility">

@@ -53,3 +53,15 @@
     display: flex;
     flex-direction: row;
 }
+
+@media (max-width: 480px) {
+    
+    .form-label2{
+        margin-left: 0%;
+    }
+
+    .pagination {
+        display: flex;
+        flex-direction: column;
+    }
+}
