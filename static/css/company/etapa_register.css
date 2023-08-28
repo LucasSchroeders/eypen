@@ -1,3 +1,22 @@
+*{
+    scrollbar-width: thin;
+    scrollbar-color: blue orange;
+}
+
+*::-webkit-scrollbar {
+    width: 10px;
+}
+
+*::-webkit-scrollbar-track {
+    background: rgb(192, 192, 191);
+    border-radius: 20px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: rgb(135, 135, 138);
+    border-radius: 20px;
+}
+
 .body{
     background-color: #F8F4F4;
     display: flex;
@@ -116,8 +135,8 @@
 }
 
 .div-etapas-cadastradas{
-    overflow: scroll, hidden;
-    max-height: 540px;
+    overflow: auto;
+    height: 540px;
 }
 
 .div-content{
