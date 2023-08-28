@@ -31,6 +31,7 @@ class Step(models.Model):
     
     def to_dict(self):
         return {
+            'id': self.pk,
             'step': self.step,
             'title': self.title,
             'step_modality': self.step_modality,
