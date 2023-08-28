@@ -61,8 +61,10 @@ class Vacancy(models.Model):
     def __str__(self):
         return str(self.pk)
     
-    def create_step(self):
-        return
+    def create_step(self, **context):
+        step = self.steps.create(**context)
+        
+        return step.to_dict()
     
     def get_url_photo(self):
         return "/static/images/vaga.png"
