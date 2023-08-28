@@ -9,6 +9,7 @@
             </div>
 
             <form id="form">
+                {% csrf_token %}
                 <div class="modal-body">
                     <div class="div-row">
                         <div class="div-form-field">
@@ -63,7 +64,7 @@
                             <div class="form-field">
                                 <label for="step_type">Tipo da Etapa:</label>
                                 <div class="form-input">
-                                    <input type="text" name="step_typea" id="step_type" placeholder="Exemplo: Entrevista ou Teste de conhecimento" required class="input-line form-control">
+                                    <input type="text" name="step_type" id="step_type" placeholder="Exemplo: Entrevista ou Teste de conhecimento" required class="input-line form-control">
                                 </div>
                             </div>
                         </div>
