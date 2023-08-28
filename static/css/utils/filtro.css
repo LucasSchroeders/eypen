@@ -50,14 +50,15 @@ label{
 }
 
 @media (max-width: 480px) {
+    
     .div-row1{
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
     }
     
     .div-row2{
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         justify-content: space-between;
     }
     
@@ -83,6 +84,6 @@ label{
     }
 
     .form-label2{
-    margin-left: 10%;
+    margin-left: 0%;
     }   
 }

@@ -1,14 +1,13 @@
 {% extends 'base.html' %}
 {%load static%}
 {%block css%}
-<link rel="stylesheet" href="{% static 'css/utils/container_default.css' %}" />
-<link rel="stylesheet" href="{% static 'css/company/vagas_approve.css' %}" />
+<link rel="stylesheet" href="{% static 'css/company/vaga_approve.css' %}" />
 {%endblock css%}
 {%block body%}
 <div class="div-field">
     <div class="div-row">
-        <p>Etapa 1</p>
-        <p>Formulario de conhecimento</p>
+        <p class="p-negrito">Etapa 1</p>
+        <p class="p-negrito p-form">Formulario de conhecimento</p>
     </div>
     <div>
         <p>Descrição:</p>
@@ -16,21 +15,23 @@
     </div>
 </div>
 
-<div class="div-field">
-    <p>Candidatos na etapa:</p>
+<div class="div-field2">
+    <p class="p-negrito">Candidatos na etapa:</p>
+    <div class="div-scroll">
+        <div class="div-container">
+            <div class="photo">
+            <img src="" class="photo-img" alt="foto de perfil">
+            </div>
+            <div class="div-dados">
+            <p class="p-dados p-negrito">Nome</p>
+            <p class="p-dados">Cargo</p>
+            <p class="p-dados">Estado/cidade</p>
+            </div>
+            <div class="bt-approved">
+                <input class="bt-checkbox" type="checkbox" id="approved" name="approved">
+            </div>
+        </div>
 
-    <div class="div-container">
-        <div class="photo">
-          <img src="{{ profile.get_url_photo }}" class="photo-img" alt="foto de perfil">
-        </div>
-        <div class="div-dados">
-          <p class="p-dados p-negrito">{{profile.name}}</p>
-          <p class="p-dados">{{experience.position}}</p>
-          <p class="p-dados">{{profile.city}}, {{profile.state}}</p>
-        </div>
-        <div>
-            <input type="checkbox" id="approved" name="approved">
-        </div>
     </div>
 </div>
 
@@ -38,26 +39,26 @@
     <input type="submit" class="form-button" value="Aprovar" />
 </div>
 
-<div class="div-field">
-    <p>Candidatos Aprovados:</p>
+<div class="div-field2">
+    <p class="p-negrito">Candidatos Aprovados:</p>
 
     <div class="div-container">
         <div class="photo">
-          <img src="{{ profile.get_url_photo }}" class="photo-img" alt="foto de perfil">
+          <img src="" class="photo-img" alt="foto de perfil">
         </div>
         <div class="div-dados">
-          <p class="p-dados p-negrito">{{profile.name}}</p>
-          <p class="p-dados">{{experience.position}}</p>
-          <p class="p-dados">{{profile.city}}, {{profile.state}}</p>
+          <p class="p-dados p-negrito">Nome</p>
+          <p class="p-dados">Cargo</p>
+          <p class="p-dados">Estado/cidade</p>
         </div>
-        <div>
+        <div class="bt-approved">
             <input type="submit" id="approved" value="Retirar">
         </div>
     </div>
 </div>
 
 <div class="div-button">
-    <input type="submit" class="form-button" value="Finalizar Etapa" />
+    <input type="submit" class="form-button2" value="Finalizar Etapa" />
 </div>
 
 

@@ -145,3 +145,17 @@ a{
     margin-top: 0.5rem;
 }
 
+@media (max-width: 480px) {
+    
+    .div-form{
+        height: 50vh;
+        width: 70%;
+        background-color: #fff;
+        display: flex;
+        flex-direction: column;
+        align-self: center;
+        justify-self: center;
+        padding: 2rem 2rem;
+    }
+    
+}
