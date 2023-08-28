@@ -9,11 +9,13 @@
     <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/utils/pnotify.custom.min.css' %}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="{% static 'js/jquery.mask.min.js' %}"></script>
+    <script src="{% static 'js/pnotify.custom.min.js' %}"></script>
     <title>Cadastro Vagas</title>
 </head>
 <body>
@@ -32,21 +34,26 @@
             <div class="div-content">
                 <div class="div-etapas-cadastradas">
                     <div class="etapas-cadastradas" id="etapas-cadastradas">
-                        <p class="etapa-title">1 - Entrevista</p>
-                        <div class="div-row">
-                            <div class="div-column">
-                                <p class="etapa-text">Etapa será feita de forma remota</p>
-                                <p class="etapa-text">Etapa será aplicada para deficientes visuais</p>
-                            </div>
-                            <div class="div-description-icon">
-                                <p class="etapa-text description">Descrição da etapa: </p>
-                                <div class="buttons-icon">
-                                    <a onclick="" class="icon-several"><i class="fa-solid fa-pen"></i></a>
-                                    <a onclick="" class="icon-several icon-trash"><i class="fa-solid fa-trash"></i></a>
+                        {% for step in steps %}
+                        <div id="step-{{step.id}}">
+                            <p class="etapa-title">{{step.step}} - {{step.title}}</p>
+                            <div class="div-row">
+                                <div class="div-column">
+                                    <p class="etapa-text">Tipo da etapa: {{step.step_type}}</p>
+                                    <p class="etapa-text">Etapa será feita de forma {{step.step_modality}}</p>
+                                    <p class="etapa-text">Etapa será aplicada para {{step.step_vulnerability}}</p>
+                                </div>
+                                <div class="div-description-icon">
+                                    <p class="etapa-text description">Descrição da etapa: {{step.description}}</p>
+                                    <div class="buttons-icon">
+                                        <a onclick="getStep('{{step.id}}')" class="icon-several"><i class="fa-solid fa-pen"></i></a>
+                                        <a onclick="deleteStep('{{step.id}}')" class="icon-several icon-trash"><i class="fa-solid fa-trash"></i></a>
+                                    </div>
                                 </div>
                             </div>
+                            <hr class="linha">
                         </div>
-                        <hr class="linha">
+                        {% endfor %}
                     </div>
                 </div>
 
@@ -63,30 +70,213 @@
 </body>
 
 <script>
-    var url = '';
-    var type = '';
+    var url = "/api/vagas/{{id_vacancy}}/step";
+    var type = 'post';
+
+    function getStep(step_id){
+        $.ajax({
+            type: 'get',
+            url: `/api/vagas/${step_id}/step`,
+            headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
+            success: function (retorno) {
+                response = retorno.detail
+                $('#step').val(response['step'])
+                document.getElementById("title").value = response['title']
+                document.getElementById("description").value = response['description']
+                $('#company').val(response['company'])
+                document.getElementById("step_modality").value = response['step_modality']
+                document.getElementById("step_vulnerability").value = response['step_vulnerability']
+                document.getElementById("step_type").value = response['step_type']
+
+                url = `/api/vagas/${response['id']}/step`
+                type = 'put'
+
+                $('#modalEtapa').modal('show')
+
+            },
+            error: function (error) {
+                if (error.statusText == 'timeout') {
+                    new PNotify({
+                        title: 'Requisição Cancelada',
+                        text: 'Requisição ao serviço cancelada. Tente novamente em alguns minutos.',
+                        type: 'error',
+                        delay: '5000'
+                    });
+                }
+
+                console.log(error);
+            }
+        });
+    }
 
     $('#form').submit(function(event){
         event.preventDefault()
+
+        if (type == 'post'){
+            createStep()
+        } else {
+            updateStep()
+        }
+
+    })
+
+    function createStep() {
+        var stepModalitySelect = document.getElementById("step_modality");
+        var stepVulnerabilitySelect = document.getElementById("step_vulnerability");
+
         const data = {
-            'competence': competence,
-            'experiences': experiences,
-            'academic_traning': academicTraining,
+            'step': $("#step").val(),
+            'title': $("#title").val(),
+            'step_modality': stepModalitySelect.options[stepModalitySelect.selectedIndex].value,
+            'step_type': $("#step_type").val(),
+            'step_vulnerability': stepVulnerabilitySelect.options[stepVulnerabilitySelect.selectedIndex].value,
+            'description': $("#description").val(),
         }
 
         $.ajax({
-            url: `/api/profile/${'{{profile.id}}'}/edit`,
-            data: data,
+            url: url,
+            dataType: 'json',
+            headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
+            data: JSON.stringify(data),
             type: type,
-            contentType: false,
-            processData: false,
+            // contentType: false,
+            // processData: false,
             success: function(response){
-                console.log(response)
+                var step = response.step
+                
+                var stepDiv = $('#etapas-cadastradas')
+
+                text = `
+                <div id="step-${step.id}">
+                    <p class="etapa-title">${step.step} - ${step.title}</p>
+                    <div class="div-row">
+                        <div class="div-column">
+                            <p class="etapa-text">Tipo da etapa: ${step.step_type}</p>
+                            <p class="etapa-text">Etapa será feita de forma ${step.step_modality}</p>
+                            <p class="etapa-text">Etapa será aplicada para ${step.step_vulnerability}</p>
+                        </div>
+                        <div class="div-description-icon">
+                            <p class="etapa-text description">Descrição da etapa: ${step.description}</p>
+                            <div class="buttons-icon">
+                                <a onclick="getStep('${step.id}')" class="icon-several"><i class="fa-solid fa-pen"></i></a>
+                                <a onclick="deleteStep('${step.id}')" class="icon-several icon-trash"><i class="fa-solid fa-trash"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="linha">
+                </div>
+                `
+                stepDiv.append(text)
+
+                $('#modalEtapa').modal('hide')
+
+                new PNotify({
+                    title:'Etapa criada',
+                    text: response.detail,
+                    type: 'success',
+                    delay:'5000'
+                });
             },
             error: function(response){
                 console.log(response)
             }
         })
-    })
+    }
+
+    function updateStep(){
+        var stepModalitySelect = document.getElementById("step_modality");
+        var stepVulnerabilitySelect = document.getElementById("step_vulnerability");
+
+        const data = {
+            'step': $("#step").val(),
+            'title': $("#title").val(),
+            'step_modality': stepModalitySelect.options[stepModalitySelect.selectedIndex].value,
+            'step_type': $("#step_type").val(),
+            'step_vulnerability': stepVulnerabilitySelect.options[stepVulnerabilitySelect.selectedIndex].value,
+            'description': $("#description").val(),
+        }
+
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
+            data: JSON.stringify(data),
+            type: type,
+            contentType: false,
+            processData: false,
+            success: function(response){
+                var step = response.step
+                
+                var stepDiv = document.getElementById(`step-${step.id}`)
+
+                text = `
+                <p class="etapa-title">${step.step} - ${step.title}</p>
+                <div class="div-row">
+                    <div class="div-column">
+                        <p class="etapa-text">Tipo da etapa: ${step.step_type}</p>
+                        <p class="etapa-text">Etapa será feita de forma ${step.step_modality}</p>
+                        <p class="etapa-text">Etapa será aplicada para ${step.step_vulnerability}</p>
+                    </div>
+                    <div class="div-description-icon">
+                        <p class="etapa-text description">Descrição da etapa: ${step.description}</p>
+                        <div class="buttons-icon">
+                            <a onclick="getStep('${step.id}')" class="icon-several"><i class="fa-solid fa-pen"></i></a>
+                            <a onclick="deleteStep('${step.id}')" class="icon-several icon-trash"><i class="fa-solid fa-trash"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <hr class="linha">
+                `
+                stepDiv.innerHTML = text
+
+                $('#modalEtapa').modal('hide')
+
+                new PNotify({
+                    title:'Etapa atualizada',
+                    text: response.detail,
+                    type: 'success',
+                    delay:'5000'
+                });
+            },
+            error: function(response){
+                console.log(response)
+            }
+        })
+    }
+
+    function deleteStep(step_id){
+        $.ajax({
+            type: 'delete',
+            url: `/api/vagas/${step_id}/step`,
+            headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
+            success: function (retorno) {
+                var el = document.getElementById("etapas-cadastradas");
+                var stepDiv = document.getElementById(`step-${step_id}`);
+                el.removeChild(stepDiv);
+
+                new PNotify({
+                    title:'Etapa excluída',
+                    text: retorno.detail,
+                    type: 'success',
+                    delay:'5000'
+                });
+            },
+            error: function (error) {
+                if (error.statusText == 'timeout') {
+                new PNotify({
+                    title: 'Requisição Cancelada',
+                    text: 'Requisição ao serviço cancelada. Tente novamente em alguns minutos.',
+                    type: 'error',
+                    delay: '5000'
+                });
+                }
+
+                console.log(error);
+            }
+        });
+    }
+
+
+
 </script>
 </html>
