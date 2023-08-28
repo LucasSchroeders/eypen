@@ -22,4 +22,5 @@
  - na tela de empresa, colocar centralido as informações da empresa (formatação)
  - Rever todos os choices - verificar se tem mais alguma opção que pode entrar
  - Fazer ajuste no consumo da api de competencias, experiencias e formações academicas - seguir o arquivo modal.txt
+ - Verificar as APIViews
 
