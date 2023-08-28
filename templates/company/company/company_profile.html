@@ -74,8 +74,8 @@
             
             {% if is_same_company %}
             <div class="div-several-row-icon">
-                <!-- TODO quando criar a API crud do colocar a url -->
-                <a href="" class="icon-several"><i class="fa-solid fa-pen"></i></a>
+                <!-- TODO quando criar a API crud do colocar a url e verificar se será mantido icones abaixo-->
+                <a href="{% url 'editar_vagas' id=company.id id_vacancy=vacancy.id %}" class="icon-several"><i class="fa-solid fa-pen"></i></a>
                 <a href="" class="icon-several icon-trash"><i class="fa-solid fa-trash"></i></a>
             </div>
             {% else %}
