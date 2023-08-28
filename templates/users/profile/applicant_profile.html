@@ -554,8 +554,6 @@
             url: `/api/profile/${academic_id}/academic-formation`,
             headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
             success: function (retorno) {
-                var div = document.getElementById("div-content-academic")
-                div.removeChild(div.lastElementChild)
                 $(`#div-academic-${academic_id}`).remove()
                 new PNotify({
                     title:'Formação acadêmica excluída',
