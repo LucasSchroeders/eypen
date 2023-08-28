@@ -8,23 +8,23 @@
                 </a>
             </div>
 
-            <form action="" method="post">
+            <form id="form">
                 <div class="modal-body">
                     <div class="div-row">
                         <div class="div-form-field">
                             <div class="form-field">
-                                <label for="num-etapa">Número da Etapa:</label>
+                                <label for="step">Número da Etapa:</label>
                                 <div class="form-input">
-                                    <input type="number" name="num-etapa" id="num-etapa" required class="input-line form-control" min="1">
+                                    <input type="number" name="step" id="step" required class="input-line form-control" min="1">
                                 </div>
                             </div>
                         </div>
 
                         <div class="div-form-field">
                             <div class="form-field">
-                                <label for="nome-etapa">Nome da Etapa:</label>
+                                <label for="title">Nome da Etapa:</label>
                                 <div class="form-input">
-                                    <input type="text" name="nome-etapa" id="nome-etapa" required class="input-line form-control">
+                                    <input type="text" name="title" id="title" required class="input-line form-control">
                                 </div>
                             </div>
                         </div>
@@ -33,9 +33,9 @@
                     <div class="div-row">
                         <div class="div-form-field">
                             <div class="form-field">
-                                <label for="modalidade">Modalidade:</label>
+                                <label for="step_modality">Modalidade:</label>
                                 <div class="form-input">
-                                    <select name="modalidade" id="modalidade" class="form-control" required>
+                                    <select name="step_modality" id="step_modality" class="form-control" required>
                                         <option value="" disabled selected>Selecione uma modalidade</option>
                                         <option value="remoto">Remoto</option>
                                         <option value="presencial">Presencial</option>
@@ -46,9 +46,9 @@
 
                         <div class="div-form-field">
                             <div class="form-field">
-                                <label for="vulnerability">Para quem é a etapa:</label>
+                                <label for="step_vulnerability">Para quem é a etapa:</label>
                                 <div class="form-input">
-                                    <select name="vulnerability" id="vulnerability" class="form-select">
+                                    <select name="step_vulnerability" id="step_vulnerability" class="form-select">
                                         <option value="">Todos</option>
                                         {% for vulnerability in vulnerabilities%}
                                         <option value="{{vulnerability.0}}">{{vulnerability.1}}</option>
@@ -61,20 +61,20 @@
 
                         <div class="div-form-field">
                             <div class="form-field">
-                                <label for="tipo-etapa">Tipo da Etapa:</label>
+                                <label for="step_type">Tipo da Etapa:</label>
                                 <div class="form-input">
-                                    <input type="text" name="tipo-etapa" id="tipo-etapa" placeholder="Exemplo: Entrevista ou Teste de conhecimento" required class="input-line form-control">
+                                    <input type="text" name="step_typea" id="step_type" placeholder="Exemplo: Entrevista ou Teste de conhecimento" required class="input-line form-control">
                                 </div>
                             </div>
                         </div>
                     
                     <div class="descricao">
-                        <label for="descricao">Descrição da Etapa:</label>
-                        <textarea class="form-control" id="descricao" required></textarea>
+                        <label for="description">Descrição da Etapa:</label>
+                        <textarea class="form-control" id="description" name="description" required></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="form-button">Salvar</button>
+                    <button type="submit" class="form-button" id="form-button-save">Salvar</button>
                 </div>
             </form>
 
