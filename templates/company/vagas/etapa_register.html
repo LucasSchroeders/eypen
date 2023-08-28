@@ -61,4 +61,32 @@
         {% endblock modal %}
     </div>
 </body>
+
+<script>
+    var url = '';
+    var type = '';
+
+    $('#form').submit(function(event){
+        event.preventDefault()
+        const data = {
+            'competence': competence,
+            'experiences': experiences,
+            'academic_traning': academicTraining,
+        }
+
+        $.ajax({
+            url: `/api/profile/${'{{profile.id}}'}/edit`,
+            data: data,
+            type: type,
+            contentType: false,
+            processData: false,
+            success: function(response){
+                console.log(response)
+            },
+            error: function(response){
+                console.log(response)
+            }
+        })
+    })
+</script>
 </html>
