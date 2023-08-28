@@ -28,3 +28,35 @@ class Step(models.Model):
 
     def __str__(self):
         return str(self.pk)
+    
+    def to_dict(self):
+        return {
+            'step': self.step,
+            'title': self.title,
+            'step_modality': self.step_modality,
+            'step_type': self.step_type,
+            'step_vulnerability': self.step_vulnerability,
+            'description': self.description,
+        }
+    
+    def update(self, context):
+        if not context.get('step') == self.step:
+            self.step = context.get('step')
+
+        if not context.get('title') == self.title:
+            self.title = context.get('title')
+
+        if not context.get('step_modality') == self.step_modality:
+            self.step_modality = context.get('step_modality')
+            
+        if not context.get('step_type') == self.step_type:
+            self.step_type = context.get('step_type')
+
+        if not context.get('step_vulnerability') == self.step_vulnerability:
+            self.step_vulnerability = context.get('step_vulnerability')
+
+        if not context.get('description') == self.description:
+            self.description = context.get('description')
+
+        self.save()
+        return self.to_dict()
