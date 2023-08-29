@@ -114,7 +114,7 @@
                 <div class="form-field">
                     <label for="job_type">Tipo de Emprego</label>
                     <div class="form-input">
-                        <select id="job_type" class="form-control" required>
+                        <select id="job_type" class="form-select" required>
                             <option value="" disabled selected>Selecione um tipo de emprego</option>
                             {% for job in job_type %}
                             <option value="{{job.0}}">{{job.1}}</option>
@@ -131,7 +131,7 @@
                 <div class="form-field">
                     <label for="job_modality">Modalidade</label>
                     <div class="form-input">
-                        <select id="job_modality" class="form-control" required>
+                        <select id="job_modality" class="form-select" required>
                             <option value="" disabled selected>Selecione uma modalidade</option>
                             {% for job in job_modality %}
                             <option value="{{job.0}}">{{job.1}}</option>
