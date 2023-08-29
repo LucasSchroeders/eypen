@@ -139,7 +139,7 @@
             <img src="{{ profile.get_url_photo }}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
             <div class="several-row-text2">
                 <p>{{experience.position}}</p>
-                <p>{{experience.company}} • {{experience.job_modality}}</p>
+                <p>{{experience.company}} • {{experience.job_modality|display_job_modality}}</p>
                 <p>{{experience.started_at}} - {% if experience.is_working %}até o momento{% else %}{{experience.ended_at}}{% endif %}</p>
             </div>
             {% if is_same_profile %}
