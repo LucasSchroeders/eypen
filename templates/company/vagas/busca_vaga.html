@@ -30,7 +30,7 @@
           <div class="form-field">
             <label for="business_area">Setor de Atuação</label>
             <div class="form-input">
-                <select class="form-control" name="business_area" id="business_area">
+                <select class="form-select" name="business_area" id="business_area">
                     <option value="" selected>Todos</option>
                     {% for area in business_areas %}
                     <option value="{{area.0}}" {%if request.session.business_area == area.0%} selected {%endif%}>{{area.1}}</option>
@@ -42,7 +42,7 @@
           <div class="form-field">
             <label for="vulnerability">Vulnerabilidade</label>
             <div class="form-input">
-              <select class="form-control" name="vulnerability" id="vulnerability">
+              <select class="form-select" name="vulnerability" id="vulnerability">
                 <option value="" selected>Todos</option>
                 {% for vulnerability in vulnerabilities %}
                 <option value="{{vulnerability.0}}" {%if request.session.vulnerability == vulnerability.0%} selected {%endif%}>{{vulnerability.1}}</option>
@@ -56,7 +56,7 @@
           <div class="form-field">
             <label for="seniority">Senioridade</label>
             <div class="form-input">
-                <select class="form-control" name="seniority" id="seniority">
+                <select class="form-select" name="seniority" id="seniority">
                     <option value="" selected>Todos</option>
                     {% for seniority in seniorities %}
                     <option value="{{seniority.0}}" {%if request.session.seniority == seniority.0%} selected {%endif%}>{{seniority.1}}</option>
@@ -68,7 +68,7 @@
           <div class="form-field">
             <label for="job_modality">Modalidade</label>
             <div class="form-input">
-                <select class="form-control" name="job_modality" id="job_modality">
+                <select class="form-select" name="job_modality" id="job_modality">
                     <option value="" selected>Todos</option>
                     {% for modality in job_modality %}
                     <option value="{{modality.0}}" {%if request.session.job_modality == modality.0%} selected {%endif%}>{{modality.1}}</option>
@@ -80,7 +80,7 @@
           <div class="form-field">
             <label for="job_type">Tipo de emprego:</label>
             <div class="form-input">
-              <select class="form-control" name="job_type" id="job_type">
+              <select class="form-select" name="job_type" id="job_type">
                 <option value="" selected>Todos</option>
                 {% for type in job_type %}
                 <option value="{{type.0}}" {%if request.session.job_type == type.0%} selected {%endif%}>{{type.1}}</option>

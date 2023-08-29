@@ -158,7 +158,7 @@ def signup_company(request):
             'Já existe uma empresa cadastrada com esse CNPJ!',
             extra_tags='Criação de Empresa',
         )
-            return render(request, 'company/company_register.html', {'states': STATES})
+            return render(request, 'company/company/company_register.html', {'states': STATES})
         
         photo = request.FILES.get('foto')
         business_area = post.get('business_area')
@@ -185,4 +185,4 @@ def signup_company(request):
         
         return redirect('company_profile', id=company.id)
     
-    return render(request, 'company/company_register.html', {'states': STATES, 'business_areas': BUSINESS_AREAS_CHOICES})
+    return render(request, 'company/company/company_register.html', {'states': STATES, 'business_areas': BUSINESS_AREAS_CHOICES})

@@ -65,10 +65,10 @@
             <div class="div-dados div-several-row-text">
                 <h5>{{vacancy.job_position}}</h5>
                 <div class="div-info-vagas">
-                    <p class="text-vagas">{{vacancy.JOB_MODALITY}}</p>
+                    <p class="text-vagas">{{vacancy.job_modality|display_job_modality}}</p>
                     <p class="text-vagas">{{vacancy.city}}, {{vacancy.state}}</p>
-                    <p class="text-vagas">{{vacancy.job_type}}</p>
-                    <p>{{vacancy.seniority}}</p>
+                    <p class="text-vagas">{{vacancy.job_type|display_job_type}}</p>
+                    <p>{{vacancy.seniority|display_seniority}}</p>
                 </div>
             </div>
             
