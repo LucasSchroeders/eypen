@@ -22,7 +22,7 @@
 
       <div class="form-field form-label2">
         <label for="genero">Gênero:</label>
-        <select name="genero" id="genero" class="form-control">
+        <select name="genero" id="genero" class="form-select">
           <option value="">Todos</option>
           {% for gender in genders %}
           <option value="{{gender.0}}" {% if request.session.gender == gender.0 %} selected {% endif %}>{{gender.1}}</option>
@@ -35,7 +35,7 @@
     <div class="div-row2">
       <div class="form-field">
         <label for="disabled">Deficiência:</label>
-        <select name="disabled" id="disabled" class="form-control">
+        <select name="disabled" id="disabled" class="form-select">
           <option value="">Todas</option>
           {% for disable in disables %}
           <option value="{{disable.0}}" {% if request.session.disabled == disable.0 %} selected {% endif %}>{{disable.1}}</option>
@@ -45,7 +45,7 @@
 
       <div class="form-field">
         <label for="state">Estado:</label>
-        <select name="state" id="state" class="form-control">
+        <select name="state" id="state" class="form-select">
           <option value="" selected>Selecione um estado</option>
           {% for state in states %}
           <option value="{{state.0}}" {% if request.session.state == state.0 %} selected {% endif %}>{{state.1}}</option>
@@ -55,7 +55,7 @@
 
       <div class="form-field">
         <label for="city">Cidade:</label>
-        <select name="city" id="city" class="form-control">
+        <select name="city" id="city" class="form-select">
           <option value="" selected>Selecione uma cidade</option>
         </select>
       </div>
