@@ -21,7 +21,7 @@
             <div class="form-field">
               <label for="business_area">Setor de Atuação</label>
               <div class="form-input">
-                  <select class="form-control" name="business_area" id="business_area">
+                  <select class="form-select" name="business_area" id="business_area">
                       <option value="" selected>Todos</option>
                       {% for area in business_areas %}
                       <option value="{{area.0}}" {%if request.session.business_area == area.0%} selected {%endif%}>{{area.1}}</option>
@@ -41,7 +41,7 @@
   </div>  
   <div class="div-dados">
         <p class="p-dados p-negrito">{{company.name}}</p>
-        <p class="p-dados">{{company.business_areas}}</p>
+        <p class="p-dados">{{company.business_areas|display_business_area}}</p>
         <p class="p-dados">{{company.city}}, {{company.state}}</p>
   </div>
   <p></p>

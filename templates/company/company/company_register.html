@@ -64,7 +64,7 @@
                     <div class="form-field">
                         <label for="business_area">Setor de Atuação</label>
                         <div class="form-input">
-                            <select class="form-control" name="business_area" id="business_area" required>
+                            <select class="form-select" name="business_area" id="business_area" required>
                                 <option value="" disabled selected>Selecione um setor de atuação</option>
                                 {% for area in business_areas %}
                                 <option value="{{area.0}}" {%if company.business_area == area.0%} selected {%endif%}>{{area.1}}</option>
@@ -96,7 +96,7 @@
                     <div class="form-field form-city">
                         <label for="city">Cidade:</label>
                         <div class="form-input">
-                            <select name="city" id="city" class="form-control">
+                            <select name="city" id="city" class="form-select">
                                 <option value="" disabled selected>Selecione a cidade</option>
                             </select>
                         </div>
