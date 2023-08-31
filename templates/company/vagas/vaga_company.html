@@ -30,7 +30,9 @@
                 </div>
             </div>
         </div>
+        {% if is_same_company %}
         <a href="{% url 'editar_vagas' id=id_company id_vacancy=vacancy.id %}" class="icon-edit"><i class="fa-solid fa-pen-to-square icon"></i></a>
+        {% endif %}
 
         <div class="div-content">
             <p class="p-title">Descrição</p>
@@ -52,13 +54,18 @@
 
             <div class="div-button">
                 {% if profile_user.company.id == id_company %}
+                <form action="{%url 'atualizar_vaga' id=vacancy.id %}" method="post">
+                    {% csrf_token %}
                     {% if vacancy.status == 'PEN' %}
                     <a href="{% url 'registrar_etapa' id=id_company id_vacancy=vacancy.id %}" class="btn-actions">Editar etapa</a>
-                    <button type="button" class="button-ativar btn-actions">Ativar</button>
+                        <button type="submit" name="action" value="ativar" class="button-ativar btn-actions">Ativar</button>
+                        {% elif vacancy.status == 'ATV' %}
+                        <button type="submit" name="action" value="encerrar" class="button-encerrar btn-actions">Encerrar</button>
                     {% endif %}
-                    {% if vacancy.status == 'ATV' %}
-                    <button type="button" class="button-encerrar btn-actions">Encerrar</button>
+                        {% if vacancy.status not in 'INTV,ENC' %}
+                        <button type="submit" name="action" value="inativar" class="button-encerrar btn-actions">Inativar</button>
                     {% endif %}
+                    </form>
                 {% endif %}
                 {% if profile_user.is_applicant %}
                 <button type="button" class="btn-actions">Inscrever-se</button>
