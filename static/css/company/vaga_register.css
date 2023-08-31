@@ -71,12 +71,27 @@
 
 .button-etp{
     height: 2rem;
-    width: 6rem;
+    width: auto;
     background-color: green;
     border-radius: 15px;
     border: none;
     outline: none;
     margin: 0 0.5%;
+    padding: 0 0.5rem;
+}
+
+.etapas{
+    margin-top: 1rem;
+}
+
+a:link{
+    color: #fff;
+    text-decoration: none;
+}
+
+a:visited{
+    color: #fff;
+    text-decoration: none;
 }
 
 .div-button{

@@ -102,11 +102,13 @@
                     <label for="descricao-vaga">Descrição da vaga:</label>
                     <textarea class="textarea form-control" name="descricao-vaga">{% if vacancy %}{{vacancy.description}}{% endif %}</textarea>
                 </div>
-
+                
+                {% if vacancy %}
                 <div class="etapas">
                     <label for="etapas">Etapas:</label>
                     <a href="{% url 'registrar_etapa' id=company.id id_vacancy=vacancy.id %}" class="button-etp">Adicionar</a>
                 </div>
+                {% endif%}
 
                 <div class="div-button">
                     <button type="submit" class="button">Salvar</button>
