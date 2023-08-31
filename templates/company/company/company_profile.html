@@ -59,7 +59,8 @@
 
     <div class="div-several-content" id="div-vaga">
         {% for vacancy in company.vacancies.all %}
-        <a class="div-several-row">
+        <a href="{% url 'exibir_vagas' id=company.id id_vacancy=vacancy.id %}" class="div-several-row">
+            <!-- <a href="{% url 'exibir_vagas' id=company.id id_vacancy=vacancy.id %}"> -->
             <img src="{{ vacancy.get_url_photo }}" class="img-several" alt="imagem representativa para vagas">
 
             <div class="div-dados div-several-row-text">
@@ -71,6 +72,13 @@
                     <p>{{vacancy.seniority|display_seniority}}</p>
                 </div>
             </div>
+            
+            <!-- </a> -->
+            <!-- <div class="div-several-row-icon">
+                TODO quando criar a API crud do colocar a url e verificar se será mantido icones abaixo
+                <a href="{% url 'editar_vagas' id=company.id id_vacancy=vacancy.id %}" class="icon-several"><i class="fa-solid fa-pen"></i></a>
+                <a href="" class="icon-several icon-trash"><i class="fa-solid fa-trash"></i></a>
+            </div> -->
             <p style="margin-left: 50px;"></p>
         </a>
         {% if not company.vacancies.all|length == 1 %}
