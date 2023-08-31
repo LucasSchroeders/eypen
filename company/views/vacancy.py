@@ -15,10 +15,10 @@ from users.choices import (
     BUSINESS_AREAS_CHOICES,
     VULNERABILITIES_CHOICES,
 )
-from users.decorator import company_only, applicant_only
+from users.decorator import company_only, applicant_only, vacancy_status_invalid
 
 
-@method_decorator(login_required, 'dispatch')
+@method_decorator((login_required, vacancy_status_invalid), 'dispatch')
 class VacancyTemplateView(TemplateView):
     template_name = 'company/vagas/vaga_company.html'
 
@@ -33,6 +33,11 @@ class VacancyTemplateView(TemplateView):
         context['profile_user'] = profile
         context['id_company'] = id_company
         context['vacancy'] = vacancy
+        context['is_same_company'] = (
+            profile.company.id == id_company
+            if self.request.user.profile.company
+            else False
+        )
 
         return context
 
