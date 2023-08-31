@@ -4,19 +4,34 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 2%;
+    height: 100vh;
+    width: 100%;
 }
 
-.div-b{
-    background-color: #fff;
-    border-radius: 10px;
-    padding: 2%;
+.div-container{
+    height: 90%;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    padding-left: 1%;
+    overflow: auto;
 }
+
+.icon-edit{
+    position: fixed;
+    top: 40px;
+    right: 260px;
+    display: flex;
+    flex-direction: row;
+    padding: 2rem 2rem;
+    font-size: 25px;
+  }
 
 .div-row{
     display: flex;
     flex-direction: row;
     padding: 2%;
+    /* background-color: aqua; */
 }
 
 .img-vaga{
@@ -28,7 +43,20 @@
 .div-text{
     display: flex;
     flex-direction: column;
-    padding-left: 2%;
+    /* background-color: #208BE8; */
+    width: 100%;
+}
+
+.div-text .div-row{
+    width: 100%;
+    justify-content: space-around;
+}
+
+.div-title{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
 }
 
 .p-title{
@@ -37,19 +65,61 @@
 
 .p-title1{
     font-weight: bold;
-}
-
-.button{
-    font-size: 1.4rem;
-    color: #fff;
-    width: 6rem;
-    background-color: #208BE8;
-    border-radius: 15px;
-    border: none;
-    float: right;
-    margin: 1rem;
+    font-size: 20px;
 }
 
 .list-style{
     list-style: square;
+}
+
+.div-content{
+    margin-top: 1rem;
+}
+
+.p-etapa{
+    margin-left: 2rem;
+}
+
+.div-etapa-button{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+}
+
+.div-button{
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+}
+
+.btn-actions{
+    font-size: 1.2rem;
+    color: #fff;
+    width: auto;
+    padding: 0 0.5rem;
+    background-color: #208BE8;
+    border-radius: 15px;
+    border: none;
+    margin: 1rem 0.5rem ;
+}
+
+.button-ativar{
+    background-color: #31c20d;
+    margin-right: 1rem;
+}
+
+.button-encerrar{
+    background-color: #d60808;
+    margin-right: 1rem;
+}
+
+.div-button a:link{
+    color: #fff;
+    text-decoration: none;
+}
+
+.div-button a:visited{
+    color: #fff;
+    text-decoration: none;
 }
