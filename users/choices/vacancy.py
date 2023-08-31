@@ -29,4 +29,5 @@ STATUS_VACANCY_CHOICES = [
     ('ATV', 'Ativo'),
     ('PEN', 'Pendente'),
     ('ENC', 'Encerrado'),
+    ('INTV', 'Inativo'),
 ]
