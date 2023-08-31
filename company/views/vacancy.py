@@ -241,3 +241,36 @@ class BuscaVacancy(TemplateView):
         context['vulnerabilities'] = VULNERABILITIES_CHOICES
 
         return context
+
+
+@company_only
+def vacancy_update_view(request, id):
+    vacancy = Vacancy.objects.filter(id=id).first()
+
+    if request.method == 'POST':
+        action = request.POST.get('action', '')
+        message_status = messages.ERROR
+        msg = 'Ação inexistente!'
+        extra_tags = 'Atualizacação da Vaga'
+
+        if action == 'ativar':
+            vacancy.status = 'ATV'
+            vacancy.save()
+            msg = 'Vaga ativada com sucesso!'
+            message_status = messages.SUCCESS
+
+        elif action == 'inativar':
+            vacancy.status = 'INTV'
+            vacancy.save()
+            msg = 'Vaga inativada com sucesso!'
+            message_status = messages.SUCCESS
+
+        elif action == 'encerrar':
+            vacancy.status = 'ENC'
+            vacancy.save()
+            msg = 'Vaga encerrada com sucesso!'
+            message_status = messages.SUCCESS
+
+        messages.add_message(request, message_status, msg, extra_tags)
+
+    return redirect('exibir_vagas', id=vacancy.company.id, id_vacancy=id)
