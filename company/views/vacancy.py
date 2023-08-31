@@ -78,7 +78,7 @@ def create_vacancy(request, id):
             'description': post.get('descricao-vaga'),
         }
         try:
-            company.create_vacancy(**vacancy_data)
+            vacancy = company.create_vacancy(**vacancy_data)
         except Exception as e:
             context = {
                 'company': company,
@@ -102,7 +102,7 @@ def create_vacancy(request, id):
             extra_tags='Criação de vaga',
         )
 
-        return redirect('company_profile', id=id)
+        return redirect('registrar_etapa', id=id, id_vacancy=vacancy.id)
     
     context = {
         'company': company,
