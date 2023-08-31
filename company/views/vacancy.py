@@ -26,8 +26,13 @@ class VacancyTemplateView(TemplateView):
         context = super().get_context_data(**kwargs)
         request = self.request
         profile = request.user.profile
+        id_company = kwargs.get('id')
+        id_vacancy = kwargs.get('id_vacancy')
+        vacancy = Vacancy.objects.filter(id=id_vacancy).first()
 
         context['profile_user'] = profile
+        context['id_company'] = id_company
+        context['vacancy'] = vacancy
 
         return context
 
