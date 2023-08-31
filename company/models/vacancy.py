@@ -6,6 +6,7 @@ from users.choices import (
     JOB_MODALITY,
     JOB_TYPE,
     BUSINESS_AREAS_CHOICES,
+    STATUS_VACANCY_CHOICES,
     VULNERABILITIES_CHOICES,
 )
 
@@ -33,12 +34,21 @@ class Vacancy(models.Model):
         verbose_name="Tipo de trabalho",
         choices=JOB_TYPE,
     )
+    # TODO verificar se será mantido
     business_area = models.CharField(
         max_length=80,
         blank=True,
         null=True,
         verbose_name="Areas de aplicação",
         choices=BUSINESS_AREAS_CHOICES,
+    )
+    status = models.CharField(
+        max_length=10,
+        blank=True,
+        null=True,
+        choices=STATUS_VACANCY_CHOICES,
+        default='PEN',
+        verbose_name='Status'
     )
     vulnerability = models.CharField(
         max_length=50,
