@@ -16,7 +16,7 @@ class Step(models.Model):
     title = models.CharField(max_length=80, db_index=True, verbose_name="Nome da etapa")
     step_modality = models.CharField(max_length=50, verbose_name="Modalidade")
     step_type = models.CharField(max_length=80, verbose_name="Tipo da etapa")
-    step_vulnerability = models.CharField(max_length=80, choices=VULNERABILITIES_CHOICES, verbose_name="Para quem é a etapa")
+    step_vulnerability = models.CharField(max_length=80, choices=VULNERABILITIES_CHOICES, default='todos', verbose_name="Para quem é a etapa")
     description = models.CharField(max_length=2000, verbose_name='Descrição')
 
     class Meta:
