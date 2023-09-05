@@ -109,6 +109,11 @@ class ProfileApplicant(TemplateView):
         if not is_same_person:
             profile = Profile.objects.filter(id=kwargs.get('id')).first()
 
+        last_experience = profile.experience.filter(is_working=True).order_by('ended_at').last()
+        last_formation = profile.academic_formation.order_by('ended_at').last()
+
+        context['last_experience'] = last_experience
+        context['last_formation'] = last_formation
         context['competences'] = profile.competence.all()
         context['academic_educations'] = profile.academic_formation.all()
         context['experiences'] = profile.experience.all()
