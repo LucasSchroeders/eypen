@@ -32,6 +32,17 @@ class AcademicFormation(models.Model):
     started_at = models.DateTimeField(verbose_name="Iniciado em")
     ended_at = models.DateTimeField(verbose_name="Finalizado em")
 
+
+    class Meta:
+        verbose_name = 'Formação Acadêmica'
+        verbose_name_plural = 'Formações acadêmicas'
+        indexes = [
+            models.Index(fields=['course']),
+        ]
+
+    def __str__(self):
+        return str(self.pk)
+    
     def to_dict(self):
         return {
             'id': self.pk,
@@ -63,12 +74,6 @@ class AcademicFormation(models.Model):
         self.save()
         return self.to_dict()
 
-    class Meta:
-        verbose_name = 'Formação Acadêmica'
-        verbose_name_plural = 'Formações acadêmicas'
-        indexes = [
-            models.Index(fields=['course']),
-        ]
-
-    def __str__(self):
-        return str(self.pk)
+    @property
+    def get_url_photo(self):
+        return "/static/images/formation.png"

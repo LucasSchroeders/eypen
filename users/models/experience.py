@@ -26,6 +26,17 @@ class Experience(models.Model):
     started_at = models.DateTimeField(verbose_name="Iniciado em")
     ended_at = models.DateTimeField(blank=True, null=True, verbose_name="Finalizado em")
 
+
+    class Meta:
+        verbose_name = 'Experiência'
+        verbose_name_plural = 'Experiências'
+        indexes = [
+            models.Index(fields=['position']),
+        ]
+
+    def __str__(self):
+        return str(self.pk)
+
     def to_dict(self):
         return {
             'id': self.pk,
@@ -69,12 +80,6 @@ class Experience(models.Model):
         self.save()
         return self.to_dict()
 
-    class Meta:
-        verbose_name = 'Experiência'
-        verbose_name_plural = 'Experiências'
-        indexes = [
-            models.Index(fields=['position']),
-        ]
-
-    def __str__(self):
-        return str(self.pk)
+    @property
+    def get_url_photo(self):
+        return "/static/images/experience.png"
