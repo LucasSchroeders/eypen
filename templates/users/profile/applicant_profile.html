@@ -32,8 +32,12 @@
         {% if last_formation or last_experience %}
         <div class="experience-formation">
             <h5>Últimas experiências e Formações</h5>
+            {% if last_experience %}
             <p>{{last_experience.position}} | {{last_experience.company}}</p>
+            {% endif %}
+            {% if last_formation %}
             <p>{{last_formation.course}} | {{last_formation.educational_institution}}</p>
+            {% endif %}
         </div>
         {% endif %}
     </div>
