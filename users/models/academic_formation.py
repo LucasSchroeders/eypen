@@ -29,8 +29,8 @@ class AcademicFormation(models.Model):
         null=True,
         verbose_name='Área do conhecimento'
     )
-    started_at = models.DateTimeField(verbose_name="Iniciado em")
-    ended_at = models.DateTimeField(verbose_name="Finalizado em")
+    started_at = models.DateField(verbose_name="Iniciado em")
+    ended_at = models.DateField(verbose_name="Finalizado em")
 
     def to_dict(self):
         return {
