@@ -108,7 +108,7 @@
     {% for academic in academic_educations %}
     <div class="div-several-content">
         <div class="div-several-row" id="div-academic-{{academic.id}}">
-            <img src="{{ profile.get_url_photo }}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
+            <img src="{{ academic.get_url_photo }}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
             <div class="several-row-text2">
                 <p>{{academic.educational_institution}}</p>
                 <p>{{academic.course}}</p>
@@ -140,7 +140,7 @@
     {% for experience in experiences %}
     <div class="div-several-content" id="div-experience-{{experience.id}}">
         <div class="div-several-row">
-            <img src="{{ profile.get_url_photo }}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
+            <img src="{{ experience.get_url_photo }}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
             <div class="several-row-text2">
                 <p>{{experience.position}}</p>
                 <p>{{experience.company}} • {{experience.job_modality|display_job_modality}}</p>
