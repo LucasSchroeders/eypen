@@ -23,8 +23,8 @@ class Experience(models.Model):
     is_working = models.BooleanField(default=False, verbose_name='Trabalhando atualmente')
     company = models.CharField(max_length=80, blank=True, null=True, verbose_name='Empresa')
     business_area = models.CharField(max_length=80, blank=True, null=True, verbose_name='Área de atuação da empresa')
-    started_at = models.DateField(verbose_name="Iniciado em")
-    ended_at = models.DateField(blank=True, null=True, verbose_name="Finalizado em")
+    started_at = models.DateTimeField(verbose_name="Iniciado em")
+    ended_at = models.DateTimeField(blank=True, null=True, verbose_name="Finalizado em")
 
     def to_dict(self):
         return {
