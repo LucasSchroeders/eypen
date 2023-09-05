@@ -149,7 +149,10 @@ class BuscaPerfil(TemplateView):
         city = request.GET.get('city', request.session.get('city', None))
         request.session["city"] = city
 
-        data_query = {}
+        data_query = {
+            'is_applicant': True,
+            'is_company': False,
+        }
 
         if name:
             data_query['name__contains'] = name
