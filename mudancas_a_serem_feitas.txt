@@ -24,4 +24,4 @@
  - Fazer ajuste no consumo da api de competencias, experiencias e formações academicas - seguir o arquivo modal.txt
  - Verificar as APIViews
  - Revisar CRUD de formações/experiencia e competencia (front)
-
+ - Adicionar vulnerabilidade no template de cadastro de vagas
