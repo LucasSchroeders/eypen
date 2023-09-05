@@ -108,7 +108,7 @@
             <div class="several-row-text2">
                 <p>{{academic.educational_institution}}</p>
                 <p>{{academic.course}}</p>
-                <p>{{academic.started_at}} - {{academic.ended_at}}</p>
+                <p>{{academic.started_at|date:"M, Y"}} - {{academic.ended_at|date:"M, Y"}}</p>
             </div>
             {% if is_same_profile %}
             <div class="div-several-row-icon">
@@ -140,7 +140,7 @@
             <div class="several-row-text2">
                 <p>{{experience.position}}</p>
                 <p>{{experience.company}} • {{experience.job_modality|display_job_modality}}</p>
-                <p>{{experience.started_at}} - {% if experience.is_working %}até o momento{% else %}{{experience.ended_at}}{% endif %}</p>
+                <p>{{experience.started_at|date:"M, Y"}} - {% if experience.is_working %}até o momento{% else %}{{experience.ended_at|date:"M, Y"}}{% endif %}</p>
             </div>
             {% if is_same_profile %}
             <div class="div-several-row-icon">
@@ -340,7 +340,7 @@
             }
         });
     }
-
+    
     function saveExperience(){
         var position = $("#position").val();
         var jobTypeSelect = document.getElementById("job_type");
