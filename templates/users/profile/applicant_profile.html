@@ -24,18 +24,18 @@
 
         <div class="div-row">
             <div class="infos">
-                <h3>{{ profile.name }}</h1>
-                    <p>{{ profile.birthdate|date:'d/m/Y' }}</p>
-                    <p>{{ profile.city }}, {{ profile.state }}</p>
-                    
-                    {% if experience.last.is_working %}
-                    <h5>{{ experience.last.position}} | {{ experience.last.company}}</h5>
-                    {% endif %}
-                </div>
-            <div class="experience-formation">
-                <h5>Últimas experiências e Formações</h5>
+                <h3>{{ profile.name }}</h3>
+                <p>{{ profile.birthdate|date:'d/m/Y' }}</p>
+                <p>{{ profile.city }}, {{ profile.state }}</p>
             </div>
         </div>  
+        {% if last_formation or last_experience %}
+        <div class="experience-formation">
+            <h5>Últimas experiências e Formações</h5>
+            <p>{{last_experience.position}} | {{last_experience.company}}</p>
+            <p>{{last_formation.course}} | {{last_formation.educational_institution}}</p>
+        </div>
+        {% endif %}
     </div>
 </div>
 
