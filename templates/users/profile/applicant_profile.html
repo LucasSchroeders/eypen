@@ -106,8 +106,8 @@
     </div>
     {% if academic_educations %}
     {% for academic in academic_educations %}
-    <div class="div-several-content">
-        <div class="div-several-row" id="div-academic-{{academic.id}}">
+    <div class="div-several-content" id="div-academic-{{academic.id}}">
+        <div class="div-several-row">
             <img src="{{ academic.get_url_photo }}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
             <div class="several-row-text2">
                 <p>{{academic.educational_institution}}</p>
@@ -169,6 +169,25 @@
 {% block js %}
 {% if is_same_profile %}
 <script>
+
+    function formatDate(dateString){
+        var dateList = dateString.split('-')
+
+        if (dateList[1] == 1){return `Jan, ${dateList[0]}`}
+        if (dateList[1] == 2){return `Fev, ${dateList[0]}`}
+        if (dateList[1] == 3){return `Mar, ${dateList[0]}`}
+        if (dateList[1] == 4){return `Abr, ${dateList[0]}`}
+        if (dateList[1] == 5){return `Mai, ${dateList[0]}`}
+        if (dateList[1] == 6){return `Jun, ${dateList[0]}`}
+        if (dateList[1] == 7){return `Jul, ${dateList[0]}`}
+        if (dateList[1] == 8){return `Ago, ${dateList[0]}`}
+        if (dateList[1] == 9){return `Set, ${dateList[0]}`}
+        if (dateList[1] == 10){return `Out, ${dateList[0]}`}
+        if (dateList[1] == 11){return `Nov, ${dateList[0]}`}
+        if (dateList[1] == 12){return `Dez, ${dateList[0]}`}
+
+    }
+
     function openModalExperience(edit=false){
         $("#modal-experience").addClass('abrir')
         if (!edit){
@@ -378,19 +397,21 @@
                 var experience = retorno.experience
                 var experienceDiv = $('#div-content-experience')
                 var value_date = 'até o momento'
+                var started_at = formatDate(experience.started_at.split('T')[0])
+
 
                 if (experience.ended_at){
-                    value_date = experience.ended_at
+                    value_date = formatDate(experience.ended_at.split('T')[0])
                 }
 
-                text = `
+                var text = `
                 <div class="div-several-content" id="div-experience-${experience.id}">
                     <div class="div-several-row">
-                        <img src="${"{{experience.get_url_photo}}"}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
+                        <img src="{% static 'images/experience.png' %}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
                         <div class="several-row-text2">
                             <p>${experience.position}</p>
                             <p>${experience.company} • ${experience.job_modality}</p>
-                            <p>${experience.started_at} - ${value_date}</p>
+                            <p>${started_at} - ${value_date}</p>
                         </div>
                         <div class="div-several-row-icon">
                             <a onclick="getExperience('${experience.id}')" class="icon-several"><i class="fa-solid fa-pen "></i></a>
@@ -449,14 +470,17 @@
             success: function (retorno) {
                 var academic = retorno.academic
                 var academicDiv = $('#div-content-academic')
+                var started_at = formatDate(academic.started_at.split('T')[0])
+                var ended_at = formatDate(academic.ended_at.split('T')[0])
 
-                text = `
+
+                var text = `
                 <div class="div-several-row" id="div-academic-${academic.id}">
-                    <img src="${"{{academic.get_url_photo}}"}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
+                    <img src="{% static 'images/formation.png' %}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
                     <div class="several-row-text2">
                         <p>${academic.educational_institution}</p>
                         <p>${academic.course}</p>
-                        <p>${academic.started_at} - ${academic.ended_at}</p>
+                        <p>${started_at} - ${ended_at}</p>
                     </div>
                     <div class="div-several-row-icon">
                         <a onclick="getAcademicFormation('${academic.id}')" class="icon-several"><i class="fa-solid fa-pen"></i></a>
