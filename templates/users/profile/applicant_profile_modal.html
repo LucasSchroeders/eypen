@@ -1,44 +1,50 @@
 <!-- Inicio modal Competencia -->
-<div class="janela-modal" id="modal-competence">
-    <div class="modal">
-        <div class="modal-header">
-            <h4>Adicionar Competência</h4>
-            <a onclick="closeModalCompetence()"><i class="fa-solid fa-xmark"></i></a>
+<div class="modal fade" id="modalCompetence" aria-labelledby="modalCompetenceLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCompetenceLabel">Adicionar Competência</h5>
+                <a type="button" data-dismiss="modal" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </a>
+            </div>
+
+            <form id="formCompetence">
+                {% csrf_token %}
+                <input type="text" id="idCompetence" value="" hidden>
+                <div class="modal-body">
+                    <div class="form-field">
+                        <label for="competence">Competência</label>
+                        <div class="form-input">
+                            <input class="form-control" type="text" id="competence" required>
+                        </div>
+                    </div>
+                    <div class="form-field">
+                        <p>Experiência</p>
+                        {% for experience in experiences %}
+                        <div class="form-input">
+                            <input class="checkbox" type="checkbox" id="experience-{{experience.id}}">
+                            <label for="experience-{{experience.id}}">{{experience.position}} | {{experience.company}}</label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="form-field">
+                        <p>Formação Acadêmica</p>
+                        {% for academic in academic_educations %}
+                        <div class="form-input">
+                            <input class="checkbox" type="checkbox" id="academic_education-{{academic.id}}">
+                            <label for="academic_education-{{academic.id}}">{{academic.course}} | {{academic.educational_institution}}</label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <p>Selecione um ou mais itens no qual essa competência se encaixa</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="form-button" id="button-save-competence">Salvar</button>
+                </div>
+            </form>
         </div>
-        <form enctype="multipart/form-data" id="form-competence">
-            {% csrf_token %}
-            <div class="modal-body">
-                <div class="form-field">
-                    <label for="competence">Competência</label>
-                    <div class="form-input">
-                        <input class="form-control" type="text" id="competence" required>
-                    </div>
-                </div>
-                <div class="form-field">
-                    <p>Experiência</p>
-                    {% for experience in experiences %}
-                    <div class="form-input">
-                        <input class="checkbox" type="checkbox" id="experience-{{experience.id}}">
-                        <label for="experience-{{experience.id}}">{{experience.position}} | {{experience.company}}</label>
-                    </div>
-                    {% endfor %}
-                </div>
-                <div class="form-field">
-                    <p>Formação Acadêmica</p>
-                    {% for academic in academic_educations %}
-                    <div class="form-input">
-                        <input class="checkbox" type="checkbox" id="academic_education-{{academic.id}}">
-                        <label for="academic_education-{{academic.id}}">{{academic.course}} | {{academic.educational_institution}}</label>
-                    </div>
-                    {% endfor %}
-                </div>
-                <p>Selecione um ou mais itens no qual essa competência se encaixa</p>
-            </div>
-            <div class="modal-footer">
-                <button onclick="closeModalCompetence()" type="button" class="form-button form-button-cancel">Cancelar</button>
-                <button onclick="saveCompetence()" type="button" class="form-button" id="button-save-competence">Salvar</button>
-            </div>
-        </form>
     </div>
 </div>
 <!-- Fim modal Competencia -->
