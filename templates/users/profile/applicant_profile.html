@@ -548,73 +548,21 @@
             }
         });
     }
-
-    function saveExperience(){
-        var position = $("#position").val();
-        var jobTypeSelect = document.getElementById("job_type");
-        var jobType = jobTypeSelect.options[jobTypeSelect.selectedIndex].value;
-        var company = $("#company").val();
-        var jobModalitySelect = document.getElementById("job_modality");
-        var jobModality = jobModalitySelect.options[jobModalitySelect.selectedIndex].value;
-        var chk_isWorking = document.getElementById('is_working')
-        var started_at = $("#started_date_experience").val();
-        var ended_at = $("#ended_date_experience").val();
-        var business_area = $("#business_area").val();
-
-        data = {
-            'position': position,
-            'job_type': jobType,
-            'company': company,
-            'job_modality': jobModality,
-            'is_working': chk_isWorking.checked,
-            'started_at': started_at,
-            'ended_at': ended_at,
-            'business_area': business_area,
-        }
-        // TODO fazer validação do formulario
+    
+    function getAcademicFormation(academic_id){
         $.ajax({
-            type: 'POST',
-            url: "{% url 'save_experience' id=profile.id %}",
-            dataType: 'json',
+            type: 'get',
+            url: `/api/profile/${academic_id}/academic-formation`,
             headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
-            data: JSON.stringify(data),
             success: function (retorno) {
-                var experience = retorno.experience
-                var experienceDiv = $('#div-content-experience')
-                var value_date = 'até o momento'
-                var started_at = formatDate(experience.started_at.split('T')[0])
-
-
-                if (experience.ended_at){
-                    value_date = formatDate(experience.ended_at.split('T')[0])
-                }
-
-                var text = `
-                <div class="div-several-content" id="div-experience-${experience.id}">
-                    <div class="div-several-row">
-                        <img src="{% static 'images/experience.png' %}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
-                        <div class="several-row-text2">
-                            <p>${experience.position}</p>
-                            <p>${experience.company} • ${experience.job_modality}</p>
-                            <p>${started_at} - ${value_date}</p>
-                        </div>
-                        <div class="div-several-row-icon">
-                            <a onclick="getExperience('${experience.id}')" class="icon-several"><i class="fa-solid fa-pen "></i></a>
-                            <a onclick="deleteExperience('${experience.id}')" class="icon-trash icon-several"><i class="fa-solid fa-trash"></i></a>
-                        </div>
-                    </div>
-                    <hr>
-                </div>
-                `
-                experienceDiv.append(text)
-                
-                closeModalExperience()
-                new PNotify({
-                    title:'Experiência salva',
-                    text: retorno.detail,
-                    type: 'success',
-                    delay:'5000'
-                });
+                response = retorno.detail
+                openModalAcademicFormation(true)
+                $('#educational_institution').val(response['educational_institution'])
+                $('#course').val(response['course'])
+                $('#knowledge_area').val(response['knowledge_area'])
+                document.getElementById("started_date").value = response['started_at'].split('T')[0]
+                document.getElementById("ended_date").value = response['ended_at'].split('T')[0]
+                document.getElementById("button-save-academic").setAttribute("onclick", `updateAcademicFormation('${academic_id}')`)
             },
             error: function (error) {
                 if (error.statusText == 'timeout') {
@@ -700,22 +648,52 @@
         });
     }
 
-    function deleteExperience(experience_id){
+    function updateAcademicFormation(academic_id){
+        var educationalInstitution = $("#educational_institution").val();
+        var course = $("#course").val();
+        var knowledgeArea = $("#knowledge_area").val();
+        var started_at = $("#started_date").val();
+        var ended_at = $("#ended_date").val();
+
+        data = {
+            'educational_institution': educationalInstitution,
+            'course': course,
+            'knowledge_area': knowledgeArea,
+            'started_at': started_at,
+            'ended_at': ended_at,
+        }
+
         $.ajax({
-            type: 'delete',
-            url: `/api/profile/${experience_id}/experience`,
+            type: 'put',
+            url: `/api/profile/${academic_id}/academic-formation`,
+            data: JSON.stringify(data),
             headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
             success: function (retorno) {
-                $(`#div-experience-${experience_id}`).remove()
+                var academic = retorno.academic
+                var academicDiv = document.getElementById(`div-academic-${academic_id}`)
+
+                text = `
+                    <img src="${"{{profile.get_url_photo}}"}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
+                    <div class="several-row-text2">
+                        <p>${academic.educational_institution}</p>
+                        <p>${academic.course}</p>
+                        <p>${academic.started_at} - ${academic.ended_at}</p>
+                    </div>
+                    <div class="div-several-row-icon">
+                        <a onclick="getAcademicFormation('${academic.id}')" class="icon-several"><i class="fa-solid fa-pen"></i></a>
+                        <a onclick="deleteAcademic('${academic.id}')" class="icon-several icon-trash"><i class="fa-solid fa-trash"></i></a>
+                    </div>
+                    <hr>
+                `
+                academicDiv.innerHTML = text
+                
+                closeModalAcademicFormation()
                 new PNotify({
-                    title:'Experiência excluída',
+                    title:'Formação acadêmica atualizada',
                     text: retorno.detail,
                     type: 'success',
                     delay:'5000'
                 });
-                // setTimeout(() => {
-                //     location.reload();
-                // })
             },
             error: function (error) {
                 if (error.statusText == 'timeout') {
@@ -804,20 +782,72 @@
         });
     }
 
-    function getAcademicFormation(academic_id){
+    function saveExperience(){
+        var position = $("#position").val();
+        var jobTypeSelect = document.getElementById("job_type");
+        var jobType = jobTypeSelect.options[jobTypeSelect.selectedIndex].value;
+        var company = $("#company").val();
+        var jobModalitySelect = document.getElementById("job_modality");
+        var jobModality = jobModalitySelect.options[jobModalitySelect.selectedIndex].value;
+        var chk_isWorking = document.getElementById('is_working')
+        var started_at = $("#started_date_experience").val();
+        var ended_at = $("#ended_date_experience").val();
+        var business_area = $("#business_area").val();
+
+        data = {
+            'position': position,
+            'job_type': jobType,
+            'company': company,
+            'job_modality': jobModality,
+            'is_working': chk_isWorking.checked,
+            'started_at': started_at,
+            'ended_at': ended_at,
+            'business_area': business_area,
+        }
+        // TODO fazer validação do formulario
         $.ajax({
-            type: 'get',
-            url: `/api/profile/${academic_id}/academic-formation`,
+            type: 'POST',
+            url: "{% url 'save_experience' id=profile.id %}",
+            dataType: 'json',
             headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
+            data: JSON.stringify(data),
             success: function (retorno) {
-                response = retorno.detail
-                openModalAcademicFormation(true)
-                $('#educational_institution').val(response['educational_institution'])
-                $('#course').val(response['course'])
-                $('#knowledge_area').val(response['knowledge_area'])
-                document.getElementById("started_date").value = response['started_at'].split('T')[0]
-                document.getElementById("ended_date").value = response['ended_at'].split('T')[0]
-                document.getElementById("button-save-academic").setAttribute("onclick", `updateAcademicFormation('${academic_id}')`)
+                var experience = retorno.experience
+                var experienceDiv = $('#div-content-experience')
+                var value_date = 'até o momento'
+                var started_at = formatDate(experience.started_at.split('T')[0])
+
+
+                if (experience.ended_at){
+                    value_date = formatDate(experience.ended_at.split('T')[0])
+                }
+
+                var text = `
+                <div class="div-several-content" id="div-experience-${experience.id}">
+                    <div class="div-several-row">
+                        <img src="{% static 'images/experience.png' %}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
+                        <div class="several-row-text2">
+                            <p>${experience.position}</p>
+                            <p>${experience.company} • ${experience.job_modality}</p>
+                            <p>${started_at} - ${value_date}</p>
+                        </div>
+                        <div class="div-several-row-icon">
+                            <a onclick="getExperience('${experience.id}')" class="icon-several"><i class="fa-solid fa-pen "></i></a>
+                            <a onclick="deleteExperience('${experience.id}')" class="icon-trash icon-several"><i class="fa-solid fa-trash"></i></a>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                `
+                experienceDiv.append(text)
+                
+                closeModalExperience()
+                new PNotify({
+                    title:'Experiência salva',
+                    text: retorno.detail,
+                    type: 'success',
+                    delay:'5000'
+                });
             },
             error: function (error) {
                 if (error.statusText == 'timeout') {
@@ -914,52 +944,22 @@
         });
     }
 
-    function updateAcademicFormation(academic_id){
-        var educationalInstitution = $("#educational_institution").val();
-        var course = $("#course").val();
-        var knowledgeArea = $("#knowledge_area").val();
-        var started_at = $("#started_date").val();
-        var ended_at = $("#ended_date").val();
-
-        data = {
-            'educational_institution': educationalInstitution,
-            'course': course,
-            'knowledge_area': knowledgeArea,
-            'started_at': started_at,
-            'ended_at': ended_at,
-        }
-
+    function deleteExperience(experience_id){
         $.ajax({
-            type: 'put',
-            url: `/api/profile/${academic_id}/academic-formation`,
-            data: JSON.stringify(data),
+            type: 'delete',
+            url: `/api/profile/${experience_id}/experience`,
             headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
             success: function (retorno) {
-                var academic = retorno.academic
-                var academicDiv = document.getElementById(`div-academic-${academic_id}`)
-
-                text = `
-                    <img src="${"{{profile.get_url_photo}}"}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
-                    <div class="several-row-text2">
-                        <p>${academic.educational_institution}</p>
-                        <p>${academic.course}</p>
-                        <p>${academic.started_at} - ${academic.ended_at}</p>
-                    </div>
-                    <div class="div-several-row-icon">
-                        <a onclick="getAcademicFormation('${academic.id}')" class="icon-several"><i class="fa-solid fa-pen"></i></a>
-                        <a onclick="deleteAcademic('${academic.id}')" class="icon-several icon-trash"><i class="fa-solid fa-trash"></i></a>
-                    </div>
-                    <hr>
-                `
-                academicDiv.innerHTML = text
-                
-                closeModalAcademicFormation()
+                $(`#div-experience-${experience_id}`).remove()
                 new PNotify({
-                    title:'Formação acadêmica atualizada',
+                    title:'Experiência excluída',
                     text: retorno.detail,
                     type: 'success',
                     delay:'5000'
                 });
+                // setTimeout(() => {
+                //     location.reload();
+                // })
             },
             error: function (error) {
                 if (error.statusText == 'timeout') {
@@ -975,6 +975,7 @@
             }
         });
     }
+
 </script>
 {% endif %}
 {% endblock js %}
