@@ -50,53 +50,59 @@
 <!-- Fim modal Competencia -->
 
 <!-- Inicio modal formação academica -->
-<div class="janela-modal" id="modal-academic-formation">
-    <div class="modal">
-        <div class="modal-header">
-            <h4>Adicionar Formação Acadêmica</h4>
-            <a onclick="closeModalAcademicFormation()"><i class="fa-solid fa-xmark"></i></a>
+<div class="modal fade" id="modalFormation" aria-labelledby="modalFormationLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalFormationLabel">Adicionar Formação Acadêmica</h5>
+                <a type="button" data-dismiss="modal" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </a>
+            </div>
+
+            <form id="formFormation">
+                {% csrf_token %}
+                <input type="text" id="idFormation" value="" hidden>
+                <div class="modal-body">
+                    <div class="form-field">
+                        <label for="educational_institution">Intituição de Ensino</label>
+                        <div class="form-input">
+                            <input class="form-control" type="text" id="educational_institution" required>
+                        </div>
+                    </div>          
+                    <div class="form-field">
+                        <label for="course">Curso</label>
+                        <div class="form-input">
+                            <input class="form-control" type="text" id="course" required>
+                        </div>
+                    </div>
+                    <div class="form-field">
+                        <label for="knowledge_area">Área de conhecimento</label>
+                        <div class="form-input">
+                            <input class="form-control" type="text" id="knowledge_area" required>
+                        </div>
+                    </div>
+                    <div class="date-row">
+                        <div class="form-field">
+                            <label for="started_date">Data de início</label>
+                            <div class="form-input">
+                                <input type="date" id="started_date" required>
+                            </div>
+                        </div>
+                        <div class="form-field">
+                            <label for="ended_date">Data de finalização</label>
+                            <div class="form-input">
+                                <input type="date" id="ended_date" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="form-button" id="button-save-academic">Salvar</button>
+                </div>
+            </form>
         </div>
-        <form enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="modal-body">
-                <div class="form-field">
-                    <label for="educational_institution">Intituição de Ensino</label>
-                    <div class="form-input">
-                        <input class="form-control" type="text" id="educational_institution" required>
-                    </div>
-                </div>          
-                <div class="form-field">
-                    <label for="course">Curso</label>
-                    <div class="form-input">
-                        <input class="form-control" type="text" id="course" required>
-                    </div>
-                </div>
-                <div class="form-field">
-                    <label for="knowledge_area">Área de conhecimento</label>
-                    <div class="form-input">
-                        <input class="form-control" type="text" id="knowledge_area" required>
-                    </div>
-                </div>
-                <div class="date-row">
-                    <div class="form-field">
-                        <label for="started_date">Data de início</label>
-                        <div class="form-input">
-                            <input type="date" id="started_date" required>
-                        </div>
-                    </div>
-                    <div class="form-field">
-                        <label for="ended_date">Data de finalização</label>
-                        <div class="form-input">
-                            <input type="date" id="ended_date" required>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button onclick="closeModalAcademicFormation()" type="button" class="form-button form-button-cancel">Cancelar</button>
-                <button onclick="saveAcademicFormation()" type="button" class="form-button" id="button-save-academic">Salvar</button>
-            </div>
-        </form>
     </div>
 </div>
 <!-- Fim modal formação academica -->
