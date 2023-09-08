@@ -101,7 +101,7 @@
     <div class="div-head">
         <h3>Formações acadêmicas</h3>
         {% if is_same_profile %}
-        <a onclick="openModalAcademicFormation()"><i class="fa-solid fa-plus icon"></i></a>
+        <a type="button" data-toggle="modal" data-target="#modalFormation"><i class="fa-solid fa-plus icon"></i></a>
         {% endif %}
     </div>
     {% if academic_educations %}
