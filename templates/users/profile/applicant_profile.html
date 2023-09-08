@@ -207,20 +207,14 @@
         $('#modal-experience').removeClass('abrir')
     }
 
-    function openModalAcademicFormation(edit=false){
-        $("#modal-academic-formation").addClass('abrir')
-        if (!edit){
-            document.getElementById("button-save-academic").setAttribute("onclick", "saveAcademicFormation()")
-            $('#educational_institution').val('')
-            $('#course').val('')
-            $('#knowledge_area').val('')
-            document.getElementById("started_date").value = null
-            document.getElementById("ended_date").value = null
-        }
-    }
-    
-    function closeModalAcademicFormation(){
-        $('#modal-academic-formation').removeClass('abrir')
+    function cleanModalAcademicFormation(){
+        $('#modalFormationLabel').text('Adicionar Formação Acadêmica')
+        type_formation = "post"
+        $('#educational_institution').val('')
+        $('#course').val('')
+        $('#knowledge_area').val('')
+        document.getElementById("started_date").value = null
+        document.getElementById("ended_date").value = null
     }
 
     function cleanModalCompetence(){
@@ -549,6 +543,23 @@
         });
     }
     
+    var type_formation = "post"
+    $('#formFormation').submit(function(event){
+        event.preventDefault()
+
+        if (type_formation == 'post'){
+            saveAcademicFormation()
+        } else {
+            var id = $('#idFormation').val()
+            updateAcademicFormation(id)
+        }
+
+    })
+
+    $('#modalFormation').on('hidden.bs.modal', function(){
+        cleanModalAcademicFormation()
+    })
+
     function getAcademicFormation(academic_id){
         $.ajax({
             type: 'get',
@@ -556,13 +567,13 @@
             headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
             success: function (retorno) {
                 response = retorno.detail
-                openModalAcademicFormation(true)
                 $('#educational_institution').val(response['educational_institution'])
                 $('#course').val(response['course'])
                 $('#knowledge_area').val(response['knowledge_area'])
                 document.getElementById("started_date").value = response['started_at'].split('T')[0]
                 document.getElementById("ended_date").value = response['ended_at'].split('T')[0]
-                document.getElementById("button-save-academic").setAttribute("onclick", `updateAcademicFormation('${academic_id}')`)
+                type_competence = 'put'
+                $('#modalFormation').modal('show')
             },
             error: function (error) {
                 if (error.statusText == 'timeout') {
@@ -624,7 +635,7 @@
                 `
                 academicDiv.append(text)
                 
-                closeModalAcademicFormation()
+                $('#modalCompetence').modal('hide')
                 new PNotify({
                     title:'Formação Acadêmica salva',
                     text: retorno.detail,
@@ -687,7 +698,7 @@
                 `
                 academicDiv.innerHTML = text
                 
-                closeModalAcademicFormation()
+                $('#modalCompetence').modal('hide')
                 new PNotify({
                     title:'Formação acadêmica atualizada',
                     text: retorno.detail,
