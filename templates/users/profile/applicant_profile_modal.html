@@ -108,81 +108,88 @@
 <!-- Fim modal formação academica -->
 
 <!-- Inicio modal experiencia -->
-<div class="janela-modal" id="modal-experience">
-    <div class="modal">
-        <div class="modal-header">
-            <h4>Adicionar Experiência</h4>
-            <a onclick="closeModalExperience()"><i class="fa-solid fa-xmark"></i></a>
+<div class="modal fade" id="modalExperience" aria-labelledby="modalExperienceLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalExperienceLabel">Adicionar Experiência</h5>
+                <a type="button" data-dismiss="modal" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </a>
+            </div>
+            <form id="formExperience">
+                {% csrf_token %}
+                <input type="text" id="idExperience" value="" hidden>
+                <div class="modal-body">
+                    <div class="form-field">
+                        <label for="position">Cargo</label>
+                        <div class="form-input">
+                            <input class="form-control" type="text" id="position" required>
+                        </div>
+                    </div>          
+                    <div class="form-field">
+                        <label for="job_type">Tipo de Emprego</label>
+                        <div class="form-input">
+                            <select id="job_type" class="form-select" required>
+                                <option value="" disabled selected>Selecione um tipo de emprego</option>
+                                {% for job in job_type %}
+                                <option value="{{job.0}}">{{job.1}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-field">
+                        <label for="company">Empresa</label>
+                        <div class="form-input">
+                            <input class="form-control" type="text" id="company" required>
+                        </div>
+                    </div>
+                    <div class="form-field">
+                        <label for="job_modality">Modalidade</label>
+                        <div class="form-input">
+                            <select id="job_modality" class="form-select" required>
+                                <option value="" disabled selected>Selecione uma modalidade</option>
+                                {% for job in job_modality %}
+                                <option value="{{job.0}}">{{job.1}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-field" style="margin-top:30px;">
+                        <div class="form-input">
+                            <input class="checkbox" type="checkbox" id="is_working">
+                            <label for="is_working">Atualmente neste trabalho</label>
+                        </div>
+                    </div>
+                    <div class="date-row">
+                        <div class="form-field">
+                            <label for="started_date">Data de início</label>
+                            <div class="form-input">
+                                <input type="date" id="started_date_experience" required>
+                            </div>
+                        </div>
+                        <div class="form-field">
+                            <label for="ended_date">Data de finalização</label>
+                            <div class="form-input">
+                                <input type="date" id="ended_date_experience">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-field">
+                        <label for="business_area">Setor de atuação da empresa</label>
+                        <div class="form-input">
+                            <input class="form-control" type="text" id="business_area">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="submit" class="form-button" id="button-save-experience">Salvar</button>
+                </div>
+            </form>
         </div>
-        <form enctype="multipart/form-data" id="form-experience">
-            {% csrf_token %}
-            <div class="modal-body">
-                <div class="form-field">
-                    <label for="position">Cargo</label>
-                    <div class="form-input">
-                        <input class="form-control" type="text" id="position" required>
-                    </div>
-                </div>          
-                <div class="form-field">
-                    <label for="job_type">Tipo de Emprego</label>
-                    <div class="form-input">
-                        <select id="job_type" class="form-select" required>
-                            <option value="" disabled selected>Selecione um tipo de emprego</option>
-                            {% for job in job_type %}
-                            <option value="{{job.0}}">{{job.1}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-                <div class="form-field">
-                    <label for="company">Empresa</label>
-                    <div class="form-input">
-                        <input class="form-control" type="text" id="company" required>
-                    </div>
-                </div>
-                <div class="form-field">
-                    <label for="job_modality">Modalidade</label>
-                    <div class="form-input">
-                        <select id="job_modality" class="form-select" required>
-                            <option value="" disabled selected>Selecione uma modalidade</option>
-                            {% for job in job_modality %}
-                            <option value="{{job.0}}">{{job.1}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-                <div class="form-field" style="margin-top:30px;">
-                    <div class="form-input">
-                        <input class="checkbox" type="checkbox" id="is_working">
-                        <label for="is_working">Atualmente neste trabalho</label>
-                    </div>
-                </div>
-                <div class="date-row">
-                    <div class="form-field">
-                        <label for="started_date">Data de início</label>
-                        <div class="form-input">
-                            <input type="date" id="started_date_experience" required>
-                        </div>
-                    </div>
-                    <div class="form-field">
-                        <label for="ended_date">Data de finalização</label>
-                        <div class="form-input">
-                            <input type="date" id="ended_date_experience">
-                        </div>
-                    </div>
-                </div>
-                <div class="form-field">
-                    <label for="business_area">Setor de atuação da empresa</label>
-                    <div class="form-input">
-                        <input class="form-control" type="text" id="business_area">
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button onclick="closeModalExperience()" type="button" class="form-button form-button-cancel">Cancelar</button>
-                <button onclick="saveExperience()" type="button" class="form-button" id="button-save-experience">Salvar</button>
-            </div>
-        </form>
+
     </div>
 </div>
 <!-- Fim modal experiencia -->
