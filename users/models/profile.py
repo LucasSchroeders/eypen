@@ -41,6 +41,7 @@ class Profile(models.Model):
     photo = models.ImageField(
         blank=True, null=True, upload_to='', verbose_name='Foto de Perfil'
     )
+    curriculum = models.FileField(blank=True, null=True, upload_to='curriculos', verbose_name='Currículo')
     state = models.CharField(max_length=200, verbose_name="Estado", choices=STATES)
     city = models.CharField(max_length=200, verbose_name="Cidade")
     is_disabled = models.BooleanField(default=False, db_index=True, verbose_name='Possui deficiência')
@@ -127,8 +128,13 @@ class Profile(models.Model):
     def get_url_photo(self):
         if self.photo and hasattr(self.photo, 'url'):
             return self.photo.url
-        else:
-            return "/static/images/user.png"
+        return "/static/images/user.png"
+        
+    @property
+    def get_url_curriculum(self):
+        if self.curriculum and hasattr(self.curriculum, 'url'):
+            return self.curriculum.url
+        return False
 
 @receiver(post_save, sender=User)
 def update_user_profile(sender, instance, created, **kwargs):
