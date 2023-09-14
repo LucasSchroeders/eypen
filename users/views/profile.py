@@ -91,6 +91,7 @@ def personalProfileInformation(request, id):
         'disables': DISABLED_CHOICES,
         'states': STATES,
         'ethnicities': ETHNICITY_CHOICES,
+        'edit': True,
     }
     
     return render(request, 'users/profile/personalProfile.html', context)
