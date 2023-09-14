@@ -133,7 +133,7 @@
     <div class="div-head">
         <h3>Experiências</h3>
         {% if is_same_profile %}
-        <a onclick="openModalExperience()"><i class="fa-solid fa-plus icon"></i></a>
+        <a type="button" data-toggle="modal" data-target="#modalExperience" ><i class="fa-solid fa-plus icon"></i></a>
         {% endif %}
     </div>
     {% if experiences %}
@@ -188,23 +188,17 @@
 
     }
 
-    function openModalExperience(edit=false){
-        $("#modal-experience").addClass('abrir')
-        if (!edit){
-            document.getElementById("button-save-experience").setAttribute("onclick", "saveExperience()")
-            $("#position").val('');
-            document.getElementById("job_type").value = "";
-            $("#company").val('');
-            document.getElementById("job_modality").value = '';
-            document.getElementById('is_working').checked = false
-            document.getElementById("started_date_experience").value = null
-            $("#ended_date_experience").val('');
-            $("#business_area").val('');
-        }
-    }
-    
-    function closeModalExperience(){
-        $('#modal-experience').removeClass('abrir')
+    function cleanModalExperience(edit=false){
+        $("#modalExperienceLabel").text('Adicionar Experiência')
+        type_formation = "post"
+        $("#position").val('');
+        document.getElementById("job_type").value = "";
+        $("#company").val('');
+        document.getElementById("job_modality").value = '';
+        document.getElementById('is_working').checked = false
+        document.getElementById("started_date_experience").value = null
+        $("#ended_date_experience").val('');
+        $("#business_area").val('');
     }
 
     function cleanModalAcademicFormation(){
@@ -572,7 +566,7 @@
                 $('#knowledge_area').val(response['knowledge_area'])
                 document.getElementById("started_date").value = response['started_at'].split('T')[0]
                 document.getElementById("ended_date").value = response['ended_at'].split('T')[0]
-                type_competence = 'put'
+                type_formation = 'put'
                 $('#modalFormation').modal('show')
             },
             error: function (error) {
@@ -635,7 +629,7 @@
                 `
                 academicDiv.append(text)
                 
-                $('#modalCompetence').modal('hide')
+                $('#modalFormation').modal('hide')
                 new PNotify({
                     title:'Formação Acadêmica salva',
                     text: retorno.detail,
@@ -698,7 +692,7 @@
                 `
                 academicDiv.innerHTML = text
                 
-                $('#modalCompetence').modal('hide')
+                $('#modalFormation').modal('hide')
                 new PNotify({
                     title:'Formação acadêmica atualizada',
                     text: retorno.detail,
@@ -750,6 +744,23 @@
         });
     }
 
+    var type_experience = "post"
+    $('#formExperience').submit(function(event){
+        event.preventDefault()
+
+        if (type_experience == 'post'){
+            saveExperience()
+        } else {
+            var id = $('#idExperience').val()
+            updateExperience(id)
+        }
+
+    })
+
+    $('#modalExperience').on('hidden.bs.modal', function(){
+        cleanModalExperience()
+    })
+
     function getExperience(experience_id){
         $.ajax({
             type: 'get',
@@ -773,7 +784,8 @@
                 }
                 $('#business_area').val(response['business_area'])
 
-                document.getElementById("button-save-experience").setAttribute("onclick", `updateExperience('${experience_id}')`)
+                type_experience = 'put'
+                $('#modalExperience').modal('show')
                 // setTimeout(() => {
                 //     location.reload();
                 // })
@@ -852,7 +864,7 @@
                 `
                 experienceDiv.append(text)
                 
-                closeModalExperience()
+                $('#modalExperience').modal('hide')
                 new PNotify({
                     title:'Experiência salva',
                     text: retorno.detail,
@@ -929,7 +941,7 @@
                 `
                 experienceDiv.innerHTML = text
                 
-                closeModalExperience()
+                $('#modalExperience').modal('hide')
                 new PNotify({
                     title:'Experiência atualizada',
                     text: retorno.detail,
