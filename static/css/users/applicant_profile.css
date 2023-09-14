@@ -50,6 +50,12 @@
     margin-left: 150px;
 }
 
+.curriculo{
+    float: right;
+    margin-right: 30px;
+    margin-bottom: 20px;
+}
+
 .experience-formation{
     margin-left: 150px;
     margin-top: 10px;
@@ -210,22 +216,6 @@ form {
     flex-direction: column;
     justify-content: space-between;
 }
-
-/* .modal-header h4 {
-    font-weight: 400;
-}
-
-.modal-header {
-    height: 30px;
-} */
-
-/* .modal-footer {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    height: 50px;
-    padding: 0;
-} */
 
 .form-field{
     margin: 10px 0 10px 0;

@@ -41,6 +41,12 @@
         </div>
         {% endif %}
     </div>
+
+    {% if profile.get_url_curriculum %}
+    <div class="div-row">
+        <a href="{{ profile.get_url_curriculum }}" target="_blank" class="curriculo">Currículo</a>
+    </div>
+    {% endif %}
 </div>
 
 <div class="div-container div-several" id="div-content-competence">
