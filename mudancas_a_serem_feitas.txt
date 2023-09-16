@@ -1,7 +1,7 @@
  - fazer retorno de pop-up para senha e/ou user não encontrado
  - Quando estiver na parte final do desenvolviment, colocar validação de CPF e RG existentes
  - colocar um icone de seta para baixo nos selects - Ok
- - colocar url de redirecionamento no botão cancelar na pagina de edicao/cadastro de perfil
+ - colocar url de redirecionamento no botão cancelar na pagina de edicao/cadastro de perfil - ok
  - Colocar as ultimas experiencias e formações academicas na de informações de perfil - ok
  - Centralizar as informações no conteiner de informações de perfil eixo y (formatação)
  - melhorar o modal - procurar uma forma melhor para fazer - Ok
@@ -15,7 +15,7 @@
  - colocar verificação se for apenas uma formação academica, competencia ou experiencia, não ter a tag hr
  - verificar e fazer com que apareçam as opções de experiencia e formação academica na adição de competencias ao serem cadastradas sem carregar a pagina
  - colocar espaço para exibir/fazer download de curriculo (ter input para receber no cadastro/edicao e mudar no model)
- - retirar o botão "sou uma empresa" (falar com o Kaneto)
+ - retirar o botão "sou uma empresa" (falar com o Kaneto) - ok
  - rever todos os caminhos de url para carregar template e verificar se estão corretos - Ok
  - Ter uma opção para receber as informações para criar um perfil de empresa vinculada a ela
  - Fazer verificação do user vinculado a empresa para ao fazer login, caso n tenha empresa ainda ser redirecionado para fazer o cadastro da empresa
