@@ -38,7 +38,7 @@
     font-size: 1.5rem;
     line-height: 1;
     color: #fff;
-    background-color: #ed1c24;
+    background-color: #000000;
     width: 2.5rem;
     height: 2.5rem;
     padding: 0;
@@ -61,7 +61,7 @@
     text-align: right;
     font-weight: bold;
     color: #fff;
-    background-color: #ed1c24;
+    background-color: #000000;
     box-shadow: 0 10px 30px rgba(102, 102, 102, .1);
     height: 100%;
     padding: 0 1rem;
@@ -109,7 +109,7 @@
 
 #accessibilityBar button.setAccessibility strong {
     color: #fff;
-    background-color: #ed1c24;
+    background-color: #000000;
     width: 2.5rem;
     height: 2.5rem;
     border-radius: .2rem;
@@ -140,26 +140,26 @@
 }
 
 body.contrast #accessibilityBar button[data-accessibility=contrast] {
-    background-color: #ed1c24
+    background-color: #000000
 }
 
 body.darkmode #accessibilityBar button[data-accessibility=dark] {
-    background-color: #ed1c24;
+    background-color: #000000;
     color: #fff !important
 }
 
 body.accessibility_readingLine #accessibilityBar button[data-accessibility=readingLine] {
-    background-color: #ed1c24;
+    background-color: #000000;
     color: #fff !important
 }
 
 body.accessibility_markerLine #accessibilityBar button[data-accessibility=markerLine] {
-    background-color: #ed1c24;
+    background-color: #000000;
     color: #fff !important
 }
 
 body.accessibility_readingLine #readingLine {
-    background-color: #ed1c24 !important;
+    background-color: #ff0000 !important;
     opacity: 1;
     width: 100vw;
     height: .5rem;
@@ -170,11 +170,11 @@ body.accessibility_readingLine #readingLine {
 }
 
 body.accessibility_markerLine #markerLine {
-    background-color: #e4fd00 !important;
+    background-color: #fd0000 !important;
     opacity: .75;
     border-width: .1px 0;
     border-style: solid;
-    border-color: #cde400;
+    border-color: #fd0000;
     width: 100vw;
     height: 1.75rem;
     position: absolute;

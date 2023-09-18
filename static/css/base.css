@@ -166,21 +166,6 @@ nav.sidebar:hover .txt-link {
   
 }
 
-.div-icon-accessibility{
-  position: fixed;
-  top: 23px;
-  right: 10px;
-  display: flex;
-  flex-direction: row;
-  padding: 2rem 2rem;
-}
-
-.div-icon-accessibility .icon{
-  font-size: 30px;
-  margin-top: 0.75rem;
-  margin-right: 1rem;
-}
-
 .overlay {
   position: fixed;
   display: none; 
@@ -218,15 +203,6 @@ nav.sidebar:hover ~ .overlay {
     overflow: hidden;
     text-overflow: ellipsis;
     line-height: 40px;
-  }
-
-  .div-icon-accessibility{
-    position: fixed;
-    top: 23px;
-    right: 0px;
-    display: flex;
-    flex-direction: row;
-    padding: 1rem 1rem;
   }
   
 }

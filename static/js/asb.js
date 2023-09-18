@@ -81,15 +81,11 @@
 
   /**
    * Creating the bar
-   */
-
+   */ 
   const accessibilityBar = document.createElement("div");
   accessibilityBar.id = "accessibilityBar";
-  var bodyTag = document.getElementById("test");
-  console.log(bodyTag);
-  // let bodyTag = document.getElementsByTagName("body").items(0);
-  // bodyTag.insertBefore(accessibilityBar, bodyTag.firstChild);
-  // console.log(bodyTag);
+  document.body.insertBefore(accessibilityBar, document.body.firstChild);
+
 
   /**
    * Creating main button
