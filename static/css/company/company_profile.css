@@ -93,7 +93,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    min-height: 110px;
+    min-height: 150px;
 }
 
 .div-several-row-text {
@@ -151,4 +151,83 @@ hr {
         color: #000;
         text-decoration: none;
     }
+}
+
+@media (max-width: 480px) {
+    .body{
+        background-color: #F8F4F4;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 1% 0;
+        min-height: 100vh;
+        margin-left: 20px;
+    }
+
+    .div-content{
+        display: flex;
+        flex-direction: column;
+        padding: 3%;
+        align-items: center;
+    }
+
+    .infos{
+        margin-left: 0;
+        margin-right: 0px;
+        margin-top: 10px;
+        white-space: nowrap;
+    }
+    
+    .experience-formation{
+        width: 40%;
+        margin-left: 0;
+        margin-top: 12px;
+    }
+
+    .div-row{
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .div-head{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+        padding: 10px 20px 0 0;
+    }
+
+    .div-head h3{
+        padding-left: 5px;
+    }
+
+    .div-dados h5{
+        font-weight: bold;
+    }
+
+    .div-info-vagas{
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        line-height: 10px;
+    }
+
+    .text-vagas{
+        margin-right: 0px;
+    }
+
+    .div-several-row-text {
+        align-items: center;
+        justify-content: center;
+        height: auto;
+    }
+    
+    .img-several{
+        width: 100px;
+        height: 100px;
+        margin-top: 2rem;
+    }
+    
 }

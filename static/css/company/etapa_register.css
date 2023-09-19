@@ -205,3 +205,42 @@
     justify-content: space-between;
     width: 100%;
 }
+
+@media (max-width:480px) {
+
+    .div-icon-accessibility{
+        position: absolute;
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        justify-content: end;
+        padding: 1rem 1rem;
+        font-size: 30px;
+        margin-top: 1.5rem;
+    }
+
+    .button{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 2rem;
+        width: 6rem;
+        background-color: #FBE700;
+        border-radius: 15px;
+        border: none;
+        outline: none;
+        margin: 4% 2%;
+        cursor: pointer;
+        color: #000;
+        text-decoration: none;
+        &:link{
+            color: #000;
+            text-decoration: none;
+        }
+        &:visited{
+            color: #000;
+            text-decoration: none;
+        }
+    }
+    
+}
