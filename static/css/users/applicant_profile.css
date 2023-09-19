@@ -291,6 +291,12 @@ input[type=date]{
 
 @media (max-width:480px) {
 
+    .div-container{
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 5%;
+    }
+
     .body{
         background-color: #F8F4F4;
         display: flex;
@@ -316,7 +322,7 @@ input[type=date]{
     }
     
     .experience-formation{
-        width: 40%;
+        width: 100%;
         margin-left: 0;
         margin-top: 12px;
     }
@@ -339,4 +345,18 @@ input[type=date]{
     .div-head h3{
         padding-left: 5px;
     }
+
+    .several-row-text2{
+        width: 50%;
+        margin-right: 1%;
+        margin-left: 2%;
+    }
+
+    .date-row{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding-right: 0%;
+    }
+
 }

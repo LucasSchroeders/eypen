@@ -136,3 +136,38 @@
     max-height: 70%;
     overflow: scroll,auto;
 }
+
+@media (max-width:480px) {
+
+    .div-field{
+        height: 30%;
+        width: 70%;
+        background-color: #fff;
+        border-radius: 10px;
+        margin: 1rem;
+        padding: 1%;
+    }
+
+    .bt-approved{
+        margin-left: 28%;
+    }
+
+    .div-field2{
+        height: 70%;
+        width: 70%;
+        background-color: #fff;
+        border-radius: 10px;
+        margin: 1rem;
+        padding: 1%;
+    }
+
+    .p-form{
+        margin-left: 0%;
+    }
+
+    .div-row{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
