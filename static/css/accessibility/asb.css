@@ -208,7 +208,16 @@ body.contrast footer,
 body.contrast section,
 body.contrast main,
 body.contrast aside,
-body.contrast article {
+body.contrast article,
+body.contrast .div-container,
+body.contrast .div-form,
+body.contrast .form-input,
+body.contrast .modal-content,
+body.contrast .form-select, 
+body.contrast .body,
+body.contrast .form-div,
+body.contrast .field-form,
+body.contrast .footer{
     background: #000 !important;
     color: #fff !important
 }
@@ -229,7 +238,7 @@ body.contrast i,
 body.contrast b,
 body.contrast u,
 body.contrast span {
-    color: #fff !important
+    color: #ff0 !important
 }
 
 body.contrast a {
@@ -241,6 +250,8 @@ body.contrast a * {
 }
 
 body.contrast button,
+body.contrast .button-cancel,
+body.contrast .picture__image,
 body.contrast input[type=button],
 body.contrast input[type=reset],
 body.contrast input[type=submit] {
