@@ -9,6 +9,7 @@ from users.choices import (
     STATUS_VACANCY_CHOICES,
     VULNERABILITIES_CHOICES,
 )
+from users.models import Profile
 
 
 class Vacancy(models.Model):
@@ -88,3 +89,10 @@ class Vacancy(models.Model):
     
     def get_url_photo(self):
         return "/static/images/vaga.png"
+
+    def register_candidate(self, id_profile):
+        if not self.candidates.filter(id=id_profile).exists():
+            profile = Profile.objects.filter(id=id_profile).first()
+            self.candidates.add(profile)
+            return True
+        return False
