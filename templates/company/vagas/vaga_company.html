@@ -54,9 +54,9 @@
             </div>
 
             <div class="div-button">
-                {% if profile_user.company.id == id_company %}
                 <form action="{%url 'atualizar_vaga' id=vacancy.id %}" method="post">
                     {% csrf_token %}
+                    {% if profile_user.company.id == id_company %}
                         {% if vacancy.status == 'PEN' %}
                         <a href="{% url 'registrar_etapa' id=id_company id_vacancy=vacancy.id %}" class="btn-actions">Editar etapa</a>
                         <button type="submit" name="action" value="ativar" class="button-ativar btn-actions">Ativar</button>
@@ -66,14 +66,11 @@
                         {% if vacancy.status not in 'INTV,ENC' %}
                         <button type="submit" name="action" value="inativar" class="button-encerrar btn-actions">Inativar</button>
                         {% endif %}
-                    </form>
-                {% endif %}
-                {% if profile_user.is_applicant and vacancy.status not in 'INTV,ENC' %}
-                <form action="" method="post">
-                    {% csrf_token %}
+                    {% endif %}
+                    {% if profile_user.is_applicant and vacancy.status not in 'INTV,ENC' and not is_registered %}
                     <button type="submit" name="action" value="inscrever" class="btn-actions">Inscrever-se</button>
+                    {% endif %}
                 </form>
-                {% endif %}
             </div>
         </div>
 
