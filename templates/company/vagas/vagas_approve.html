@@ -6,60 +6,75 @@
 {%block body%}
 <div class="div-field">
     <div class="div-row">
-        <p class="p-negrito">Etapa 1</p>
-        <p class="p-negrito p-form">Formulario de conhecimento</p>
+        <p class="p-negrito">Etapa {{step.step}}</p>
+        <p class="p-negrito p-form">{{step.title}}</p>
     </div>
     <div>
+        <p>Etapa será feita de forma {{step.step_modality}}</p>
         <p>Descrição:</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam et aliquid aliquam atque natus autem nihil a? Voluptatum, facilis consequuntur quidem hic non aliquam, ducimus quo quia, laudantium adipisci quod. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Maxime nam harum, velit alias incidunt molestiae facilis facere quaerat error libero cum at, iure, animi inventore aliquam eaque enim? Aliquid, laborum.</p>
+        <p>{{step.description|linebreaks}}</p>
     </div>
 </div>
+<form action="">
+    <div class="div-field2" id="candidate">
+        <p class="p-negrito">Candidatos na etapa:</p>
+        <div class="div-scroll">
+            {% for candidate in candidates%}
+            <div class="div-container" id="candidate{{candidate.id}}">
+                <div class="photo">
+                <img src="{{candidate.get_url_photo}}" class="photo-img" alt="foto de perfil">
+                </div>
+                <div class="div-dados">
+                <p class="p-dados p-negrito">{{candidate.name}}</p>
+                <p class="p-dados">{{candidate.city}}, {{candidate.state}}</p>
+                </div>
+                <div class="bt-approved">
+                    <input class="bt-checkbox" type="checkbox" name="candidates">
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 
-<div class="div-field2">
-    <p class="p-negrito">Candidatos na etapa:</p>
-    <div class="div-scroll">
-        <div class="div-container">
+    <div class="div-button">
+        <button type="submit" onclick="approveCandidate()" class="form-button">Aprovar</button>
+    </div>
+
+    <div class="div-field2" id="approvedCandidate">
+        <p class="p-negrito">Candidatos Aprovados:</p>
+        {% for candidate in approved_candidates %}
+        <div class="div-container" id="approvedCandidate{{candidate.id}}">
             <div class="photo">
-            <img src="" class="photo-img" alt="foto de perfil">
+            <img src="{{candidate.get_url_photo}}" class="photo-img" alt="foto de perfil">
             </div>
             <div class="div-dados">
-            <p class="p-dados p-negrito">Nome</p>
-            <p class="p-dados">Cargo</p>
-            <p class="p-dados">Estado/cidade</p>
+            <p class="p-dados p-negrito">{{candidate.name}}</p>
+            <p class="p-dados">{{candidate.city}}, {{candidate.state}}</p>
             </div>
             <div class="bt-approved">
-                <input class="bt-checkbox" type="checkbox" id="approved" name="approved">
+                <button type="submit" onclick="removeCandidateToApproved('{{candidate.id}}')">Retirar</button>
             </div>
         </div>
-
+        {% endfor %}
     </div>
-</div>
 
-<div class="div-button">
-    <input type="submit" class="form-button" value="Aprovar" />
-</div>
-
-<div class="div-field2">
-    <p class="p-negrito">Candidatos Aprovados:</p>
-
-    <div class="div-container">
-        <div class="photo">
-          <img src="" class="photo-img" alt="foto de perfil">
-        </div>
-        <div class="div-dados">
-          <p class="p-dados p-negrito">Nome</p>
-          <p class="p-dados">Cargo</p>
-          <p class="p-dados">Estado/cidade</p>
-        </div>
-        <div class="bt-approved">
-            <input type="submit" id="approved" value="Retirar">
-        </div>
+    <div class="div-button">
+        <input type="submit" class="form-button2" value="Finalizar Etapa" />
     </div>
-</div>
-
-<div class="div-button">
-    <input type="submit" class="form-button2" value="Finalizar Etapa" />
-</div>
-
-
+</form>
 {%endblock body%}
+
+{% block js %}
+<script>
+    function removeCandidateToApproved(id){
+        var divCandidate = document.getElementById(`approvedCandidate${id}`)
+        divCandidate.remove()
+    }
+    document.getElementsByName
+
+    function approveCandidate(){
+
+    }
+
+</script>
+{% endblock js %}
