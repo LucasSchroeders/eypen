@@ -60,6 +60,16 @@ class Vacancy(models.Model):
     state = models.CharField(max_length=200, blank=True, null=True, verbose_name="Estado", choices=STATES)
     city = models.CharField(max_length=200, blank=True, null=True, verbose_name="Cidade")
     description = models.CharField(max_length=2000, verbose_name='Descrição')
+    candidates = models.ManyToManyField(
+        'users.Profile',
+        related_name='vacancies',
+        verbose_name='Candidatos',
+    )
+    approved_candidates = models.ManyToManyField(
+        'users.Profile',
+        related_name='vacancies_approved',
+        verbose_name='Candidatos aprovados',
+    )
 
     class Meta:
         verbose_name = "Vaga"

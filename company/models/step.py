@@ -1,6 +1,6 @@
 from django.db import models
 
-from users.choices import VULNERABILITIES_CHOICES
+from users.choices import VULNERABILITIES_CHOICES, STATUS_STEPS_CHOICES
 
 
 class Step(models.Model):
@@ -12,6 +12,14 @@ class Step(models.Model):
     )
     step = models.IntegerField(    
         verbose_name="Número da etapa",
+    )
+    status = models.CharField(
+        max_length=10,
+        blank=True,
+        null=True,
+        choices=STATUS_STEPS_CHOICES,
+        default='PEN',
+        verbose_name='Status'
     )
     title = models.CharField(max_length=80, db_index=True, verbose_name="Nome da etapa")
     step_modality = models.CharField(max_length=50, verbose_name="Modalidade")
