@@ -30,6 +30,11 @@ class VacancyTemplateView(TemplateView):
         id_vacancy = kwargs.get('id_vacancy')
         vacancy = Vacancy.objects.filter(id=id_vacancy).first()
 
+        if profile.is_applicant:
+            is_registered = vacancy.candidates.filter(id=profile.id).exists()
+            context['is_registered'] = is_registered
+
+
         context['profile_user'] = profile
         context['id_company'] = id_company
         context['vacancy'] = vacancy
@@ -251,7 +256,7 @@ class BuscaVacancy(TemplateView):
         return context
 
 
-@company_only
+@login_required
 def vacancy_update_view(request, id):
     vacancy = Vacancy.objects.filter(id=id).first()
 
@@ -278,6 +283,15 @@ def vacancy_update_view(request, id):
             vacancy.save()
             msg = 'Vaga encerrada com sucesso!'
             message_status = messages.SUCCESS
+
+        elif action == 'inscrever' and request.user.profile.is_applicant:
+            is_success = vacancy.register_candidate(request.user.profile.id)
+            msg = 'Inscrição na vaga realizada com sucesso!'
+            extra_tags = 'Inscrição na vaga'
+            message_status = messages.SUCCESS
+            if not is_success:
+                msg = 'Candidato já está inscrito na vaga!'
+                message_status = messages.ERROR
 
         messages.add_message(request, message_status, msg, extra_tags)
 
