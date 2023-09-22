@@ -55,12 +55,20 @@ class VacancyRegisterTemplateView(TemplateView):
         return context
 
 
-@method_decorator(company_only, 'dispatch')
+@method_decorator((company_only, vacancy_status_invalid), 'dispatch')
 class VacancySelectiveProcessTemplateView(TemplateView):
     template_name = 'company/vagas/vagas_approve.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        id_company = kwargs.get('id')
+        id_vacancy = kwargs.get('id_vacancy')
+        vacancy = Vacancy.objects.filter(id=id_vacancy).first()
+
+        context['vacancy'] = vacancy
+        context['step'] = vacancy.steps.filter(status='PEN').order_by('step').first()
+        context['candidates'] = vacancy.candidates.all()
+        context['approved_candidates'] = vacancy.approved_candidates.all()
         context['profile_user'] = self.request.user.profile
 
         return context
