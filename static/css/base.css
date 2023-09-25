@@ -204,5 +204,20 @@ nav.sidebar:hover ~ .overlay {
     text-overflow: ellipsis;
     line-height: 40px;
   }
+
+  .div-icon-accessibility{
+    position: fixed;
+    top: 23px;
+    right: 0px;
+    display: flex;
+    flex-direction: row;
+    padding: 1rem 1rem;
+  }
+
+  .expand-button>h5 {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+  }
   
 }
