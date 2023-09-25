@@ -175,16 +175,11 @@
 
 }
 
-.logo-ey{
-    height: 100%;
-    width: 6%;
-    margin: 0.7rem 0;
-}
-
 .text-footer{
     width: 20%;
     word-wrap: normal;
     font-size: 1.2rem;
+    margin: 2% 0;
 }
 
 .icons{

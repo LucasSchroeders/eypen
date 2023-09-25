@@ -31,9 +31,7 @@ STATES = [
 GENDER_CHOICES = [
     ('masculino', 'Masculino'),
     ('feminino', 'Feminino'),
-    ('neutro', 'Neutro'),
-    ('nao_binario', 'Não binário'),
-    ('transgenero', 'Transgênero'),
+    ('lgbt', 'LGBTQIAP+'),
     ('outro', 'Outro'),
     ('desejo_nao_informar', 'Desejo não informar'),
 ]
@@ -41,8 +39,8 @@ GENDER_CHOICES = [
 DISABLED_CHOICES = [
     ('auditiva', 'Auditiva'),
     ('visual', 'Visual'),
-    ('motora', 'Motora'),
-    ('mental', 'Metal'),
+    ('fisica', 'Física'),
+    ('intelectual', 'Intelectual'),
     ('desejo_nao_informar', 'Desejo não informar'),
 ]
 
