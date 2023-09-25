@@ -59,7 +59,7 @@ class VacancyRegisterTemplateView(TemplateView):
         request = self.request
         
         context['states'] = STATES
-
+        context['vulnerabilities'] = VULNERABILITIES_CHOICES
         return context
 
 
@@ -131,6 +131,7 @@ def create_vacancy(request, id):
         'seniorities': SENIORITY_CHOICES,
         'modalities': JOB_MODALITY,
         'job_type': JOB_TYPE,
+        'vulnerabilities': VULNERABILITIES_CHOICES,
     }
     
     return render(request, 'company/vagas/vaga_register.html', context)

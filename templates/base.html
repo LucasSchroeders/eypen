@@ -88,7 +88,7 @@
       {% if profile_user.is_company %}
       <span class="menu-item">
         <!-- TODO colocar url de cadastro de vagas -->
-        <a href="#">
+        <a href="{% url 'registrar_vagas' id=profile_user.company.id%}">
           <span class="icon"><i class="fa-solid fa-clipboard"></i></span>
           <span class="txt-link">Cadastrar vagas</span>
         </a>

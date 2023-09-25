@@ -85,6 +85,20 @@
                     </div>
 
                     <div class="form-field">
+                        <label for="step_vulnerability">Para quem é a vaga:</label>
+                        <div class="form-input">
+                            <select name="step_vulnerability" id="step_vulnerability" class="form-select">
+                                <option value="">Todos</option>
+                                {% for vulnerability in vulnerabilities%}
+                                <option value="{{vulnerability.0}}">{{vulnerability.1}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="div-row">
+                    <div class="form-field">
                         <label for="job_type">Tipo de Emprego</label>
                         <div class="form-input">
                             <select name="job_type" id="job_type" class="form-select" required>
@@ -95,6 +109,7 @@
                             </select>
                         </div>
                     </div>
+                    
                 </div>
 
                 <div class="descricao">
@@ -111,7 +126,7 @@
 
                 <div class="div-button">
                     <button type="submit" class="button">Salvar</button>
-                    <button type="button" class="button">Cancelar</button>
+                    <a href="{% url 'company_profile' id=company.id %}" class="button a-button">Cancelar</a>
                 </div>
             </form>
             

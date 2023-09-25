@@ -40,7 +40,6 @@
                                 <div class="div-column">
                                     <p class="etapa-text">Tipo da etapa: {{step.step_type}}</p>
                                     <p class="etapa-text">Etapa será feita de forma {{step.step_modality}}</p>
-                                    <p class="etapa-text">Etapa será aplicada para {{step.step_vulnerability}}</p>
                                 </div>
                                 <div class="div-description-icon">
                                     <p class="etapa-text description">Descrição da etapa: {{step.description}}</p>
@@ -85,7 +84,6 @@
                 document.getElementById("description").value = response['description']
                 $('#company').val(response['company'])
                 document.getElementById("step_modality").value = response['step_modality']
-                document.getElementById("step_vulnerability").value = response['step_vulnerability']
                 document.getElementById("step_type").value = response['step_type']
 
                 url = `/api/vagas/${response['id']}/step`
@@ -129,7 +127,6 @@
             'title': $("#title").val(),
             'step_modality': stepModalitySelect.options[stepModalitySelect.selectedIndex].value,
             'step_type': $("#step_type").val(),
-            'step_vulnerability': stepVulnerabilitySelect.options[stepVulnerabilitySelect.selectedIndex].value,
             'description': $("#description").val(),
         }
 
@@ -153,7 +150,6 @@
                         <div class="div-column">
                             <p class="etapa-text">Tipo da etapa: ${step.step_type}</p>
                             <p class="etapa-text">Etapa será feita de forma ${step.step_modality}</p>
-                            <p class="etapa-text">Etapa será aplicada para ${step.step_vulnerability}</p>
                         </div>
                         <div class="div-description-icon">
                             <p class="etapa-text description">Descrição da etapa: ${step.description}</p>
@@ -192,7 +188,6 @@
             'title': $("#title").val(),
             'step_modality': stepModalitySelect.options[stepModalitySelect.selectedIndex].value,
             'step_type': $("#step_type").val(),
-            'step_vulnerability': stepVulnerabilitySelect.options[stepVulnerabilitySelect.selectedIndex].value,
             'description': $("#description").val(),
         }
 
@@ -215,7 +210,6 @@
                     <div class="div-column">
                         <p class="etapa-text">Tipo da etapa: ${step.step_type}</p>
                         <p class="etapa-text">Etapa será feita de forma ${step.step_modality}</p>
-                        <p class="etapa-text">Etapa será aplicada para ${step.step_vulnerability}</p>
                     </div>
                     <div class="div-description-icon">
                         <p class="etapa-text description">Descrição da etapa: ${step.description}</p>
