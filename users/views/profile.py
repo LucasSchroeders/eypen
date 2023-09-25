@@ -42,6 +42,7 @@ def personalProfileInformation(request, id):
         gender = post.get('gender')
         ethnicity = post.get('ethnicity')
         birthdate = post.get('birthdate')
+        curriculum = request.FILES.get('curriculum')
         try:
             birthdate = string_to_date(birthdate) if birthdate else None
         except Exception as e:
@@ -73,6 +74,7 @@ def personalProfileInformation(request, id):
         profile.city = city
         profile.is_disabled = is_disabled
         profile.disabled = disabled
+        profile.curriculum = curriculum
 
         profile.save()
 

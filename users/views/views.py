@@ -103,6 +103,7 @@ def signup2(request):
         is_disabled = post.get('is_disabled', False)
         disabled = post.get('disabled', '')
         photo = request.FILES.get('foto')
+        curriculum = request.FILES.get('curriculum')
 
         birthdate = string_to_date(birthdate) if birthdate else None
 
@@ -120,6 +121,7 @@ def signup2(request):
         profile.disabled = disabled
         profile.photo = photo
         profile.is_applicant = True
+        profile.curriculum = curriculum
 
         profile.save()
         
