@@ -5,6 +5,9 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from company.models import Company, Vacancy
 from users.choices import (
@@ -296,3 +299,37 @@ def vacancy_update_view(request, id):
         messages.add_message(request, message_status, msg, extra_tags)
 
     return redirect('exibir_vagas', id=vacancy.company.id, id_vacancy=id)
+
+
+@method_decorator(company_only, 'dispatch')
+class UpdateSelectiveProcess(APIView):
+    def post(self, request, id):
+        vacancy = Vacancy.objects.filter(id=id).first()
+
+        if request.method == 'POST':
+            data = request.data
+            action = data.get('action')
+
+            title = 'Candidatos'
+            if action == 'aprovar':
+                candidates = vacancy.approve_candidates(data.get('candidates'))
+                text = 'Os candidatos selecionados foram aprovados!'
+
+            elif action == 'retirar':
+                candidates = vacancy.remove_approved_candidates(data.get('approved_candidates'))
+                text = 'Os candidatos selecionados foram removidos!'
+
+            elif action == 'finalizar':
+                vacancy.finish_step_selective_process()
+                title = 'Etapa'
+                text = 'A etapa foi finalizada!'
+                
+            response = {
+                'title': title,
+                'text': text,
+                'action': action,
+                'candidates': candidates,
+            }
+
+            return Response(response, status=status.HTTP_200_OK)
+        

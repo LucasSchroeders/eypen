@@ -15,29 +15,37 @@
         <p>{{step.description|linebreaks}}</p>
     </div>
 </div>
-<form action="">
+<form id="form" method="post">
+    {% csrf_token %}
     <div class="div-field2" id="candidate">
         <p class="p-negrito">Candidatos na etapa:</p>
         <div class="div-scroll">
             {% for candidate in candidates%}
             <div class="div-container" id="candidate{{candidate.id}}">
                 <div class="photo">
-                <img src="{{candidate.get_url_photo}}" class="photo-img" alt="foto de perfil">
+                    <img src="{{candidate.get_url_photo}}" class="photo-img" alt="foto de perfil">
                 </div>
-                <div class="div-dados">
-                <p class="p-dados p-negrito">{{candidate.name}}</p>
-                <p class="p-dados">{{candidate.city}}, {{candidate.state}}</p>
-                </div>
-                <div class="bt-approved">
-                    <input class="bt-checkbox" type="checkbox" name="candidates">
+                <div class="div-infos">
+                    <div class="div-dados">
+                        <p class="p-dados p-negrito">{{candidate.name}}</p>
+                        <p class="p-dados">{{candidate.gender}}</p>
+                        {% if candidate.is_disabled %}
+                        <p class="p-dados">{{candidate.disabled}}</p>
+                        {% endif %}
+                        <p class="p-dados">{{candidate.city}}, {{candidate.state}}</p>
+                    </div>
+                    <div class="bt-approved">
+                        <input class="bt-checkbox" type="checkbox" name="candidates" id="{{candidate.id}}">
+                    </div>
                 </div>
             </div>
+            <hr>
             {% endfor %}
         </div>
     </div>
 
     <div class="div-button">
-        <button type="submit" onclick="approveCandidate()" class="form-button">Aprovar</button>
+        <button type="submit" name="action" value="aprovar" class="form-button">Aprovar</button>
     </div>
 
     <div class="div-field2" id="approvedCandidate">
@@ -45,36 +53,172 @@
         {% for candidate in approved_candidates %}
         <div class="div-container" id="approvedCandidate{{candidate.id}}">
             <div class="photo">
-            <img src="{{candidate.get_url_photo}}" class="photo-img" alt="foto de perfil">
+                <img src="{{candidate.get_url_photo}}" class="photo-img" alt="foto de perfil">
             </div>
-            <div class="div-dados">
-            <p class="p-dados p-negrito">{{candidate.name}}</p>
-            <p class="p-dados">{{candidate.city}}, {{candidate.state}}</p>
-            </div>
-            <div class="bt-approved">
-                <button type="submit" onclick="removeCandidateToApproved('{{candidate.id}}')">Retirar</button>
+            <div class="div-infos">
+                <div class="div-dados">
+                    <p class="p-dados p-negrito">{{candidate.name}}</p>
+                    <p class="p-dados">{{candidate.gender}}</p>
+                    {% if candidate.is_disabled %}
+                    <p class="p-dados">{{candidate.disabled}}</p>
+                    {% endif %}
+                    <p class="p-dados">{{candidate.city}}, {{candidate.state}}</p>
+                </div>
+                <div class="bt-approved">
+                    <input class="bt-checkbox" type="checkbox" name="candidates-approved" id="{{candidate.id}}">
+                </div>
             </div>
         </div>
+        <hr>
         {% endfor %}
     </div>
 
     <div class="div-button">
-        <input type="submit" class="form-button2" value="Finalizar Etapa" />
+        <button type="submit" name="action" value="retirar" class="form-button">Retirar</button>
+    </div>
+
+    <div class="div-button" style="margin-top: 50px;">
+        <button type="submit" name="action" value="finalizar" class="form-button">Finalizar Etapa</button>
     </div>
 </form>
 {%endblock body%}
 
 {% block js %}
 <script>
-    function removeCandidateToApproved(id){
-        var divCandidate = document.getElementById(`approvedCandidate${id}`)
-        divCandidate.remove()
+    $('#form').submit(function(event){
+        event.preventDefault()
+        var candidates = document.getElementsByName('candidates')
+        var candidatesApproved = document.getElementsByName('candidates-approved')
+        var candidatesList = []
+        var candidatesApprovedList = []
+        
+        var data = {}
+
+        if (event.originalEvent.submitter.value == 'aprovar'){
+            data['action'] = 'aprovar'
+            candidates.forEach(function(e){
+                if (e.checked) {
+                    candidatesList.push(e.id)
+                }
+            })
+            data['candidates'] = candidatesList
+
+        } else if (event.originalEvent.submitter.value == 'retirar'){
+            data['action'] = 'retirar'
+            candidatesApproved.forEach(function(e){
+                if (e.checked) {
+                    candidatesApprovedList.push(e.id)
+                }
+            })
+            data['approved_candidates'] = candidatesApprovedList
+
+        } else{
+            data['action'] = 'finalizar'
+        }
+
+        $.ajax({
+            type: 'post',
+            url: "{% url 'atualizar_processo_seletivo' id=vacancy.id %}",
+            dataType: 'json',
+            headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
+            data: JSON.stringify(data),
+            success: function (retorno) {
+                if (retorno.action == 'aprovar'){
+                    removeCandidateToApproved(retorno.candidates)
+                } else if (retorno.action == 'retirar') {
+                    removeApprovedToCandidate(retorno.candidates)
+                } else {
+                    window.location.reload();
+                }
+                new PNotify({
+                    title: retorno.title,
+                    text: retorno.text,
+                    type: 'success',
+                    delay:'5000'
+                });
+                setTimeout(function(){
+                    window.location.reload();
+                }, 5000);
+            },
+            error: function (error) {
+                if (error.statusText == 'timeout') {
+                new PNotify({
+                    title: 'Requisição Cancelada',
+                    text: 'Requisição ao serviço cancelada. Tente novamente em alguns minutos.',
+                    type: 'error',
+                    delay: '5000'
+                });
+                }
+                console.log(error);
+            }
+        });
+        
+    })
+
+
+    function removeCandidateToApproved(list){
+        list.forEach(function(e){
+            var divCandidate = document.getElementById(`candidate${e.id}`)
+            divCandidate.remove()
+            var candidateDiv = $('#approvedCandidate')
+
+            var text = `
+            <div class="div-container" id="approvedCandidate${e.id}4">
+                <div class="photo">
+                    <img src="${e.get_url_photo}" class="photo-img" alt="foto de perfil">
+                </div>
+                <div class="div-infos">
+                    <div class="div-dados">
+                        <p class="p-dados p-negrito">${e.name}</p>
+                        <p class="p-dados">${e.gender}</p>`
+
+            if (e.is_disabled){
+               text+=`<p class="p-dados">${e.disabled}</p>`
+            }
+            text+= `
+                        <p class="p-dados">${e.city}, ${e.state}</p>
+                    </div>
+                    <div class="bt-approved">
+                        <input class="bt-checkbox" type="checkbox" name="candidates-approved" id="${e.id}">
+                    </div>
+                </div>
+            </div>
+            <hr>
+            `
+            candidateDiv.append(text)
+        })
     }
-    document.getElementsByName
 
-    function approveCandidate(){
+    function removeApprovedToCandidate(list){
+        list.forEach(function(e){
+            var divCandidate = document.getElementById(`approvedCandidate${e.id}`)
+            divCandidate.remove()
+            var candidateDiv = $('#candidate')
 
+            var text = `
+            <div class="div-container" id="candidate${e.id}">
+                <div class="photo">
+                    <img src="${e.get_url_photo}" class="photo-img" alt="foto de perfil">
+                </div>
+                <div class="div-infos">
+                    <div class="div-dados">
+                        <p class="p-dados p-negrito">{{e.name}}</p>
+                        <p class="p-dados">{{e.gender}}</p>
+                        `
+            if (e.is_disabled){
+               text+=`<p class="p-dados">${e.disabled}</p>`
+            }
+
+            text+=`<p class="p-dados">${e.city}, ${e.state}</p>
+                    </div>
+                    <div class="bt-approved">
+                        <input class="bt-checkbox" type="checkbox" name="candidates" id="${e.id}">
+                    </div>
+                </div>
+            </div>
+            <hr>`
+            candidateDiv.append(text)
+        })
     }
-
 </script>
 {% endblock js %}

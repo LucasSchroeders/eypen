@@ -1,5 +1,6 @@
 from django.db import models
 
+from company.models import Step
 from users.choices import (
     STATES,
     SENIORITY_CHOICES,
@@ -65,11 +66,15 @@ class Vacancy(models.Model):
         'users.Profile',
         related_name='vacancies',
         verbose_name='Candidatos',
+        null=True,
+        blank=True,
     )
     approved_candidates = models.ManyToManyField(
         'users.Profile',
         related_name='vacancies_approved',
         verbose_name='Candidatos aprovados',
+        null=True,
+        blank=True,
     )
 
     class Meta:
@@ -96,3 +101,37 @@ class Vacancy(models.Model):
             self.candidates.add(profile)
             return True
         return False
+
+    def approve_candidates(self, list_candidates):
+        for candidate in self.candidates.all():
+            if str(candidate.id) in list_candidates:
+                self.candidates.remove(candidate)
+
+        candidates = list()
+        for id_candidate in list_candidates:
+            profile = Profile.objects.filter(id=id_candidate).first()
+            self.approved_candidates.add(profile)
+            candidates.append(profile.to_dict())
+        return candidates
+
+    def remove_approved_candidates(self, list_candidates):
+        for candidate in self.approved_candidates.all():
+            if candidate.id in list_candidates:
+                self.approved_candidates.remove(candidate)
+
+        candidates = list()
+        for id_candidate in list_candidates:
+            profile = Profile.objects.filter(id=id_candidate).first()
+            self.candidates.add(profile)
+            candidates.append(profile.to_dict())
+        return candidates
+
+    def finish_step_selective_process(self):
+        self.candidates.clear()
+        for candidate in self.approved_candidates.all():
+            self.candidates.add(candidate)
+        
+        self.approved_candidates.clear()
+        step = self.steps.filter(status='PEN').order_by('step').first()
+        step.status = 'ENC'
+        step.save()

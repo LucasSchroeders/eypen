@@ -72,6 +72,23 @@ class Profile(models.Model):
     def __str__(self):
         return str(self.pk)
     
+    def to_dict(self):
+        return {
+            'id': self.pk,
+            'name': self.name,
+            'cpf': self.cpf,
+            'rg': self.rg,
+            'gender': self.gender,
+            'ethnicity': self.ethnicity,
+            'birthdate': self.birthdate,
+            'state': self.state,
+            'city': self.city,
+            'is_disabled': self.is_disabled,
+            'disabled': self.disabled,
+            'is_applicant': self.is_applicant,
+            'get_url_photo': self.get_url_photo,
+        }
+    
     def create_competence(self, context):
         competence_data = {
             'competence_name': context.get('competence'),

@@ -567,6 +567,7 @@
             headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
             success: function (retorno) {
                 response = retorno.detail
+                $('#idFormation').val(`${academic_id}`)
                 $('#educational_institution').val(response['educational_institution'])
                 $('#course').val(response['course'])
                 $('#knowledge_area').val(response['knowledge_area'])
@@ -705,6 +706,9 @@
                     type: 'success',
                     delay:'5000'
                 });
+                setTimeout(function(){
+                    location.reload();
+                }, 5000);
             },
             error: function (error) {
                 if (error.statusText == 'timeout') {
@@ -774,7 +778,7 @@
             headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
             success: function (retorno) {
                 response = retorno.detail
-                openModalExperience(true)
+                $('#idExperience').val(`${experience_id}`)
                 $('#position').val(response['position'])
                 document.getElementById("job_type").value = response['job_type']
                 $('#company').val(response['company'])

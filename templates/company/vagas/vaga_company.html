@@ -66,6 +66,7 @@
                         {% if vacancy.status not in 'INTV,ENC' %}
                         <button type="submit" name="action" value="inativar" class="button-encerrar btn-actions">Inativar</button>
                         {% endif %}
+                        <a href="{% url 'vagas_processo_seletivo' id=id_company id_vacancy=vacancy.id %}" class="btn-actions">Acessar processo seletivo</a>
                     {% endif %}
                     {% if profile_user.is_applicant and vacancy.status not in 'INTV,ENC' and not is_registered %}
                     <button type="submit" name="action" value="inscrever" class="btn-actions">Inscrever-se</button>

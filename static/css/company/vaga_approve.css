@@ -48,24 +48,32 @@ form{
 }
 
 .photo{
-    margin: 0 20px;
+    margin: 0 20px 0 0;
 }
 
 .photo-img{
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
     margin-right: 2%;
+}
+
+.div-infos{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
 }
 
 .div-dados{
     display: flex;
     flex-direction: column;
+    line-height: 0.5;
 }
 
 .p-dados{
     font-size: 1rem;
-    margin: 0.5rem 0;
+    /* margin: 0.5rem 0; */
 }
 
 .p-negrito{
@@ -73,7 +81,9 @@ form{
 }
 
 .bt-approved{
-    margin-left: 78%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .bt-checkbox{
@@ -143,4 +153,15 @@ form{
 .div-scroll{
     max-height: 70%;
     overflow: scroll,auto;
+}
+
+hr {
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 1px;
+    border-color: #ddd;
 }
