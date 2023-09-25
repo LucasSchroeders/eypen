@@ -11,6 +11,8 @@
     <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/utils/pnotify.custom.min.css' %}">
+    <link rel="stylesheet" href="{% static 'fontawesome5.9.0/css/all.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/accessibility/asb.css' %}"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
@@ -105,10 +107,6 @@
     </div>
   </nav>
   
-  <div class="div-icon-accessibility">
-    <i class="fa-sharp fa-solid fa-universal-access icon"></i>
-  </div>
-  
   <div class="overlay"></div>
   <div class="body">
     {% block body %}
@@ -118,7 +116,7 @@
   
   {% block js %}
   {% endblock js %}
-
+  <script type="text/javascript" src="{% static 'js/asb.js' %}"></script>
 </body>
 
 {% for message in messages %}

@@ -27,17 +27,6 @@
     height: 100vh;
 }
 
-.div-icon-accessibility{
-    position: absolute;
-    display: flex;
-    width: 100%;
-    flex-direction: row;
-    justify-content: end;
-    padding: 2rem 2rem;
-    font-size: 30px;
-    margin-top: 3rem;
-}
-
 .form-div{
     display: flex;
     flex-direction: column;

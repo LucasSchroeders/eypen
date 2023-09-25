@@ -8,21 +8,6 @@
     padding: 1%;
 }
 
-.div-icon-accessibility{
-    position: fixed;
-    top: 23px;
-    right: 10px;
-    display: flex;
-    flex-direction: row;
-}
-
-.div-icon-accessibility .icon{
-    font-size: 30px;
-    margin-top: 0.75rem;
-    margin-right: 1rem;
-  }
-  
-
 .form-div{
     overflow: scroll, hidden;
     display: flex;
