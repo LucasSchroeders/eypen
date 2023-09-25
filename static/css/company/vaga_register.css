@@ -67,7 +67,21 @@
     border: none;
     outline: none;
     margin: 0 2%;
+    color: #000;
+    
 }
+.a-button{
+    padding-left: 1.2%;
+    padding-top: 0.2%;
+}
+
+.a-button:link{
+    color: #000;
+}
+.a-button:visited {
+    color: #000;
+  }
+
 
 .button-etp{
     height: 2rem;
@@ -98,7 +112,7 @@ a:visited{
     display: flex;
     flex-direction: row;
     justify-content: center;
-    margin-top: 4%;
+    margin-top: 2%;
 }
 
 .textarea{
@@ -127,5 +141,10 @@ a:visited{
         width: 90%;
         border-radius: 10px;
         padding: 2%;
+    }
+
+    .a-button{
+        padding-left: 4.5%;
+        padding-top: 0.5%;
     }
 }

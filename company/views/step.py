@@ -42,7 +42,6 @@ class StepAPIView(APIView):
             'title': data.get('title'),
             'step_modality': data.get('step_modality'),
             'step_type': data.get('step_type'),
-            'step_vulnerability': data.get('step_vulnerability'),
             'description': data.get('description'),
         }
 
@@ -67,7 +66,6 @@ class StepAPIView(APIView):
             'title': data.get('title'),
             'step_modality': data.get('step_modality'),
             'step_type': data.get('step_type'),
-            'step_vulnerability': data.get('step_vulnerability'),
             'description': data.get('description'),
         }
 
