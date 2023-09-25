@@ -228,5 +228,11 @@ nav.sidebar:hover ~ .overlay {
     flex-direction: row;
     padding: 1rem 1rem;
   }
+
+  .expand-button>h5 {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+  }
   
 }
