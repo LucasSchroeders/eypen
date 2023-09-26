@@ -29,10 +29,10 @@
                     </div>
                 </div>
             </div>
+            {% if is_same_company %}
+            <a href="{% url 'editar_vagas' id=id_company id_vacancy=vacancy.id %}" class="icon-edit"><i class="fa-solid fa-pen-to-square icon"></i></a>
+            {% endif %}
         </div>
-        {% if is_same_company %}
-        <a href="{% url 'editar_vagas' id=id_company id_vacancy=vacancy.id %}" class="icon-edit"><i class="fa-solid fa-pen-to-square icon"></i></a>
-        {% endif %}
         
         <hr>
         <div class="div-content">
