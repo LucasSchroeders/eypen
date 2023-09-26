@@ -24,7 +24,7 @@ class Company(models.Model):
         max_length=2000,
         blank=True,
         null=True,
-        verbose_name="Empresa",
+        verbose_name="Sobre nós",
     )
     business_area = models.CharField(
         max_length=80,

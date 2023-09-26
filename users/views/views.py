@@ -163,6 +163,7 @@ def signup_company(request):
             return render(request, 'company/company/company_register.html', {'states': STATES})
         
         photo = request.FILES.get('foto')
+        about_us = post.get('about-us')
         business_area = post.get('business_area')
         state = post.get('state')
         city = post.get('city')
@@ -171,6 +172,7 @@ def signup_company(request):
             'name': name,
             'cnpj': cnpj,
             'photo': photo,
+            'about_us': about_us,
             'business_area': business_area,
             'city': city,
             'state': state,
