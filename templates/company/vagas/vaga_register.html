@@ -69,7 +69,6 @@
                     </div>
                 </div>
 
-                <!-- TODO colocar o job_type -->
                 <div class="div-row">
                     <div class="form-field">
                         <label for="modalidade">Modalidade:</label>
@@ -85,9 +84,9 @@
                     </div>
 
                     <div class="form-field">
-                        <label for="step_vulnerability">Para quem é a vaga:</label>
+                        <label for="vulnerability">Para quem é a vaga:</label>
                         <div class="form-input">
-                            <select name="step_vulnerability" id="step_vulnerability" class="form-select">
+                            <select name="vulnerability" id="vulnerability" class="form-select">
                                 <option value="">Todos</option>
                                 {% for vulnerability in vulnerabilities%}
                                 <option value="{{vulnerability.0}}">{{vulnerability.1}}</option>

@@ -94,6 +94,7 @@ def create_vacancy(request, id):
             'seniority': post.get('senioridade'),
             'job_modality': post.get('modalidade'),
             'job_type': post.get('job_type'),
+            'vulnerability': post.get('vulnerability'),
             'state': post.get('state'),
             'city':  post.get('city'),
             'description': post.get('descricao-vaga'),
@@ -150,6 +151,7 @@ def update_vacancy(request, id, id_vacancy):
         vacancy.seniority = post.get('senioridade')
         vacancy.job_modality = post.get('modalidade')
         vacancy.job_type = post.get('job_type')
+        vacancy.vulnerability = post.get('vulnerability')
         vacancy.state = post.get('state')
         vacancy.city = post.get('city')
         vacancy.description = post.get('descricao-vaga')
@@ -171,6 +173,7 @@ def update_vacancy(request, id, id_vacancy):
         'seniorities': SENIORITY_CHOICES,
         'modalities': JOB_MODALITY,
         'job_type': JOB_TYPE,
+        'vulnerabilities': VULNERABILITIES_CHOICES,
     }
     
     return render(request, 'company/vagas/vaga_register.html', context)
