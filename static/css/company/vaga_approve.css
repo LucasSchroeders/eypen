@@ -29,9 +29,18 @@ form{
     flex-direction: row;
 }
 
+.header{
+    justify-content: space-between;
+}
+
+.process-finished{
+    background-color: rgba(128, 255, 0, 0.651);
+}
+
+/* 
 .p-form{
     margin-left: 35%;
-}
+} */
 
 .div-field2{
     height: 70%;
@@ -157,6 +166,31 @@ form{
 .button-finish{
     width: 12rem;
     background-color: rgb(45, 167, 21);
+}
+
+.button-voltar{
+    font-size: 1.4rem;
+    display: flex;
+    height: 2rem;
+    width: 6rem;
+    background-color: #FBE700;
+    border-radius: 15px;
+    border: none;
+    outline: none;
+    margin: 0 0.5%;
+    padding: 0 0.5rem;
+    justify-content: center;
+    align-items: center;
+}
+
+a:link{
+    color: #fff;
+    text-decoration: none;
+}
+
+a:visited{
+    color: #fff;
+    text-decoration: none;
 }
 
 .div-scroll{

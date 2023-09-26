@@ -72,9 +72,13 @@ class VacancySelectiveProcessTemplateView(TemplateView):
         id_company = kwargs.get('id')
         id_vacancy = kwargs.get('id_vacancy')
         vacancy = Vacancy.objects.filter(id=id_vacancy).first()
+        step = vacancy.steps.filter(status='PEN').order_by('step').first()
+        if not step:
+            step = vacancy.steps.filter().order_by('step').last()
+            context['process_finished'] = True
 
         context['vacancy'] = vacancy
-        context['step'] = vacancy.steps.filter(status='PEN').order_by('step').first()
+        context['step'] = step
         context['candidates'] = vacancy.candidates.all()
         context['approved_candidates'] = vacancy.approved_candidates.all()
         context['profile_user'] = self.request.user.profile
@@ -209,7 +213,9 @@ class BuscaVacancy(TemplateView):
         job_type = request.GET.get('job_type', request.session.get('job_type', None))
         request.session["job_type"] = job_type
 
-        data_query = {}
+        data_query = {
+            'status__in': ['ATV', 'PEN'],
+        }
 
         if company_name:
             data_query['company__name__contains'] = company_name
@@ -313,6 +319,7 @@ class UpdateSelectiveProcess(APIView):
         if request.method == 'POST':
             data = request.data
             action = data.get('action')
+            candidates = list()
 
             title = 'Candidatos'
             if action == 'aprovar':

@@ -7,9 +7,14 @@
 {%endblock css%}
 {%block body%}
 <div class="div-field">
-    <div class="div-row">
+    <div class="div-row header">
         <p class="p-negrito">Etapa {{step.step}}</p>
         <p class="p-negrito p-form">{{step.title}}</p>
+        {% if process_finished %}
+        <p class="process-finished">Processo Seletivo Encerrado</p>
+        {% else %}
+        <p></p>
+        {% endif %}
     </div>
     <div>
         <p>Etapa será feita de forma {{step.step_modality}}</p>
@@ -84,6 +89,7 @@
     </div>
 
     <div class="div-button" style="margin-top: 50px;">
+        <a href="{% url 'exibir_vagas' id=vacancy.company.id id_vacancy=vacancy.id %}" class="button-voltar">Voltar</a>
         <button type="submit" name="action" value="finalizar" class="form-button button-finish">Finalizar Etapa</button>
     </div>
 </form>
@@ -91,6 +97,22 @@
 
 {% block js %}
 <script>
+
+    if ('{{process_finished}}' == 'True'){
+        var checkboxes = document.querySelectorAll('.bt-checkbox')
+        var buttons = document.querySelectorAll('.form-button')
+        console.log(checkboxes)
+
+        checkboxes.forEach(function(checkbox){
+            checkbox.setAttribute('disabled', 'disabled')
+            checkbox.style.cursor = 'unset'
+        })
+
+        buttons.forEach(function(button){
+            button.disabled = true
+        })  
+    }
+
     $('#form').submit(function(event){
         event.preventDefault()
         var candidates = document.getElementsByName('candidates')
@@ -142,9 +164,9 @@
                     type: 'success',
                     delay:'5000'
                 });
-                setTimeout(function(){
-                    window.location.reload();
-                }, 5000);
+                // setTimeout(function(){
+                //     window.location.reload();
+                // }, 5000);
             },
             error: function (error) {
                 if (error.statusText == 'timeout') {
@@ -211,8 +233,8 @@
                 </div>
                 <div class="div-infos">
                     <div class="div-dados">
-                        <p class="p-dados p-negrito">{{e.name}}</p>
-                        <p class="p-dados">{{e.gender}}</p>
+                        <p class="p-dados p-negrito">${e.name}</p>
+                        <p class="p-dados">${e.gender}</p>
                         `
             if (e.is_disabled){
                text+=`<p class="p-dados">${e.disabled}</p>`

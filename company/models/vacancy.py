@@ -128,10 +128,17 @@ class Vacancy(models.Model):
 
     def finish_step_selective_process(self):
         self.candidates.clear()
+        # step = self.steps.filter(status='PEN').order_by('step').first()
+        steps = self.steps.filter(status='PEN').order_by('step')
+        exits_next_step = len(steps) > 1
+        step = steps.first()
+        step.status = 'ENC'
+        step.save()
+
+        if not exits_next_step:
+            return
+
         for candidate in self.approved_candidates.all():
             self.candidates.add(candidate)
         
         self.approved_candidates.clear()
-        step = self.steps.filter(status='PEN').order_by('step').first()
-        step.status = 'ENC'
-        step.save()
