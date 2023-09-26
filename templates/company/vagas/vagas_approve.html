@@ -22,6 +22,39 @@
         <div class="div-scroll">
             {% for candidate in candidates%}
             <div class="div-container" id="candidate{{candidate.id}}">
+                <div class="div-row">
+                    <div class="photo">
+                        <img src="{{candidate.get_url_photo}}" class="photo-img" alt="foto de perfil">
+                    </div>
+                    <div class="div-infos">
+                        <div class="div-dados">
+                            <p class="p-dados p-negrito">{{candidate.name}}</p>
+                            <p class="p-dados">{{candidate.gender}}</p>
+                            {% if candidate.is_disabled %}
+                            <p class="p-dados">{{candidate.disabled}}</p>
+                            {% endif %}
+                            <p class="p-dados">{{candidate.city}}, {{candidate.state}}</p>
+                        </div>
+                        <div class="bt-approved">
+                            <input class="bt-checkbox" type="checkbox" name="candidates" id="{{candidate.id}}">
+                        </div>
+                    </div>
+                </div>
+                <hr>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="div-button">
+        <button type="submit" name="action" value="aprovar" class="form-button">Aprovar</button>
+    </div>
+
+    <div class="div-field2" id="approvedCandidate">
+        <p class="p-negrito">Candidatos Aprovados:</p>
+        {% for candidate in approved_candidates %}
+        <div class="div-container" id="approvedCandidate{{candidate.id}}">
+            <div class="div-row">
                 <div class="photo">
                     <img src="{{candidate.get_url_photo}}" class="photo-img" alt="foto de perfil">
                 </div>
@@ -35,41 +68,12 @@
                         <p class="p-dados">{{candidate.city}}, {{candidate.state}}</p>
                     </div>
                     <div class="bt-approved">
-                        <input class="bt-checkbox" type="checkbox" name="candidates" id="{{candidate.id}}">
+                        <input class="bt-checkbox" type="checkbox" name="candidates-approved" id="{{candidate.id}}">
                     </div>
                 </div>
             </div>
             <hr>
-            {% endfor %}
         </div>
-    </div>
-
-    <div class="div-button">
-        <button type="submit" name="action" value="aprovar" class="form-button">Aprovar</button>
-    </div>
-
-    <div class="div-field2" id="approvedCandidate">
-        <p class="p-negrito">Candidatos Aprovados:</p>
-        {% for candidate in approved_candidates %}
-        <div class="div-container" id="approvedCandidate{{candidate.id}}">
-            <div class="photo">
-                <img src="{{candidate.get_url_photo}}" class="photo-img" alt="foto de perfil">
-            </div>
-            <div class="div-infos">
-                <div class="div-dados">
-                    <p class="p-dados p-negrito">{{candidate.name}}</p>
-                    <p class="p-dados">{{candidate.gender}}</p>
-                    {% if candidate.is_disabled %}
-                    <p class="p-dados">{{candidate.disabled}}</p>
-                    {% endif %}
-                    <p class="p-dados">{{candidate.city}}, {{candidate.state}}</p>
-                </div>
-                <div class="bt-approved">
-                    <input class="bt-checkbox" type="checkbox" name="candidates-approved" id="{{candidate.id}}">
-                </div>
-            </div>
-        </div>
-        <hr>
         {% endfor %}
     </div>
 
@@ -78,7 +82,7 @@
     </div>
 
     <div class="div-button" style="margin-top: 50px;">
-        <button type="submit" name="action" value="finalizar" class="form-button">Finalizar Etapa</button>
+        <button type="submit" name="action" value="finalizar" class="form-button button-finish">Finalizar Etapa</button>
     </div>
 </form>
 {%endblock body%}
@@ -164,6 +168,7 @@
 
             var text = `
             <div class="div-container" id="approvedCandidate${e.id}4">
+                <div class="div-row">
                 <div class="photo">
                     <img src="${e.get_url_photo}" class="photo-img" alt="foto de perfil">
                 </div>
@@ -182,8 +187,9 @@
                         <input class="bt-checkbox" type="checkbox" name="candidates-approved" id="${e.id}">
                     </div>
                 </div>
+                </div>
+                <hr>
             </div>
-            <hr>
             `
             candidateDiv.append(text)
         })
@@ -197,6 +203,7 @@
 
             var text = `
             <div class="div-container" id="candidate${e.id}">
+                <div class="div-row">
                 <div class="photo">
                     <img src="${e.get_url_photo}" class="photo-img" alt="foto de perfil">
                 </div>
@@ -215,8 +222,10 @@
                         <input class="bt-checkbox" type="checkbox" name="candidates" id="${e.id}">
                     </div>
                 </div>
+                </div>
+                <hr>
             </div>
-            <hr>`
+            `
             candidateDiv.append(text)
         })
     }
