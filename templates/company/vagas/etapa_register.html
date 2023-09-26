@@ -115,7 +115,10 @@
         } else {
             updateStep()
         }
+    })
 
+    $('#modalEtapa').on('hidden.bs.modal', function(){
+        cleanForm()
     })
 
     function createStep() {
@@ -270,7 +273,15 @@
         });
     }
 
-
+    function cleanForm(){
+        var url = "/api/vagas/{{id_vacancy}}/step"
+        var type = 'post'
+        $('#step').val('')
+        $('#title').val('')
+        $('#step_modality').val('')
+        $('#step_type').val('')
+        $('#description').val('')
+    }
 
 </script>
 </html>
