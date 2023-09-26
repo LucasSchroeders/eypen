@@ -116,7 +116,7 @@ class Vacancy(models.Model):
 
     def remove_approved_candidates(self, list_candidates):
         for candidate in self.approved_candidates.all():
-            if candidate.id in list_candidates:
+            if str(candidate.id) in list_candidates:
                 self.approved_candidates.remove(candidate)
 
         candidates = list()
