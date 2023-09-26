@@ -138,7 +138,8 @@ def companyRegister(request, id):
     context = {
         'company': company,
         'business_areas': BUSINESS_AREAS_CHOICES,
-        'states': STATES
+        'states': STATES,
+        'edit': True,
     }
 
     return render(request, 'company/company/company_register.html', context)

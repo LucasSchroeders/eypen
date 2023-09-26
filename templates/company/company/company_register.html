@@ -107,7 +107,9 @@
         
                 <div class="div-button">
                     <button type="submit" id="form-button" class="button">Salvar</button>
-                    <button type="button" class="button">Cancelar</button>
+                    <a class="button-cancel"
+                    {% if edit %}href="{% url 'company_profile' id=company.id %}" {% else %} href="{% url 'login' %}" {% endif %}
+                    >Cancelar</a>
                 </div>
             </form>
         </div>
