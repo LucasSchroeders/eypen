@@ -47,7 +47,6 @@
                 {% for step in vacancy.steps.all %}
                 <li>{{step.step}} - {{step.title}}</li>
                     <p class="p-etapa">{{step.step_type}}</p>
-                    <p class="p-etapa">Esta etapa deverá ser feita por {{step.step_vulnerability|display_vulnerabilities}}</p>
                     <p class="p-etapa">Esta etapa será feita forma {% if step.step_modality == 'presencial' %} presencial {% else %} remota {% endif %}</p>
                     <p class="p-etapa">Descrição: {{step.description|linebreaks}}</p>
                 {% endfor %}
