@@ -44,3 +44,9 @@ def display_vulnerabilities(value):
     for k, v in VULNERABILITIES_CHOICES:
         if k == value:
             return v
+
+
+@register.filter
+def filter_step(value, attr):
+    result = value.filter(**eval(attr)).first()
+    return result.step
