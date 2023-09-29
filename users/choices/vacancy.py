@@ -1,6 +1,6 @@
 SENIORITY_CHOICES = [
     ('jovem_aprediz', 'Jovem Aprendiz'),
-    ('estagiario', 'Estágiario'),
+    ('estagiario', 'Estagiário'),
     ('junior', 'Júnior'),
     ('pleno', 'Pleno'),
     ('senior', 'Sênior'),

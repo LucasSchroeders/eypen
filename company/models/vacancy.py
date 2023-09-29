@@ -66,16 +66,19 @@ class Vacancy(models.Model):
         'users.Profile',
         related_name='vacancies',
         verbose_name='Candidatos',
+        blank=True,
     )
     candidates_step = models.ManyToManyField(
         'users.Profile',
         related_name='vacancies_step',
         verbose_name='Candidatos da etepa',
+        blank=True,
     )
     approved_candidates = models.ManyToManyField(
         'users.Profile',
         related_name='vacancies_approved',
         verbose_name='Candidatos aprovados',
+        blank=True,
     )
 
     class Meta:
