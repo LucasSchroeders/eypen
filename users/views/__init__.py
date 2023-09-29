@@ -13,4 +13,5 @@ from .profile import (
     CompetenceAPI,
     ExperienceAPI,
     AcademicFormationAPI,
+    AppliedVacancies,
 )

@@ -395,3 +395,13 @@ class AcademicFormationAPI(APIView):
                     "status": status.HTTP_400_BAD_REQUEST,
                 }
             )
+
+
+@permission_classes((AllowOnlyApplicant,))
+class AppliedVacancies(TemplateView):
+    template_name = 'users/profile/applied_vacancies.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        request = self.request
+        return context
