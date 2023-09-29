@@ -66,15 +66,16 @@ class Vacancy(models.Model):
         'users.Profile',
         related_name='vacancies',
         verbose_name='Candidatos',
-        null=True,
-        blank=True,
+    )
+    candidates_step = models.ManyToManyField(
+        'users.Profile',
+        related_name='vacancies_step',
+        verbose_name='Candidatos da etepa',
     )
     approved_candidates = models.ManyToManyField(
         'users.Profile',
         related_name='vacancies_approved',
         verbose_name='Candidatos aprovados',
-        null=True,
-        blank=True,
     )
 
     class Meta:
@@ -99,13 +100,14 @@ class Vacancy(models.Model):
         if not self.candidates.filter(id=id_profile).exists():
             profile = Profile.objects.filter(id=id_profile).first()
             self.candidates.add(profile)
+            self.candidates_step.add(profile)
             return True
         return False
 
     def approve_candidates(self, list_candidates):
-        for candidate in self.candidates.all():
+        for candidate in self.candidates_step.all():
             if str(candidate.id) in list_candidates:
-                self.candidates.remove(candidate)
+                self.candidates_step.remove(candidate)
 
         candidates = list()
         for id_candidate in list_candidates:
@@ -122,12 +124,12 @@ class Vacancy(models.Model):
         candidates = list()
         for id_candidate in list_candidates:
             profile = Profile.objects.filter(id=id_candidate).first()
-            self.candidates.add(profile)
+            self.candidates_step.add(profile)
             candidates.append(profile.to_dict())
         return candidates
 
     def finish_step_selective_process(self):
-        self.candidates.clear()
+        self.candidates_step.clear()
         # step = self.steps.filter(status='PEN').order_by('step').first()
         steps = self.steps.filter(status='PEN').order_by('step')
         exits_next_step = len(steps) > 1
@@ -139,6 +141,6 @@ class Vacancy(models.Model):
             return
 
         for candidate in self.approved_candidates.all():
-            self.candidates.add(candidate)
+            self.candidates_step.add(candidate)
         
         self.approved_candidates.clear()
