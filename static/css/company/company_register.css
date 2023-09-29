@@ -232,6 +232,7 @@ a:visited{
     display: block;
     width: 100%;
     overflow: scroll;
+    overflow-x: hidden;
     resize: none;
 }
 

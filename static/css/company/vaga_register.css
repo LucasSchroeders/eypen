@@ -28,7 +28,8 @@
   }
 
 .form-div{
-    overflow: scroll, hidden;
+    overflow: scroll;
+    overflow-x: hidden;
     display: flex;
     flex-direction: column;
     background-color: #fff;
@@ -129,6 +130,7 @@ a:visited{
     display: block;
     width: 100%;
     overflow: scroll;
+    overflow-x: hidden;
     resize: none;
 }
 
