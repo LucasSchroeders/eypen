@@ -95,6 +95,15 @@
       </span>
       {% endif %}
 
+      {% if profile_user.is_applicant %}
+      <span class="menu-item">
+        <a href="{% url 'vagas_aplicadas' id=profile_user.id %}">
+          <span class="icon"><i class="fa-solid fa-briefcase"></i></span>
+          <span class="txt-link">Vagas aplicadas</span>
+        </a>
+      </span>
+      {% endif %}
+
       <div class="menu-item-sair">
         <span class="menu-item" id="sair">
           <a href="{% url 'logout' %}">

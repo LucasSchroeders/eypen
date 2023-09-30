@@ -34,9 +34,7 @@ class VacancyTemplateView(TemplateView):
         vacancy = Vacancy.objects.filter(id=id_vacancy).first()
 
         if profile.is_applicant:
-            is_registered = vacancy.candidates.filter(id=profile.id).exists()
-            context['is_registered'] = is_registered
-
+            context['is_registered'] = vacancy.candidates.filter(id=profile.id).exists()
 
         context['profile_user'] = profile
         context['id_company'] = id_company
@@ -79,7 +77,7 @@ class VacancySelectiveProcessTemplateView(TemplateView):
 
         context['vacancy'] = vacancy
         context['step'] = step
-        context['candidates'] = vacancy.candidates.all()
+        context['candidates'] = vacancy.candidates_step.all()
         context['approved_candidates'] = vacancy.approved_candidates.all()
         context['profile_user'] = self.request.user.profile
 

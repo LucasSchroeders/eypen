@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
@@ -395,3 +396,31 @@ class AcademicFormationAPI(APIView):
                     "status": status.HTTP_400_BAD_REQUEST,
                 }
             )
+
+
+@permission_classes((AllowOnlyApplicant,))
+class AppliedVacancies(TemplateView):
+    template_name = 'users/profile/applied_vacancies.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        request = self.request
+        profile = request.user.profile
+
+        # vacancies = Vacancy.objects.filter(candidates=profile)
+        id_list = []
+        vacancies_step = profile.vacancies_step.all()
+        for vacancy in vacancies_step:
+            id_list.append(vacancy.id)
+
+        vacancies_approved = profile.vacancies_approved.all()
+        for vacancy in vacancies_approved:
+            id_list.append(vacancy.id)
+
+        vacancies = profile.vacancies.filter(~Q(pk__in=id_list))
+
+        context['profile_user'] = profile
+        context['vacancies'] = vacancies
+        context['vacancies_step'] = vacancies_step
+        context['vacancies_approved'] = vacancies_approved
+        return context

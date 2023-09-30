@@ -1,0 +1,97 @@
+{% extends 'base.html' %} {% load custom_filter %}
+{% load static %}
+
+{% block title %}Vagas aplicadas{% endblock title %}
+
+{% block css %}
+<link href="{% static 'css/utils/container_default.css' %}" rel="stylesheet" type="text/css">
+<link href="{% static 'css/users/applied_vacancies.css' %}" rel="stylesheet" type="text/css">
+{% endblock css %}
+
+{% block body %}
+<div class="div-container">
+    <h4>Vagas em andamento</h5>
+    {% for vacancy in vacancies_step %}
+    <a href="{% url 'exibir_vagas' id=vacancy.company.id id_vacancy=vacancy.id %}" class="vacancy">
+        <img src="{{ vacancy.get_url_photo }}" class="img" alt="imagem meramente ilustrativa">
+        <div class="infos-vacancy">
+            <h5>{{vacancy.job_position}} - {{vacancy.seniority|display_seniority}}</h5>
+            <p>Empresa: {{vacancy.company.name}}</p>
+            <div class="div-row">
+                <p>Tipo de contrato: {{vacancy.job_type|display_job_type}}</p>
+                <p>Vulnerabilidade da vaga: {{vacancy.vulnerability|display_vulnerabilities}}</p>
+                <p>Modalidade de trabalho: {{vacancy.job_modality|display_job_modality}}</p>
+            </div>
+            
+            <P class="process-selective">
+                {% if vacancy.status == 'ATV' %}
+                Processo seletivo iniciado - Etapa {{ vacancy.steps|filter_step:'{"status":"PEN"}' }}
+                {% else %}
+                Processo seletivo ainda não iniciado
+                {%endif%}
+            </P>
+        </div>
+        
+    </a>
+    {% if not vacancies_step|length == 1 %}
+    <hr>
+    {% endif %}
+    {% endfor %}
+</div>
+
+<div class="div-container">
+    <h4>Vagas encerradas</h5>
+    {% for vacancy in vacancies %}
+    <div class="vacancy">
+        <img src="{{ vacancy.get_url_photo }}" class="img" alt="imagem meramente ilustrativa">
+        <div class="infos-vacancy">
+            <h5>{{vacancy.job_position}} - {{vacancy.seniority|display_seniority}}</h5>
+            <p>Empresa: {{vacancy.company.name}}</p>
+            <div class="div-row">
+                <p>Tipo de contrato: {{vacancy.job_type|display_job_type}}</p>
+                <p>Vulnerabilidade da vaga: {{vacancy.vulnerability|display_vulnerabilities}}</p>
+                <p>Modalidade de trabalho: {{vacancy.job_modality|display_job_modality}}</p>
+            </div>
+            
+            <P class="process-selective">
+                {% if vacancy.status == 'INTV' %}
+                Processo seletivo encerrado - Empresa interrompeu o processo seletivo
+                {% else %}
+                Processo seletivo encerrado - Você não passou no processo seletivo
+                {%endif%}
+            </P>
+        </div>
+        
+    </div>
+    {% if not vacancies|length == 1 %}
+    <hr>
+    {% endif %}
+    {% endfor %}
+</div>
+
+<div class="div-container">
+    <h4>Vagas aprovadas</h5>
+    {% for vacancy in vacancies_approved %}
+    <a href="{% url 'exibir_vagas' id=vacancy.company.id id_vacancy=vacancy.id %}" class="vacancy">
+        <img src="{{ vacancy.get_url_photo }}" class="img" alt="imagem meramente ilustrativa">
+        <div class="infos-vacancy">
+            <h5>{{vacancy.job_position}} - {{vacancy.seniority|display_seniority}}</h5>
+            <p>Empresa: {{vacancy.company.name}}</p>
+            <div class="div-row">
+                <p>Tipo de contrato: {{vacancy.job_type|display_job_type}}</p>
+                <p>Vulnerabilidade da vaga: {{vacancy.vulnerability|display_vulnerabilities}}</p>
+                <p>Modalidade de trabalho: {{vacancy.job_modality|display_job_modality}}</p>
+            </div>
+            
+            <P class="process-selective">
+                Processo seletivo Encerrado - Você passou no processo seletivo
+            </P>
+        </div>
+        
+    </a>
+    {% if not vacancies_approved|length == 1 %}
+    <hr>
+    {% endif %}
+    {% endfor %}
+</div>
+{% endblock body %}
