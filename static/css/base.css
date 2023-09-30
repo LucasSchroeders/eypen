@@ -33,7 +33,7 @@ body {
 nav.sidebar {
   width: 90px;
   height: 100%;
-  background-color: #2B2525;
+  background-color: #2bbf6c;
   padding-top: 40px;
   position: fixed;
   top: 0;
@@ -62,7 +62,7 @@ nav.sidebar:hover {
 }
 
 .profile-image {
-  border: 8px solid #000;
+  border: 8px solid #fff;
   border-radius: 50%;
   width: 200px;
   height: 200px;
@@ -140,7 +140,7 @@ span.menu-item {
 
 
 span.menu-item:hover {
-  background: #f7f757bb;
+  background: #ffffff67;
 }
 
 span.menu-item a {
