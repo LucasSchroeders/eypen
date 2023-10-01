@@ -141,12 +141,19 @@ class Vacancy(models.Model):
         step.save()
 
         if not exits_next_step:
+            #TODO encerrar a vaga
+            message = f'Parabéns! Você passou no processo seletivo! A empresa entrará em contato em breve!'
+            self.create_notification(message=message, is_all_candidates_step=False)
             return
-
+        
         for candidate in self.approved_candidates.all():
             self.candidates_step.add(candidate)
+
+        message = f'Parabéns! Você passou para a próxima etapa!'
+        self.create_notification(message=message)
         
         self.approved_candidates.clear()
+
     def create_notification(self, message, is_all_candidates_step=True):
         if is_all_candidates_step:
             for candidate in self.candidates_step.all():
