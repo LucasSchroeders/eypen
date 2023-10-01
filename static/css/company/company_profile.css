@@ -153,6 +153,21 @@ hr {
     }
 }
 
+.admin{
+    display: flex;
+    justify-content: flex-end;
+}
+.button-admins{
+    height: 2rem;
+    width: auto;
+    background-color: green;
+    border-radius: 15px;
+    border: none;
+    outline: none;
+    margin: 0 0.5%;
+    padding: 0 0.5rem;
+}
+
 @media (max-width: 480px) {
     .body{
         background-color: #F8F4F4;

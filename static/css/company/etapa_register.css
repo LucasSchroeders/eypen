@@ -125,6 +125,7 @@
 
 .div-etapas-cadastradas{
     overflow: auto;
+    max-height: 570px;
 }
 
 .div-content{

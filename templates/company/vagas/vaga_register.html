@@ -38,7 +38,7 @@
                         <div class="form-field">
                             <label for="senioridade">Senioridade:</label>
                             <div class="form-input">
-                                <select name="senioridade" id="senioridade" class="form-select">
+                                <select name="senioridade" id="senioridade" class="form-select" required>
                                     <option value="" disabled selected>Selecione um nivel de experiência</option>
                                     {% for seniority in seniorities %}
                                     <option value="{{seniority.0}}" {% if vacancy.seniority == seniority.0 %} selected {% endif %}>{{seniority.1}}</option>
@@ -52,7 +52,7 @@
                     <div class="div-column">
                         <div class="form-field">
                             <label for="state">Estado:</label>
-                            <select name="state" id="state" class="form-select">
+                            <select name="state" id="state" class="form-select" required>
                               <option value="" disabled selected>Selecione um estado</option>
                               {% for state in states %}
                               <option value="{{state.0}}" {% if vacancy.state == state.0 %} selected {% endif %}>{{state.1}}</option>
@@ -62,7 +62,7 @@
                     
                           <div class="form-field">
                             <label for="city">Cidade:</label>
-                            <select name="city" id="city" class="form-select">
+                            <select name="city" id="city" class="form-select" required>
                               <option value="" selected>Selecione uma cidade</option>
                             </select>
                           </div>
@@ -73,7 +73,7 @@
                     <div class="form-field">
                         <label for="modalidade">Modalidade:</label>
                         <div class="form-input">
-                            <select name="modalidade" id="modalidade" class="form-select">
+                            <select name="modalidade" id="modalidade" class="form-select" required>
                                 <option value="" disabled selected>Selecione uma modalidade</option>
                                 {% for modality in modalities %}
                                 <option value="{{modality.0}}" {% if vacancy.job_modality == modality.0 %} selected {% endif %}>{{modality.1}}</option>
@@ -86,7 +86,7 @@
                     <div class="form-field">
                         <label for="vulnerability">Para quem é a vaga:</label>
                         <div class="form-input">
-                            <select name="vulnerability" id="vulnerability" class="form-select">
+                            <select name="vulnerability" id="vulnerability" class="form-select" required>
                                 <option value="">Todos</option>
                                 {% for vulnerability in vulnerabilities%}
                                 <option value="{{vulnerability.0}}">{{vulnerability.1}}</option>
@@ -113,7 +113,7 @@
 
                 <div class="descricao">
                     <label for="descricao-vaga">Descrição da vaga:</label>
-                    <textarea class="textarea form-control" name="descricao-vaga">{% if vacancy %}{{vacancy.description}}{% endif %}</textarea>
+                    <textarea class="textarea form-control" name="descricao-vaga" required>{% if vacancy %}{{vacancy.description}}{% endif %}</textarea>
                 </div>
                 
                 {% if vacancy %}
