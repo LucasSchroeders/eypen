@@ -6,6 +6,8 @@ class Notification(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Criado em")
     profile = models.ForeignKey(
         'users.Profile',
+        null=True,
+        blank=True,
         related_name='notifications',
         on_delete=models.CASCADE,
         verbose_name='Perfil',
