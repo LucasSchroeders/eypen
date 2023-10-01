@@ -79,7 +79,7 @@
 .picture{
     width: 200px;
     height: 50px;
-    background-color: #FBE700;
+    background-color: #2bbf6c;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -138,7 +138,7 @@ input[type=date]{
 .button{
     height: 2rem;
     width: 6rem;
-    background-color: #FBE700;
+    background-color: #2bbf6c;
     border-radius: 15px;
     border: none;
     outline: none;
@@ -156,7 +156,7 @@ input[type=date]{
     display: flex;
     height: 2rem;
     width: 6rem;
-    background-color: #FBE700;
+    background-color: #2bbf6c;
     border-radius: 15px;
     border: none;
     outline: none;
