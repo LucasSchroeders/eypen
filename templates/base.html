@@ -104,6 +104,15 @@
       </span>
       {% endif %}
 
+      {% if profile_user.is_applicant %}
+      <span class="menu-item">
+        <a href="{% url 'notificacao_profile' id=profile_user.id %}">
+          <span class="icon"><i class="fa-solid fa-envelope"></i></span>
+          <span class="txt-link">Notificações</span>
+        </a>
+      </span>
+      {% endif %}
+
       <div class="menu-item-sair">
         <span class="menu-item" id="sair">
           <a href="{% url 'logout' %}">
@@ -121,7 +130,14 @@
     {% block body %}
     {% endblock body %}
   </div>
-  
+
+  {% if profile_user.is_applicant and not page_notification %}
+  <div class="div-icon-notification">
+    <i class="fa-solid fa-envelope icon-fixed" data-toggle="modal" data-target="#modalNotification"></i>
+  </div>
+  {% include "users/profile/notification_modal.html" %}
+  {% endif %}
+
   
   {% block js %}
   {% endblock js %}
