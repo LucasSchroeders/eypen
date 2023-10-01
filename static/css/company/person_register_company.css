@@ -1,0 +1,149 @@
+*{
+    scrollbar-width: thin;
+    scrollbar-color: blue orange;
+}
+
+*::-webkit-scrollbar {
+    width: 10px;
+}
+
+*::-webkit-scrollbar-track {
+    background: rgb(192, 192, 191);
+    border-radius: 20px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: rgb(135, 135, 138);
+    border-radius: 20px;
+}
+
+.body{
+    background-color: #F8F4F4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5%;
+    min-height: 100vh;
+}
+
+.form-div{
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    height: 80vh;
+    width: 90%;
+    border-radius: 10px;
+    padding: 2%;
+}
+
+.p-title1{
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.button-admin{
+    height: 2rem;
+    width: 6rem;
+    background-color: green;
+    border-radius: 15px;
+    border: none;
+    outline: none;
+    margin: 0 0.5%;
+}
+
+.div-content{
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.div-row{
+    display: flex;
+    flex-direction: row;
+}
+
+.div-person-add{
+    overflow: auto;
+    height: 540px;
+}
+
+.person-title{
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.person-text{
+    font-size: 1rem;
+}
+
+.div-button{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2rem;
+    width: 6rem;
+    background-color: #FBE700;
+    border-radius: 15px;
+    border: none;
+    outline: none;
+    margin: 0 2%;
+    cursor: pointer;
+    color: #000;
+    text-decoration: none;
+    &:link{
+        color: #000;
+        text-decoration: none;
+    }
+    &:visited{
+        color: #000;
+        text-decoration: none;
+    }
+}
+
+.buttons-icon{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    /* background-color: #FBE700; */
+    width: 10%;
+}
+
+.icon-several{
+    font-size: 20px;
+    margin-right: 22px;
+    margin-top: 2.5%;
+    height: 20px;
+    cursor: pointer;
+    color: #000;
+    text-decoration: none;
+    &:link{
+        color: #000;
+        text-decoration: none;
+    }
+    &:visited{
+        color: #000;
+        text-decoration: none;
+    }
+}
+
+.icon-trash{
+    color: #c92626;
+}
+
+.div-form-field{
+    width: 50%;
+    margin-bottom: 20px;
+}
+
+.div-row .form-input{
+    max-width: 70%;
+}
