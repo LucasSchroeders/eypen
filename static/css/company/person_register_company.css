@@ -147,3 +147,10 @@
 .div-row .form-input{
     max-width: 70%;
 }
+
+.div-bt-icon{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
