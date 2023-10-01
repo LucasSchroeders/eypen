@@ -13,6 +13,6 @@ class NotificationTemplateView(TemplateView):
         profile = self.request.user.profile 
 
         context['profile_user'] = profile
-        context['notifications'] = profile.notifications
+        context['notifications'] = profile.notifications.order_by('created_at')
 
         return context
