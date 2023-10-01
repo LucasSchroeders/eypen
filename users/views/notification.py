@@ -14,5 +14,6 @@ class NotificationTemplateView(TemplateView):
 
         context['profile_user'] = profile
         context['notifications'] = profile.notifications.order_by('created_at')
+        context['page_notification'] = True
 
         return context
