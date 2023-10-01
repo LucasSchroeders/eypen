@@ -142,6 +142,8 @@ class Vacancy(models.Model):
 
         if not exits_next_step:
             #TODO encerrar a vaga
+            self.status = 'ENC'
+            self.save()
             message = f'Parabéns! Você passou no processo seletivo! A empresa entrará em contato em breve!'
             self.create_notification(message=message, is_all_candidates_step=False)
             return
