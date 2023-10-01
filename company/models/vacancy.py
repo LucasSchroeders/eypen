@@ -157,11 +157,11 @@ class Vacancy(models.Model):
     def create_notification(self, message, is_all_candidates_step=True):
         if is_all_candidates_step:
             for candidate in self.candidates_step.all():
-                notification = self.notification_vacancy.create(message=message)
+                notification = self.notifications.create(message=message)
                 notification.profile = candidate
                 notification.save()
         else:
             for candidate in self.approved_candidates.all():
-                notification = self.notification_vacancy.create(message=message)
+                notification = self.notifications.create(message=message)
                 notification.profile = candidate
                 notification.save()
