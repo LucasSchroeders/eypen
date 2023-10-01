@@ -1,0 +1,36 @@
+{% load custom_filter %}
+<div class="modal fade" id="modalNotification" aria-labelledby="notificationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-notification">
+        <div class="modal-content modal-content-notification">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Notificações</h5>
+                <a type="button" data-dismiss="modal" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </a>
+            </div>
+            
+            <div class="modal-body">
+                {% with notifications=profile_user.notifications|filter_notifications %}
+                {% if notifications %}
+                    {% for notification in notifications %}
+                    <div class="modal-notification-info">
+                        <p>{{notification.vacancy.job_position}} - {{notification.vacancy.seniority|display_seniority}} | {{notification.vacancy.company.name}}</p>
+                        <p>{{notification.message}}</p>
+                        <p>{{notification.created_at|date:"d/m/Y H:i"}}</p>
+                    </div>
+                        {% if notifications.length  > 1 %}
+                        <hr class="hr">
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                <p>Não há notificações nas últimas 24h</p>
+                {% endif %}
+                {% endwith %}
+            </div>
+
+            <div class="modal-footer">
+                <a href="{% url 'notificacao_profile' id=profile_user.id %}"><p>Ver mais</p></a>
+            </div>
+        </div>
+    </div>
+</div>

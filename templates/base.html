@@ -130,7 +130,14 @@
     {% block body %}
     {% endblock body %}
   </div>
-  
+
+  {% if profile_user.is_applicant and not page_notification %}
+  <div class="div-icon-notification">
+    <i class="fa-solid fa-envelope icon-fixed" data-toggle="modal" data-target="#modalNotification"></i>
+  </div>
+  {% include "users/profile/notification_modal.html" %}
+  {% endif %}
+
   
   {% block js %}
   {% endblock js %}
