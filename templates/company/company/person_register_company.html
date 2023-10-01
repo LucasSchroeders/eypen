@@ -1,5 +1,6 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,12 +33,12 @@
             <div class="div-content">
                 <div class="div-person-add">
                     <div class="person-add" id="person-add">
-                        {% inicio for %}
+                        {% for profile in company.profile.all %}
                         <div id="numero pessoa">
-                            <p class="person-title">Nome da pessoa</p>
+                            <p class="person-title">{{profile.name}}</p>
                             <div class="div-row">
-                                <p class="person-text">Email pessoa</p>
                                 <div class="div-bt-icon">
+                                    <p class="person-text">{{profile.user.email}}</p>
                                     <div class="buttons-icon">
                                         <a onclick="getStep('{{step.id}}')" class="icon-several"><i class="fa-solid fa-pen"></i></a>
                                         <a onclick="deleteStep('{{step.id}}')" class="icon-several icon-trash"><i class="fa-solid fa-trash"></i></a>

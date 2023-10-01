@@ -1,4 +1,3 @@
-from typing import Any
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -144,6 +143,7 @@ def companyRegister(request, id):
     return render(request, 'company/company/company_register.html', context)
 
 
+@method_decorator(company_only, 'dispatch')
 class ProfileCompanyRegister(TemplateView):
     template_name = 'company/company/person_register_company.html'
 
