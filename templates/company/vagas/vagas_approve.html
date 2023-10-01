@@ -52,10 +52,11 @@
             {% endfor %}
         </div>
     </div>
-
+    {% if not process_finished %}
     <div class="div-button">
         <button type="submit" name="action" value="aprovar" class="form-button">Aprovar</button>
     </div>
+    {% endif %}
 
     <div class="div-field2" id="approvedCandidate">
         <p class="p-negrito">Candidatos Aprovados:</p>
@@ -75,7 +76,9 @@
                         <p class="p-dados">{{candidate.city}}, {{candidate.state}}</p>
                     </div>
                     <div class="bt-approved">
+                        {% if not process_finished %}
                         <input class="bt-checkbox" type="checkbox" name="candidates-approved" id="{{candidate.id}}">
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -84,13 +87,17 @@
         {% endfor %}
     </div>
 
+    {% if not process_finished %}
     <div class="div-button">
         <button type="submit" name="action" value="retirar" class="form-button">Retirar</button>
     </div>
+    {% endif %}
 
     <div class="div-button" style="margin-top: 50px;">
         <a href="{% url 'exibir_vagas' id=vacancy.company.id id_vacancy=vacancy.id %}" class="button-voltar">Voltar</a>
+        {% if not process_finished %}
         <button type="submit" name="action" value="finalizar" class="form-button button-finish">Finalizar Etapa</button>
+        {% endif %}
     </div>
 </form>
 {%endblock body%}
