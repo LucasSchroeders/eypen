@@ -6,13 +6,13 @@ class Notification(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Criado em")
     profile = models.ForeignKey(
         'users.Profile',
-        related_name='notification_profile',
+        related_name='notifications',
         on_delete=models.CASCADE,
         verbose_name='Perfil',
     )
     vacancy = models.ForeignKey(
         'company.Vacancy',
-        related_name='notification_vacancy',
+        related_name='notifications',
         on_delete=models.CASCADE,
         verbose_name='Vaga',
     )
