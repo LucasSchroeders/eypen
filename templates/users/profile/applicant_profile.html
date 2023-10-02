@@ -25,7 +25,7 @@
         <div class="div-row">
             <div class="infos">
                 <h3>{{ profile.name }}</h3>
-                <p>idade: {{ profile.birthdate|filter_age }}</p>
+                <p>Idade: {{ profile.birthdate|filter_age }}</p>
                 <p>{{ profile.gender|display_gender }} - {{ profile.ethnicity|display_ethnicity }}{% if profile.is_disabled %} - {{profile.disabled|display_disabled}}{% endif %}</p>
                 <p>{{ profile.city }}, {{ profile.state }}</p>
             </div>
