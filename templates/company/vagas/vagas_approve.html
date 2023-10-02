@@ -22,6 +22,7 @@
         <p>{{step.description|linebreaks}}</p>
     </div>
 </div>
+{% if profile_user.is_company %}
 <form id="form" method="post">
     {% csrf_token %}
     <div class="div-field2" id="candidate">
@@ -100,6 +101,9 @@
         {% endif %}
     </div>
 </form>
+{% else %}
+<a href="{% url 'vagas_aplicadas' id=profile_user.id %}" class="button-voltar">Voltar</a>
+{% endif %}
 {%endblock body%}
 
 {% block js %}

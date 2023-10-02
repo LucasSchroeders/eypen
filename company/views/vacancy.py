@@ -61,7 +61,7 @@ class VacancyRegisterTemplateView(TemplateView):
         return context
 
 
-@method_decorator((company_only, vacancy_status_invalid), 'dispatch')
+@method_decorator((login_required, vacancy_status_invalid), 'dispatch')
 class VacancySelectiveProcessTemplateView(TemplateView):
     template_name = 'company/vagas/vagas_approve.html'
 

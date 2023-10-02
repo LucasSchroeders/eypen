@@ -12,7 +12,13 @@
 <div class="div-container">
     <h4>Vagas em andamento</h5>
     {% for vacancy in vacancies_step %}
-    <a href="{% url 'exibir_vagas' id=vacancy.company.id id_vacancy=vacancy.id %}" class="vacancy">
+    <a 
+    {% if vacancy.status == 'PEN' %}
+    href="{% url 'exibir_vagas' id=vacancy.company.id id_vacancy=vacancy.id %}"
+    {% else %}
+    href="{% url 'vagas_processo_seletivo' id=vacancy.company.id id_vacancy=vacancy.id %}"
+    {% endif %}
+    class="vacancy">
         <img src="{{ vacancy.get_url_photo }}" class="img" alt="imagem meramente ilustrativa">
         <div class="infos-vacancy">
             <h5>{{vacancy.job_position}} - {{vacancy.seniority|display_seniority}}</h5>
