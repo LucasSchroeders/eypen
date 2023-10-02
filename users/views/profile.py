@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Q
@@ -11,11 +12,14 @@ from rest_framework.decorators import permission_classes
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from company.models import Company
 from users.choices import ETHNICITY_CHOICES, GENDER_CHOICES, DISABLED_CHOICES, STATES, JOB_MODALITY, JOB_TYPE
 from users.decorator import applicant_only
 from users.models import Profile, Competence, Experience, AcademicFormation
-from users.permission import AllowOnlyApplicant
+from users.permission import AllowOnlyApplicant, AllowOnlyCompany
 from users.utils import string_to_date
+
+User = get_user_model()
 
 
 # @method_decorator(applicant_only, 'dispatch')
@@ -424,3 +428,119 @@ class AppliedVacancies(TemplateView):
         context['vacancies_step'] = vacancies_step
         context['vacancies_approved'] = vacancies_approved
         return context
+
+
+@permission_classes((AllowOnlyCompany,))
+class ProfileRecruiterAPIView(APIView):
+    def get(self, request, id):
+        profile = Profile.objects.filter(id=id).first()
+        user = profile.user
+        context = {
+            'user': {
+                'id': profile.id,
+                'name': user.first_name,
+                'surname': user.last_name,
+                'email': user.email,
+                'password': user.password,
+            }
+        }
+        return Response(context, status=status.HTTP_200_OK)
+    
+    def post(self, request, id):
+        data = request.data
+        email = data.get('email')
+        name = data.get('name')
+        surname = data.get('surname')
+        password = data.get('password')
+
+        users = User.objects.filter(username=email).first()
+
+        if users:
+            return Response({'detail': 'Email já está cadastrado!', 'type': 'error'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+        
+        company = Company.objects.filter(id=id).first()
+        try:
+            user = User.objects.create_user(username=email, email=email, password=password)
+            user.first_name = name
+            user.last_name = surname
+            user.save()
+            profile = user.profile
+            profile.name = ' '.join([name, surname])
+            profile.company = company
+            profile.is_company = True
+            profile.save()
+            context = {
+                'user': {
+                    'id': profile.id,
+                    'email': email,
+                    'name': profile.name,
+                }, 
+                'detail': 'Administrador criado com sucesso!',
+                'type': 'success',
+            }
+            return Response(context, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(
+                {
+                    "detail": f"Não foi possível ciar o perfil de administrador! {e}",
+                    "status": status.HTTP_400_BAD_REQUEST,
+                    'type': 'error',
+                }
+            )
+
+    def put(self, request, id):
+        data = request.data
+        email = data.get('email')
+        new_email = data.get('new_email')
+        name = data.get('name')
+        surname = data.get('surname')
+        password = data.get('password')
+        users = User.objects.filter(username=new_email).first()
+
+        if not email == new_email and users:
+            return Response({'detail': 'Email já está cadastrado!', 'type': 'error'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+        
+        try:
+            profile = Profile.objects.filter(id=id).first()
+            profile.name = ' '.join([name, surname])
+            profile.save()
+            user = profile.user
+            user.email = new_email
+            user.username = new_email
+            user.set_password(password)
+            user.first_name = name
+            user.last_name = surname
+            user.save()
+            context = {
+                    'user': {
+                        'id': profile.id, 
+                        'email': new_email,
+                        'name': profile.name,
+                    }, 
+                    'detail': 'Administrador atualizado com sucesso!',
+                    'type': 'success',
+                }
+            return Response(context, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(
+                {
+                    "detail": f"Não foi possível atualizar o perfil de administrador! {e}",
+                    "status": status.HTTP_400_BAD_REQUEST,
+                    'type': 'error',
+                }
+            )
+
+    def delete(self, request, id):
+        profile = Profile.objects.filter(id=id).first()
+        user = profile.user
+
+        try:
+            user.delete()
+            return Response({'detail': 'Perfil de administrador excluído com sucesso!'}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(
+                {
+                    "detail": f"Não foi possível excluir a etapa! {e}",
+                    "status": status.HTTP_400_BAD_REQUEST,
+                }
+            )
