@@ -37,32 +37,51 @@
     padding: 2%;
 }
 
-.p-title{
-    font-weight: bold;
-}
-
 .p-title1{
     font-size: 1.5rem;
     font-weight: bold;
+}
+
+.button-admin{
+    height: 2rem;
+    width: 6rem;
+    background-color: green;
+    border-radius: 15px;
+    border: none;
+    outline: none;
+    margin: 0 0.5%;
+}
+
+.div-content{
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .div-row{
     display: flex;
     flex-direction: row;
 }
-.div-column{
+
+.div-person-add{
+    overflow: auto;
+    max-height: 570px;
+}
+
+.person-title{
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.person-text{
+    font-size: 1rem;
+}
+
+.div-button{
     display: flex;
-    flex-direction: column;
-    padding: 0px 0;
-}
-
-.div-form-field{
-    width: 50%;
-    margin-bottom: 20px;
-}
-
-.div-row .form-input{
-    max-width: 70%;
+    flex-direction: row;
+    justify-content: center;
 }
 
 .form-button{
@@ -99,65 +118,6 @@
     }
 }
 
-.button-etp{
-    height: 2rem;
-    width: 6rem;
-    background-color: green;
-    border-radius: 15px;
-    border: none;
-    outline: none;
-    margin: 0 0.5%;
-}
-
-.div-button{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-
-.textarea{
-    height: 10rem;
-    display: block;
-    width: 100%;
-    overflow: hidden;
-    resize: none;
-}
-
-.div-etapas-cadastradas{
-    overflow-y: auto;
-    overflow: auto;
-    max-height: 570px;
-}
-
-.div-content{
-    display: flex;
-    height: 100%;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.linha {
-    display: block;
-    border-style: inset;
-    border-width: 1px;
-    border-color: #ddd;
-}
-
-.etapa-title{
-    font-size: 1.2rem;
-    font-weight: bold;
-}
-
-.etapa-text{
-    font-size: 1rem;
-}
-
-.description{
-    margin-left: 60px;
-    /* background-color: #208BE8; */
-    width: 90%;
-}
-
 .buttons-icon{
     display: flex;
     flex-direction: row;
@@ -189,48 +149,18 @@
     color: #c92626;
 }
 
-.div-description-icon{
+.div-form-field{
+    width: 50%;
+    margin-bottom: 20px;
+}
+
+.div-row .form-input{
+    max-width: 70%;
+}
+
+.div-bt-icon{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
-}
-
-@media (max-width:480px) {
-
-    .div-icon-accessibility{
-        position: absolute;
-        display: flex;
-        width: 100%;
-        flex-direction: row;
-        justify-content: end;
-        padding: 1rem 1rem;
-        font-size: 30px;
-        margin-top: 1.5rem;
-    }
-
-    .button{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 2rem;
-        width: 6rem;
-        background-color: #2bbf6c;
-        border-radius: 15px;
-        border: none;
-        outline: none;
-        margin: 4% 2%;
-        cursor: pointer;
-        color: #000;
-        text-decoration: none;
-        &:link{
-            color: #000;
-            text-decoration: none;
-        }
-        &:visited{
-            color: #000;
-            text-decoration: none;
-        }
-    }
-    
 }

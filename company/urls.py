@@ -12,5 +12,6 @@ urlpatterns = [
     path('company/<int:id>/vagas/<int:id_vacancy>/selective-process', views.VacancySelectiveProcessTemplateView.as_view(), name='vagas_processo_seletivo'), #TODO ao fazer o back, colocar os ids das vaga e empresa
     path('company/busca-vagas', views.BuscaVacancy.as_view(), name='busca_vagas'),
     path('company/vagas/<int:id>/update', views.vacancy_update_view, name='atualizar_vaga'),
-    path('api/vagas/<int:id>/selective-process', views.UpdateSelectiveProcess.as_view(), name='atualizar_processo_seletivo')
+    path('api/vagas/<int:id>/selective-process', views.UpdateSelectiveProcess.as_view(), name='atualizar_processo_seletivo'),
+    path('company/<int:id>/cadastro-admin', views.ProfileCompanyRegister.as_view(), name='cadastrar_admin'),
 ]

@@ -1,0 +1,62 @@
+<div class="modal fade" id="modalPerson" aria-labelledby="modalPersonLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalPersonLabel">Administrador</h5>
+                <a type="button" data-dismiss="modal" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </a>
+            </div>
+
+            <form id="form">
+                {% csrf_token %}
+                <input type="e-mail" name="email_profile" id="email_profile" value="" hidden>
+                <div class="modal-body">
+                    <div class="div-row">
+                        <div class="div-form-field">
+                            <div class="form-field">
+                                <label for="name">Nome:</label>
+                                <div class="form-input">
+                                    <input type="text" name="name" id="name" required class="input-line form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="div-form-field">
+                            <div class="form-field">
+                                <label for="surname">Sobrenome:</label>
+                                <div class="form-input">
+                                    <input type="text" name="surname" id="surname" required class="input-line form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="div-row">
+                        <div class="div-form-field">
+                            <div class="form-field">
+                                <label for="email">Email:</label>
+                                <div class="form-input">
+                                    <input type="e-mail" name="email" id="email" required class="input-line form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="div-form-field">
+                            <div class="form-field">
+                                <label for="password">Senha:</label>
+                                <div class="form-input">
+                                    <input type="password" name="password" id="password" required class="input-line form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="form-button" id="form-button-save">Salvar</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

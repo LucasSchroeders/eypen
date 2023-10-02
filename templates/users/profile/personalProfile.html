@@ -74,7 +74,7 @@
                     <div class="form-field">
                     <label for="gender">Gênero:</label>
                         <div class="form-input">
-                            <select name="gender" id="gender" class="form-select">
+                            <select name="gender" id="gender" class="form-select" required>
                                 <option value="" disabled selected>Selecione o gênero</option>
                                 {% for gender in genders %}
                                 <option value="{{gender.0}}" {%if profile.gender == gender.0%} selected {%endif%}>{{gender.1}}</option>
@@ -86,7 +86,7 @@
                     <div class="form-field form-ethnicity">
                         <label for="ethnicity">Etnia:</label>
                         <div class="form-input">
-                            <select name="ethnicity" id="ethnicity" class="form-select">
+                            <select name="ethnicity" id="ethnicity" class="form-select" required>
                                 <option value="" disabled selected>Selecione a entia</option>
                                 {% for ethnicity in ethnicities %}
                                 <option value="{{ethnicity.0}}" {%if profile.ethnicity == ethnicity.0%} selected {%endif%}>{{ethnicity.1}}</option>
@@ -100,7 +100,7 @@
                     <div class="form-field">
                         <label for="state">Estado:</label>
                         <div class="form-input">
-                            <select name="state" id="state" class="form-select">
+                            <select name="state" id="state" class="form-select" required>
                                 <option value="" disabled selected>Selecione o estado</option>
                                 {% for state in states %}
                                 <option value="{{state.0}}" {%if profile.state == state.0%} selected {%endif%}>{{state.1}}</option>
@@ -112,7 +112,7 @@
                     <div class="form-field form-city">
                         <label for="city">Cidade:</label>
                         <div class="form-input">
-                            <select name="city" id="city" class="form-select">
+                            <select name="city" id="city" class="form-select" required>
                                 <option value="" disabled selected>Selecione a cidade</option>
                             </select>
                         </div>
@@ -123,7 +123,7 @@
                     <div class="form-field">
                         <label for="is_disabled">Possui deficiência?</label>
                         <div class="form-input">
-                            <select name="is_disabled" id="is_disabled" class="form-select">
+                            <select name="is_disabled" id="is_disabled" class="form-select" required>
                                 <option value="" disabled selected>Selecione uma opção</option>
                                 <option value="True" {%if profile.is_disabled == True%} selected {%endif%}>Sim</option>
                                 <option value="False" {%if profile.is_disabled == False%} selected {%endif%}>Não</option>

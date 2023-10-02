@@ -79,14 +79,14 @@
                 <div class="div-row2">
                     <label for="about-us">Sobre a empresa</label>
                     <div class="form-input">
-                        <textarea name="about-us" id="about-us" class="form-control">{% if company %}{{company.about_us}}{% endif %}</textarea>
+                        <textarea name="about-us" id="about-us" class="form-control" required>{% if company %}{{company.about_us}}{% endif %}</textarea>
                     </div>
                 </div>
                 <div class="div-row">
                     <div class="form-field">
                         <label for="state">Estado:</label>
                         <div class="form-input">
-                            <select name="state" id="state" class="form-control">
+                            <select name="state" id="state" class="form-control" required>
                                 <option value="" disabled selected>Selecione o estado</option>
                                 {% for state in states %}
                                 <option value="{{state.0}}" {%if company.state == state.0%} selected {%endif%}>{{state.1}}</option>
@@ -98,12 +98,18 @@
                     <div class="form-field form-city">
                         <label for="city">Cidade:</label>
                         <div class="form-input">
-                            <select name="city" id="city" class="form-select">
+                            <select name="city" id="city" class="form-select" required>
                                 <option value="" disabled selected>Selecione a cidade</option>
                             </select>
                         </div>
                     </div>
                 </div>
+                {% if company %}
+                <div class="admin">
+                    <label for="admins">Administradores:</label>
+                    <a href="{% url 'cadastrar_admin' id=company.id %}" class="button-admins">Adicionar</a>
+                </div>
+                {% endif %}
         
                 <div class="div-button">
                     <button type="submit" id="form-button" class="button">Salvar</button>

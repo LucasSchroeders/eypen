@@ -129,7 +129,7 @@ def companyRegister(request, id):
             extra_tags='Perfil salvo',
         )
 
-        return redirect('company_profile', id=company.id)
+        return redirect('cadastrar_admin', id=company.id)
 
     company = request.user.profile.company
 
@@ -141,6 +141,18 @@ def companyRegister(request, id):
     }
 
     return render(request, 'company/company/company_register.html', context)
+
+
+@method_decorator(company_only, 'dispatch')
+class ProfileCompanyRegister(TemplateView):
+    template_name = 'company/company/person_register_company.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        company = Company.objects.filter(id=kwargs.get('id')).first()
+        context['company'] = company
+
+        return context 
 
 # @permission_classes((AllowOnlyCompany,))
 # class CompanyRegisterAPI(APIView):

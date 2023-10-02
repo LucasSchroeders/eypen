@@ -15,4 +15,5 @@ from .profile import (
     ExperienceAPI,
     AcademicFormationAPI,
     AppliedVacancies,
+    ProfileRecruiterAPIView,
 )
