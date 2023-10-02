@@ -619,20 +619,21 @@
                 var started_at = formatDate(academic.started_at.split('T')[0])
                 var ended_at = formatDate(academic.ended_at.split('T')[0])
 
-
                 var text = `
-                <div class="div-several-row" id="div-academic-${academic.id}">
-                    <img src="{% static 'images/formation.png' %}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
-                    <div class="several-row-text2">
-                        <p>${academic.educational_institution}</p>
-                        <p>${academic.course}</p>
-                        <p>${started_at} - ${ended_at}</p>
+                <div class="div-several-content" id="div-academic-${academic.id}">
+                    <div class="div-several-row">
+                        <i class="fa-solid fa-graduation-cap img-icon img-icon-color"></i>
+                        <div class="several-row-text2">
+                            <p>${academic.educational_institution}</p>
+                            <p>${academic.course}</p>
+                            <p>${started_at} - ${ended_at}</p>
+                        </div>
+                        <div class="div-several-row-icon">
+                            <a onclick="getAcademicFormation('${academic.id}')" class="icon-several"><i class="fa-solid fa-pen"></i></a>
+                            <a onclick="deleteAcademic('${academic.id}')" class="icon-several icon-trash"><i class="fa-solid fa-trash"></i></a>
+                        </div>
+                        <hr>
                     </div>
-                    <div class="div-several-row-icon">
-                        <a onclick="getAcademicFormation('${academic.id}')" class="icon-several"><i class="fa-solid fa-pen"></i></a>
-                        <a onclick="deleteAcademic('${academic.id}')" class="icon-several icon-trash"><i class="fa-solid fa-trash"></i></a>
-                    </div>
-                    <hr>
                 </div>
                 `
                 academicDiv.append(text)
@@ -686,7 +687,8 @@
                 var academicDiv = document.getElementById(`div-academic-${academic_id}`)
 
                 text = `
-                    <img src="${"{{profile.get_url_photo}}"}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
+                <div class="div-several-row">
+                    <i class="fa-solid fa-graduation-cap img-icon img-icon-color"></i>
                     <div class="several-row-text2">
                         <p>${academic.educational_institution}</p>
                         <p>${academic.course}</p>
@@ -696,7 +698,8 @@
                         <a onclick="getAcademicFormation('${academic.id}')" class="icon-several"><i class="fa-solid fa-pen"></i></a>
                         <a onclick="deleteAcademic('${academic.id}')" class="icon-several icon-trash"><i class="fa-solid fa-trash"></i></a>
                     </div>
-                    <hr>
+                </div>
+                <hr>
                 `
                 academicDiv.innerHTML = text
                 
@@ -859,7 +862,7 @@
                 var text = `
                 <div class="div-several-content" id="div-experience-${experience.id}">
                     <div class="div-several-row">
-                        <img src="{% static 'images/experience.png' %}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
+                        <i class="fa-solid fa-briefcase img-icon img-icon-color"></i>
                         <div class="several-row-text2">
                             <p>${experience.position}</p>
                             <p>${experience.company} • ${experience.job_modality}</p>
@@ -937,7 +940,7 @@
 
                 text = `
                     <div class="div-several-row">
-                        <img src="${"{{profile.get_url_photo}}"}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
+                        <i class="fa-solid fa-briefcase img-icon img-icon-color"></i>
                         <div class="several-row-text2">
                             <p>${experience.position}</p>
                             <p>${experience.company} • ${experience.job_modality}</p>
