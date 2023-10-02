@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Profile, Experience, AcademicFormation, Competence
+from .models import Profile, Experience, AcademicFormation, Competence, Notification
 # Register your models here.
 
 @admin.register(Profile)
@@ -72,3 +72,28 @@ class CompetenceAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         return super().get_queryset(request)
     
+
+@admin.register(Notification)
+class NotificationAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'message',
+        'created_at',
+        'get_profile_name',
+        'get_company_name'
+    )
+    search_fields = ('profile__user__email', 'profile__cpf', 'vacancy__company__name')
+    readonly_fields = ('profile', 'vacancy')
+    raw_id_fields = (
+        'profile',
+        'vacancy'
+    )
+
+    def get_profile_name(self, obj):
+        return obj.profile.name
+    
+    def get_company_name(self, obj):
+        return obj.vacancy.company.name
+
+    def get_queryset(self, request):
+        return super().get_queryset(request)

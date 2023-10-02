@@ -79,6 +79,14 @@
     min-height: 130px;
 }
 
+.img-icon{
+    font-size: 100px;
+}
+
+.img-icon-color{
+    color: #2bbf6c;
+}
+
 .img-several{
     width: 100px;
     height: 100px;

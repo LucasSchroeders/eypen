@@ -31,7 +31,7 @@
                     </div>
                 </div>
             </div>
-            {% if is_same_company %}
+            {% if is_same_company and vacancy.status == 'PEN' %}
             <a href="{% url 'editar_vagas' id=id_company id_vacancy=vacancy.id %}" class="icon-edit"><i class="fa-solid fa-pen-to-square icon"></i></a>
             {% endif %}
         </div>

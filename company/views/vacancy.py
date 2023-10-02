@@ -276,23 +276,28 @@ def vacancy_update_view(request, id):
         message_status = messages.ERROR
         msg = 'Ação inexistente!'
         extra_tags = 'Atualizacação da Vaga'
+        msg_notification = ''
 
         if action == 'ativar':
             vacancy.status = 'ATV'
             vacancy.save()
             msg = 'Vaga ativada com sucesso!'
+            msg_notification = 'Processo seletivo iniciado'
             message_status = messages.SUCCESS
 
         elif action == 'inativar':
             vacancy.status = 'INTV'
             vacancy.save()
             msg = 'Vaga inativada com sucesso!'
+            msg_notification = 'Processo seletivo interrompido!'
             message_status = messages.SUCCESS
 
+        # TODO Pensar sobre o botão de encerrar o processo, pois talvez seja inutil
         elif action == 'encerrar':
             vacancy.status = 'ENC'
             vacancy.save()
             msg = 'Vaga encerrada com sucesso!'
+            msg_notification = 'Processo seletivo interrompido!'
             message_status = messages.SUCCESS
 
         elif action == 'inscrever' and request.user.profile.is_applicant:
@@ -305,6 +310,8 @@ def vacancy_update_view(request, id):
                 message_status = messages.ERROR
 
         messages.add_message(request, message_status, msg, extra_tags)
+        if msg_notification:
+            vacancy.create_notification(message=msg_notification)
 
     return redirect('exibir_vagas', id=vacancy.company.id, id_vacancy=id)
 
