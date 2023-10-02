@@ -84,6 +84,16 @@
     justify-content: center;
 }
 
+.form-button{
+    font-size: 1.2rem;
+    color: #fff;
+    width: 6rem;
+    background-color: #208BE8;
+    border-radius: 15px;
+    border: none;
+    float: right;
+}
+
 .button{
     display: flex;
     align-items: center;

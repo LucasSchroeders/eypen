@@ -27,21 +27,21 @@
             <div class="add-person">
                 <p class="p-title1">Cadastro de Administrador de Empresa</p>
                 <label for="admins">Administradores:</label>
-                <button class="button-admin" data-toggle="modal" data-target="modalPerson">Adicionar</button>
+                <button class="button-admin" data-toggle="modal" data-target="#modalPerson">Adicionar</button>
                 <hr>
             </div>
             <div class="div-content">
                 <div class="div-person-add">
                     <div class="person-add" id="person-add">
                         {% for profile in company.profile.all %}
-                        <div id="numero pessoa">
+                        <div id="profile-{{profile.id}}">
                             <p class="person-title">{{profile.name}}</p>
                             <div class="div-row">
                                 <div class="div-bt-icon">
                                     <p class="person-text">{{profile.user.email}}</p>
                                     <div class="buttons-icon">
-                                        <a onclick="getStep('{{step.id}}')" class="icon-several"><i class="fa-solid fa-pen"></i></a>
-                                        <a onclick="deleteStep('{{step.id}}')" class="icon-several icon-trash"><i class="fa-solid fa-trash"></i></a>
+                                        <a onclick="getProfile('{{profile.id}}')" class="icon-several"><i class="fa-solid fa-pen"></i></a>
+                                        <a onclick="deleteProfile('{{profile.id}}')" class="icon-several icon-trash"><i class="fa-solid fa-trash"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -51,7 +51,7 @@
                     </div>
                 </div>
                 <div class="div-button">
-                    <a href="" class="button">Salvar</a>
+                    <a href="{% url 'company_profile' id=company.id %}" class="button">Finalizar</a>
                 </div>
             </div>
         </div>
@@ -62,5 +62,216 @@
 
     </div>
     <script type="text/javascript" src="{% static 'js/asb.js' %}"></script>
+    <script>
+        var url = "/api/profile/{{company.id}}/recruiter";
+        var type = 'post';
+    
+        function getProfile(profile_id){
+            $.ajax({
+                type: 'get',
+                url: `/api/profile/${profile_id}/recruiter`,
+                headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
+                success: function (retorno) {
+                    response = retorno.user
+                    $('#email_profile').val(response['email'])
+                    $('#name').val(response['name'])
+                    document.getElementById("surname").value = response['surname']
+                    document.getElementById("email").value = response['email']
+                    $('#password').val(response['password'])
+    
+                    url = `/api/profile/${response['id']}/recruiter`
+                    type = 'put'
+    
+                    $('#modalPerson').modal('show')
+    
+                },
+                error: function (error) {
+                    if (error.statusText == 'timeout') {
+                        new PNotify({
+                            title: 'Requisição Cancelada',
+                            text: 'Requisição ao serviço cancelada. Tente novamente em alguns minutos.',
+                            type: 'error',
+                            delay: '5000'
+                        });
+                    }
+    
+                    console.log(error);
+                }
+            });
+        }
+    
+        $('#form').submit(function(event){
+            event.preventDefault()
+    
+            if (type == 'post'){
+                createProfile()
+            } else {
+                updateProfile()
+            }
+        })
+    
+        $('#modalPerson').on('hidden.bs.modal', function(){
+            cleanForm()
+        })
+    
+        function createProfile() {
+            const data = {
+                'email': $("#email").val(),
+                'name': $("#name").val(),
+                'surname': $("#surname").val(),
+                'password': $("#password").val(),
+            }
+    
+            $.ajax({
+                url: url,
+                dataType: 'json',
+                headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
+                data: JSON.stringify(data),
+                type: type,
+                success: function(response){
+                    var user = response.user
+                
+                    var userDiv = $('#person-add')
+    
+                    text = `
+                    <div id="profile-${user.id}}">
+                        <p class="person-title">${user.name}</p>
+                        <div class="div-row">
+                            <div class="div-bt-icon">
+                                <p class="person-text">${user.email}</p>
+                                <div class="buttons-icon">
+                                    <a onclick="getProfile('${user.id}')" class="icon-several"><i class="fa-solid fa-pen"></i></a>
+                                    <a onclick="deleteProfile('${user.id}')" class="icon-several icon-trash"><i class="fa-solid fa-trash"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="linha">
+                    </div>
+                    `
+                    userDiv.append(text)
+    
+                    $('#modalPerson').modal('hide')
+    
+                    new PNotify({
+                        title:'Criação de Recrutador',
+                        text: response.detail,
+                        type: response.type,
+                        delay:'5000'
+                    });
+                },
+                error: function(response){
+                    $('#modalPerson').modal('hide')
+                    new PNotify({
+                        title:'Criação de Recrutador',
+                        text: response.detail,
+                        type: response.type,
+                        delay:'5000'
+                    });
+                }
+            })
+        }
+    
+        function updateProfile(){
+            const data = {
+                'email': $('#email_profile').val(),
+                'new_email': $("#email").val(),
+                'name': $("#name").val(),
+                'surname': $("#surname").val(),
+                'password': $("#password").val(),
+            }
+    
+            $.ajax({
+                url: url,
+                dataType: 'json',
+                headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
+                data: JSON.stringify(data),
+                type: type,
+                contentType: false,
+                processData: false,
+                success: function(response){
+                    var user = response.user
+                    
+                    var userDiv = document.getElementById(`profile-${user.id}`)
+                    text = `
+                        <div id="profile-${user.id}}">
+                            <p class="person-title">${user.name}</p>
+                            <div class="div-row">
+                                <div class="div-bt-icon">
+                                    <p class="person-text">${user.email}</p>
+                                    <div class="buttons-icon">
+                                        <a onclick="getProfile('${user.id}')" class="icon-several"><i class="fa-solid fa-pen"></i></a>
+                                        <a onclick="deleteProfile('${user.id}')" class="icon-several icon-trash"><i class="fa-solid fa-trash"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="linha">
+                        </div>
+                    `
+                    userDiv.innerHTML = text
+                    
+                    type = 'post'
+                    $('#modalPerson').modal('hide')
+    
+                    new PNotify({
+                        title:'Atualização de Recrutrador',
+                        text: response.detail,
+                        type: response.type,
+                        delay:'5000'
+                    });
+                },
+                error: function(response){
+                    $('#modalPerson').modal('hide')
+                    new PNotify({
+                        title:'Atualizacação de Recrutador',
+                        text: response.detail,
+                        type: response.type,
+                        delay:'5000'
+                    });
+                }
+            })
+        }
+    
+        function deleteProfile(profile_id){
+            $.ajax({
+                type: 'delete',
+                url: `/api/profile/${profile_id}/recruiter`,
+                headers: { "Content-Type": "application/json; charset=UTF-8","X-CSRFToken": '{{csrf_token}}' },
+                success: function (retorno) {
+                    var el = document.getElementById("person-add");
+                    var userDiv = document.getElementById(`profile-${profile_id}`);
+                    el.removeChild(userDiv);
+    
+                    new PNotify({
+                        title:'Recrutador excluído',
+                        text: retorno.detail,
+                        type: 'success',
+                        delay:'5000'
+                    });
+                },
+                error: function (error) {
+                    if (error.statusText == 'timeout') {
+                    new PNotify({
+                        title: 'Requisição Cancelada',
+                        text: 'Requisição ao serviço cancelada. Tente novamente em alguns minutos.',
+                        type: 'error',
+                        delay: '5000'
+                    });
+                    }
+    
+                    console.log(error);
+                }
+            });
+        }
+    
+        function cleanForm(){
+            var url = "/api/profile/{{company.id}}/recruiter"
+            var type = 'post'
+            $('#email').val('')
+            $('#name').val('')
+            $('#surname').val('')
+            $('#password').val('')
+        }
+    
+    </script>
 </body>
 </html>
