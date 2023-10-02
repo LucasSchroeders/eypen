@@ -157,6 +157,14 @@
 {% endfor %}
 
 <script>
+
+  $('#modalNotification').on('show.bs.modal', function(e) {
+    $('body').addClass('no-modal-bg');
+  }).on('hidden.bs.modal', function(e) {
+    $('body').removeClass('no-modal-bg');
+  });
+
+
   //Seleciona os itens clicando
   var menuItem = document.querySelectorAll('.menu-item')
 

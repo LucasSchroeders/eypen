@@ -203,15 +203,19 @@ nav.sidebar:hover ~ .overlay {
   line-height: 0.75;
 }
 
-.modal-footer{
+.modal-footer-notification{
   align-items: center;
   justify-content: center;
   height: 60px;
 }
 
-.modal-backdrop {
+.no-modal-bg .modal-backdrop {
   background-color: transparent;
 }
+
+/* .modal-backdrop {
+  background-color: transparent;
+} */
 
 .div-icon-notification{
   position: fixed;
