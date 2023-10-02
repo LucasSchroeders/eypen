@@ -5,6 +5,7 @@ from .views import (
     signup2,
     signup_company,
 )
+from .notification import NotificationTemplateView
 from .profile import (
     # PersonalProfileInformation,
     personalProfileInformation,

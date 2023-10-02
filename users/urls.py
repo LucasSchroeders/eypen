@@ -15,6 +15,7 @@ urlpatterns = [
     path('profile/busca-empresa', views_company.BuscaCompany.as_view(), name='busca_empresa'),
     path('profile/<int:id>/applied-vacancies', views.AppliedVacancies.as_view(), name='vagas_aplicadas'),
     path('api/profile/<int:id>/recruiter', views.ProfileRecruiterAPIView.as_view(), name='save_profile_recruiter'),
+    path('profile/<int:id>/notifications', views.NotificationTemplateView.as_view(), name='notificacao_profile'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

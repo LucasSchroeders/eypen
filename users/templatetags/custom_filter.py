@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from django import template
 
 from users.choices import (
@@ -50,3 +51,10 @@ def display_vulnerabilities(value):
 def filter_step(value, attr):
     result = value.filter(**eval(attr)).first()
     return result.step
+
+
+@register.filter
+def filter_notifications(value):
+    yesterday = datetime.now() - timedelta(days=1)
+    result = value.filter(created_at__gte=yesterday).order_by('created_at')
+    return result

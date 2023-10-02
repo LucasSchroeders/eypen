@@ -1,0 +1,24 @@
+{% extends 'base.html' %} {% load custom_filter %}
+{% load static %}
+{% block title %}Notificações{% endblock title %}
+
+{% block css %}
+<link href="{% static 'css/utils/container_default.css' %}" rel="stylesheet" type="text/css">
+<link href="{% static 'css/users/notifications.css' %}" rel="stylesheet" type="text/css">
+{% endblock css %}
+
+{% block body %}
+{% for notification in notifications%}
+<div class="div-container">
+    <i class="fa-solid fa-envelope icon-notification"></i>
+    <div class="info">
+        <p>{{notification.vacancy.job_position}} - {{notification.vacancy.seniority|display_seniority}}</p>
+        <p>Empresa: {{notification.vacancy.company.name}}</p>
+        <p>{{notification.message}}</p>
+    </div>
+    <div class="date">
+        <p>{{notification.created_at|date:"d/m/Y H:i"}}</p>
+    </div>
+</div>
+{% endfor %}
+{% endblock body %}

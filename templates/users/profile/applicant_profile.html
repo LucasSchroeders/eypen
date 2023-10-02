@@ -53,7 +53,7 @@
     <div class="div-head">
         <h3>Competências</h3>
         {% if is_same_profile %}
-        <a type="button" data-toggle="modal" data-target="#modalCompetence" ><i class="fa-solid fa-plus icon"></i></a>
+        <a type="button" data-toggle="modal" data-target="#modalCompetence" ><i class="fa-solid fa-plus icon img-icon-color"></i></a>
         {% endif %}
     </div>
     {% if competences %}
@@ -107,14 +107,14 @@
     <div class="div-head">
         <h3>Formações acadêmicas</h3>
         {% if is_same_profile %}
-        <a type="button" data-toggle="modal" data-target="#modalFormation"><i class="fa-solid fa-plus icon"></i></a>
+        <a type="button" data-toggle="modal" data-target="#modalFormation"><i class="fa-solid fa-plus icon img-icon-color"></i></a>
         {% endif %}
     </div>
     {% if academic_educations %}
     {% for academic in academic_educations %}
     <div class="div-several-content" id="div-academic-{{academic.id}}">
         <div class="div-several-row">
-            <img src="{{ academic.get_url_photo }}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
+            <i class="fa-solid fa-graduation-cap img-icon img-icon-color"></i>
             <div class="several-row-text2">
                 <p>{{academic.educational_institution}}</p>
                 <p>{{academic.course}}</p>
@@ -139,14 +139,14 @@
     <div class="div-head">
         <h3>Experiências</h3>
         {% if is_same_profile %}
-        <a type="button" data-toggle="modal" data-target="#modalExperience" ><i class="fa-solid fa-plus icon"></i></a>
+        <a type="button" data-toggle="modal" data-target="#modalExperience" ><i class="fa-solid fa-plus icon img-icon-color"></i></a>
         {% endif %}
     </div>
     {% if experiences %}
     {% for experience in experiences %}
     <div class="div-several-content" id="div-experience-{{experience.id}}">
         <div class="div-several-row">
-            <img src="{{ experience.get_url_photo }}" class="img-several" alt="imagem referente à instituição ou empresa em que a competência foi adquirida ou exercida">
+            <i class="fa-solid fa-briefcase img-icon img-icon-color"></i>
             <div class="several-row-text2">
                 <p>{{experience.position}}</p>
                 <p>{{experience.company}} • {{experience.job_modality|display_job_modality}}</p>
@@ -154,7 +154,7 @@
             </div>
             {% if is_same_profile %}
             <div class="div-several-row-icon">
-                <a onclick="getExperience('{{experience.id}}')" class="icon-several"><i class="fa-solid fa-pen "></i></a>
+                <a onclick="getExperience('{{experience.id}}')" class="icon-several"><i class="fa-solid fa-pen"></i></a>
                 <a onclick="deleteExperience('{{experience.id}}')" class="icon-trash icon-several"><i class="fa-solid fa-trash"></i></a>
             </div>
             {% endif %}

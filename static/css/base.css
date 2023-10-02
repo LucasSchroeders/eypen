@@ -183,6 +183,62 @@ nav.sidebar:hover ~ .overlay {
   display: flex;
 }
 
+.modal-notification{
+  position: fixed;
+  top: 12px;
+  right: 52px;
+  width: 20rem;
+}
+
+.modal-notification p, .modal-notification{
+  color: #fff;
+}
+
+.modal-content-notification{
+  background-color: #2bbf6c;
+
+}
+
+.modal-notification-info{
+  line-height: 0.75;
+}
+
+.modal-footer{
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+}
+
+.modal-backdrop {
+  background-color: transparent;
+}
+
+.div-icon-notification{
+  position: fixed;
+  top: 23px;
+  right: 0px;
+  display: flex;
+  flex-direction: row;
+  padding: 1rem 1rem;
+}
+
+.icon-fixed{
+  font-size: 35px;
+  color: #2bbf6c;
+  cursor: pointer;
+}
+
+.hr {
+  display: block;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  margin-left: auto;
+  margin-right: auto;
+  border-style: inset;
+  border-width: 1px;
+  border-color: #fff;
+}
+
 @media (max-width: 480px) {
   
   nav.sidebar {
@@ -205,7 +261,7 @@ nav.sidebar:hover ~ .overlay {
     line-height: 40px;
   }
 
-  .div-icon-accessibility{
+  .div-icon-notification{
     position: fixed;
     top: 23px;
     right: 0px;
