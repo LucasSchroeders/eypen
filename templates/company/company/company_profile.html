@@ -36,10 +36,12 @@
         <p></p>
 
     </div>
+    {% if is_same_company %}
     <div class="admin">
         <label for="admins">Administradores:</label>
-        <a href="" class="button-admins">Adicionar</a>
+        <a href="{% url 'cadastrar_admin' id=company.id %}" class="button-admins">Adicionar</a>
     </div>
+    {% endif %}
     
 </div>
 

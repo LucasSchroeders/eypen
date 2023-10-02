@@ -104,11 +104,12 @@
                         </div>
                     </div>
                 </div>
-
+                {% if company %}
                 <div class="admin">
                     <label for="admins">Administradores:</label>
-                    <a href="" class="button-admins">Adicionar</a>
+                    <a href="{% url 'cadastrar_admin' id=company.id %}" class="button-admins">Adicionar</a>
                 </div>
+                {% endif %}
         
                 <div class="div-button">
                     <button type="submit" id="form-button" class="button">Salvar</button>
