@@ -201,7 +201,7 @@ nav.sidebar:hover ~ .overlay {
 }
 
 .modal-notification-info{
-  line-height: 0.75;
+  line-height: 0.9;
 }
 
 .modal-footer-notification{
@@ -226,7 +226,7 @@ nav.sidebar:hover ~ .overlay {
 .div-icon-notification{
   position: fixed;
   top: 23px;
-  right: 10px;
+  right: 0px;
   display: flex;
   flex-direction: row;
   padding: 1rem 1rem;
@@ -241,6 +241,12 @@ nav.sidebar:hover ~ .overlay {
   cursor: pointer;
 }
 
+.modal-body{
+  overflow-y: hidden;
+  overflow: auto;
+  max-height: 380px;
+}
+
 .hr {
   display: block;
   margin-top: 0.5em;
@@ -249,7 +255,7 @@ nav.sidebar:hover ~ .overlay {
   margin-right: auto;
   border-style: inset;
   border-width: 1px;
-  border-color: #fff;
+  border-color: #000;
 }
 
 @media (max-width: 480px) {
