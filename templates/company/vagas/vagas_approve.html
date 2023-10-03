@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% load custom_filter %}
 {%load static%}
 {%block title%}Aprovação de Candidatos 
 {%endblock title%}
@@ -37,9 +37,10 @@
                     <div class="div-infos">
                         <div class="div-dados">
                             <p class="p-dados p-negrito">{{candidate.name}}</p>
-                            <p class="p-dados">{{candidate.gender}}</p>
+                            <p class="p-dados">Gênero: {{candidate.gender|display_gender}}</p>
+                            <p class="p-dados">Etnia: {{candidate.ethnicity|display_ethnicity}}</p>
                             {% if candidate.is_disabled %}
-                            <p class="p-dados">{{candidate.disabled}}</p>
+                            <p class="p-dados">Deficiência {{candidate.disabled|display_disabled}}</p>
                             {% endif %}
                             <p class="p-dados">{{candidate.city}}, {{candidate.state}}</p>
                         </div>
@@ -70,10 +71,11 @@
                 <div class="div-infos">
                     <div class="div-dados">
                         <p class="p-dados p-negrito">{{candidate.name}}</p>
-                        <p class="p-dados">{{candidate.gender}}</p>
-                        {% if candidate.is_disabled %}
-                        <p class="p-dados">{{candidate.disabled}}</p>
-                        {% endif %}
+                        <p class="p-dados">Gênero: {{candidate.gender|display_gender}}</p>
+                        <p class="p-dados">Etnia: {{candidate.ethnicity|display_ethnicity}}</p>
+                            {% if candidate.is_disabled %}
+                            <p class="p-dados">Deficiência {{candidate.disabled|display_disabled}}</p>
+                            {% endif %}
                         <p class="p-dados">{{candidate.city}}, {{candidate.state}}</p>
                     </div>
                     <div class="bt-approved">
@@ -210,10 +212,11 @@
                 <div class="div-infos">
                     <div class="div-dados">
                         <p class="p-dados p-negrito">${e.name}</p>
-                        <p class="p-dados">${e.gender}</p>`
+                        <p class="p-dados">Gênero: ${filter(e.gender, GENDER_CHOICES)}</p>
+                        <p class="p-dados">Etnia: ${filter(e.ethnicity, ETHNICITY_CHOICES)}</p>`
 
             if (e.is_disabled){
-               text+=`<p class="p-dados">${e.disabled}</p>`
+               text+=`<p class="p-dados">Deficiência ${filter(e.disabled, DISABLED_CHOICES)}</p>`
             }
             text+= `
                         <p class="p-dados">${e.city}, ${e.state}</p>
@@ -245,10 +248,11 @@
                 <div class="div-infos">
                     <div class="div-dados">
                         <p class="p-dados p-negrito">${e.name}</p>
-                        <p class="p-dados">${e.gender}</p>
+                        <p class="p-dados">Gênero: ${filter(e.gender, GENDER_CHOICES)}</p>
+                        <p class="p-dados">Etnia: ${filter(e.ethnicity, ETHNICITY_CHOICES)}</p>
                         `
             if (e.is_disabled){
-               text+=`<p class="p-dados">${e.disabled}</p>`
+               text+=`<p class="p-dados">Deficiência ${filter(e.disabled, DISABLED_CHOICES)}</p>`
             }
 
             text+=`<p class="p-dados">${e.city}, ${e.state}</p>
@@ -263,6 +267,40 @@
             `
             candidateDiv.append(text)
         })
+    }
+
+    GENDER_CHOICES = [
+        ['masculino', 'Masculino'],
+        ['feminino', 'Feminino'],
+        ['lgbt', 'LGBTQIAP+'],
+        ['outro', 'Outro'],
+        ['desejo_nao_informar', 'Não informado'],
+    ]
+
+    DISABLED_CHOICES = [
+        ['auditiva', 'Auditiva'],
+        ['visual', 'Visual'],
+        ['fisica', 'Física'],
+        ['intelectual', 'Intelectual'],
+        ['desejo_nao_informar', 'Não informar'],
+    ]
+
+    ETHNICITY_CHOICES = [
+        ['branco', 'Branco'],
+        ['preto', 'Preto'],
+        ['amarelo', 'Amarelo'],
+        ['indigena', 'Indígena'],
+        ['pardo', 'Pardo'],
+    ]
+
+    function filter(value, list){
+        var variable
+        list.forEach(element => {
+            if (value == element[0]){
+                variable = element[1]
+            }
+        });
+        return variable
     }
 </script>
 {% endblock js %}
