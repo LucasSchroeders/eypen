@@ -11,7 +11,7 @@
 <div class="div-container div-infos">
     {% if is_same_profile %}
     <div class="div-icon">
-        <a href="{% url 'profile_edit' profile.id %}" class="icon-edit"><i class="fa-solid fa-pen-to-square icon"></i></a>
+        <a href="{% url 'profile_edit' profile.id %}" class="icon-edit"><i class="fa-solid fa-pen-to-square icon icon-plus"></i></a>
     </div>
     {% endif %}
 
@@ -54,7 +54,7 @@
     <div class="div-head">
         <h3>Competências</h3>
         {% if is_same_profile %}
-        <a type="button" data-toggle="modal" data-target="#modalCompetence" ><i class="fa-solid fa-plus icon img-icon-color" style="color: #2bbf6c"></i></a>
+        <a type="button" data-toggle="modal" data-target="#modalCompetence" ><i class="fa-solid fa-plus icon icon-plus"></i></a>
         {% endif %}
     </div>
     {% if competences %}
@@ -108,7 +108,7 @@
     <div class="div-head">
         <h3>Formações acadêmicas</h3>
         {% if is_same_profile %}
-        <a type="button" data-toggle="modal" data-target="#modalFormation"><i class="fa-solid fa-plus icon img-icon-color" style="color: #2bbf6c"></i></a>
+        <a type="button" data-toggle="modal" data-target="#modalFormation"><i class="fa-solid fa-plus icon icon-plus"></i></a>
         {% endif %}
     </div>
     {% if academic_educations %}
@@ -140,7 +140,7 @@
     <div class="div-head">
         <h3>Experiências</h3>
         {% if is_same_profile %}
-        <a type="button" data-toggle="modal" data-target="#modalExperience" ><i class="fa-solid fa-plus icon img-icon-color" style="color: #2bbf6c"></i></a>
+        <a type="button" data-toggle="modal" data-target="#modalExperience" ><i class="fa-solid fa-plus icon icon-plus"></i></a>
         {% endif %}
     </div>
     {% if experiences %}

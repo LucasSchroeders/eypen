@@ -18,7 +18,8 @@
 }
 
 .photo{
-    border: 8px solid #000;
+    border: 8px;
+    background-image: linear-gradient(135deg,rgba(255, 245, 203, 0.856) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);
     border-radius: 50%;
     width: 200px;
     height: 200px;

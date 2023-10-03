@@ -57,8 +57,8 @@
             <div class="div-button">
                 <form action="{%url 'atualizar_vaga' id=vacancy.id %}" method="post">
                     {% csrf_token %}
-                    <a href="{% url 'candidatos_vagas' id=id_company id_vacancy=vacancy.id %}" class="btn-actions">candidatos da vaga</a>
                     {% if profile_user.company.id == id_company %}
+                        <a href="{% url 'candidatos_vagas' id=id_company id_vacancy=vacancy.id %}" class="btn-actions">candidatos da vaga</a>
                         {% if vacancy.status == 'PEN' %}
                         <a href="{% url 'registrar_etapa' id=id_company id_vacancy=vacancy.id %}" class="btn-actions">Editar etapa</a>
                         <button type="submit" name="action" value="ativar" class="button-ativar btn-actions">Iniciar processo seletivo</button>
@@ -69,11 +69,11 @@
                         <button type="submit" name="action" value="inativar" class="button-encerrar btn-actions">Inativar vaga</button>
                         {% endif %}
                         {% if vacancy.status not in 'INTV,ENC,PEN' %}
-                        <a href="{% url 'vagas_processo_seletivo' id=id_company id_vacancy=vacancy.id %}" class="btn-actions">Acessar processo seletivo</a>
+                        <a href="{% url 'vagas_processo_seletivo' id=id_company id_vacancy=vacancy.id %}" class="btn-actions" style="background-color: rgb(51,167,181);">Acessar processo seletivo</a>
                         {% endif %}
                     {% endif %}
                     {% if profile_user.is_applicant and vacancy.status not in 'INTV,ENC,ATV' and not is_registered %}
-                    <button type="submit" name="action" value="inscrever" class="btn-actions">Inscrever-se</button>
+                    <button type="submit" name="action" value="inscrever" class="btn-actions" style="background-color: rgb(51,167,181);">Inscrever-se</button>
                     {% endif %}
                 </form>
             </div>

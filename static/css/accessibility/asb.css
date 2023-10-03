@@ -8,7 +8,8 @@
     top: 50%;
     right: 0;
     transform: translate(100%, -50%);
-    background-color: #2bbf6c;
+    background-color: rgb(51,167,181);
+    background-image: linear-gradient(135deg,rgba(255, 245, 203, 0.856) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);
     border-radius: .5rem 0 0 .5rem;
     box-shadow: 0 5px 30px rgba(34, 34, 34, 0)
 }
@@ -38,7 +39,8 @@
     font-size: 1.5rem;
     line-height: 1;
     color: #fff;
-    background-color: #2bbf6c;
+    background-color: #rgb(51,167,181);
+    background-image: linear-gradient(135deg,rgba(255, 245, 203, 0.856) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);
     width: 2.5rem;
     height: 2.5rem;
     padding: 0;
@@ -61,7 +63,8 @@
     text-align: right;
     font-weight: bold;
     color: #fff;
-    background-color: #2bbf6c;
+    background-color: rgb(51,167,181);
+    background-image: linear-gradient(135deg,rgba(255, 245, 203, 0.856) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);
     box-shadow: 0 10px 30px rgba(102, 102, 102, .1);
     height: 100%;
     padding: 0 1rem;
@@ -91,7 +94,7 @@
     -moz-transition: all .3s ease-in-out;
     -o-transition: all .3s ease-in-out;
     transition: all .3s ease-in-out;
-    color: #2bbf6c;
+    color: rgb(51,167,181);
     font-weight: 700;
     background-color: #eee;
     width: 100%;
@@ -109,7 +112,8 @@
 
 #accessibilityBar button.setAccessibility strong {
     color: #fff;
-    background-color: #2bbf6c;
+    background-color: rgb(51,167,181);
+    background-image: linear-gradient(135deg,rgba(255, 245, 203, 0.856) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);
     width: 2.5rem;
     height: 2.5rem;
     border-radius: .2rem;

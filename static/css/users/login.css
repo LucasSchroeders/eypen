@@ -143,7 +143,7 @@ h5{
 .button{
     height: 2rem;
     width: 40%;
-    background-color: #2bbf6c;
+    background-color: rgb(51,167,181);
     border-radius: 15px;
     border: none;
     outline: none;
