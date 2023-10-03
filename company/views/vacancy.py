@@ -348,4 +348,21 @@ class UpdateSelectiveProcess(APIView):
             }
 
             return Response(response, status=status.HTTP_200_OK)
-        
+
+
+@method_decorator(company_only, 'dispatch')
+class CandidatesVacancy(TemplateView):
+    template_name = 'company/vagas/vaga_candidates.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        id_vacancy = kwargs.get('id_vacancy')
+        vacancy = Vacancy.objects.filter(id=id_vacancy).first()
+        step = vacancy.steps.filter(status='PEN').order_by('step').first()
+
+        context['vacancy'] = vacancy
+        context['step'] = step
+        context['candidates'] = vacancy.candidates.all()
+        context['step_candidates'] = vacancy.candidates_step.all()
+        context['profile_user'] = self.request.user.profile
+        return context

@@ -57,6 +57,7 @@
             <div class="div-button">
                 <form action="{%url 'atualizar_vaga' id=vacancy.id %}" method="post">
                     {% csrf_token %}
+                    <a href="{% url 'candidatos_vagas' id=id_company id_vacancy=vacancy.id %}" class="btn-actions">candidatos da vaga</a>
                     {% if profile_user.company.id == id_company %}
                         {% if vacancy.status == 'PEN' %}
                         <a href="{% url 'registrar_etapa' id=id_company id_vacancy=vacancy.id %}" class="btn-actions">Editar etapa</a>

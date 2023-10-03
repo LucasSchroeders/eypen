@@ -1,0 +1,53 @@
+{% extends 'base.html' %} {% load custom_filter %}
+{% load static %}
+
+{% block title %}Candidatos da vaga{% endblock title %}
+
+{% block css %}
+<link href="{% static 'css/utils/container_default.css' %}" rel="stylesheet" type="text/css">
+<link href="{% static 'css/company/vaga_candidate.css' %}" rel="stylesheet" type="text/css">
+{% endblock css %}
+
+{% block body %}
+<div class="div-container">
+    <h4>Candidatos da etapa {{step.step}}</h5>
+    {% for candidate in step_candidates %}
+    <a href="{% url 'profile' id=candidate.id %}" class="candidate">
+        <img src="{{ candidate.get_url_photo }}" class="img" alt="imagem meramente ilustrativa">
+        <div class="infos-candidate">
+            <h5>{{candidate.name}}</h5>
+                <p>Gênero: {{candidate.gender|display_gender}}</p>
+                <p>Etnia: {{candidate.ethnicity|display_ethnicity}}</p>
+                {% if candidate.is_disabled %}
+                <p>Deficiência: {{candidate.disabled|display_disabled}}</p>
+                {% endif %}
+        </div>
+    </a>
+    {% if not step_candidates|length == 1 %}
+    <hr>
+    {% endif %}
+    {% endfor %}
+</div>
+
+<div class="div-container">
+    <h4>Candidatos da vaga</h5>
+    {% for candidate in candidates %}
+    <a href="{% url 'profile' id=candidate.id %}" class="candidate">
+        <img src="{{ candidate.get_url_photo }}" class="img" alt="imagem meramente ilustrativa">
+        <div class="infos-candidate">
+            <h5>{{candidate.name}}</h5>
+                <p>Gênero: {{candidate.gender|display_gender}}</p>
+                <p>Etnia: {{candidate.ethnicity|display_ethnicity}}</p>
+                {% if candidate.is_disabled %}
+                <p>Deficiência: {{candidate.disabled|display_disabled}}</p>
+                {% endif %}
+        </div>
+        
+    </a>
+    {% if not vacancies|length == 1 %}
+    <hr>
+    {% endif %}
+    {% endfor %}
+</div>
+
+{% endblock body %}
