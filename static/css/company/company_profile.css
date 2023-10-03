@@ -119,6 +119,12 @@
     margin-top: 2.5%;
 }
 
+.icon-plus{
+    background: -webkit-linear-gradient(135deg,rgba(255, 245, 203, 0.897) 0%,rgb(182,227,212) 30%,rgb(51,167,181) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
 .div-info-vagas{
     display: flex;
     flex-direction: row;
