@@ -54,7 +54,7 @@
     <div class="div-head">
         <h3>Competências</h3>
         {% if is_same_profile %}
-        <a type="button" data-toggle="modal" data-target="#modalCompetence" ><i class="fa-solid fa-plus icon img-icon-color"></i></a>
+        <a type="button" data-toggle="modal" data-target="#modalCompetence" ><i class="fa-solid fa-plus icon img-icon-color" style="color: #2bbf6c"></i></a>
         {% endif %}
     </div>
     {% if competences %}
@@ -108,7 +108,7 @@
     <div class="div-head">
         <h3>Formações acadêmicas</h3>
         {% if is_same_profile %}
-        <a type="button" data-toggle="modal" data-target="#modalFormation"><i class="fa-solid fa-plus icon img-icon-color"></i></a>
+        <a type="button" data-toggle="modal" data-target="#modalFormation"><i class="fa-solid fa-plus icon img-icon-color" style="color: #2bbf6c"></i></a>
         {% endif %}
     </div>
     {% if academic_educations %}
@@ -124,7 +124,7 @@
             {% if is_same_profile %}
             <div class="div-several-row-icon">
                 <a onclick="getAcademicFormation('{{academic.id}}')" class="icon-several"><i class="fa-solid fa-pen"></i></a>
-                <a onclick="deleteAcademic('{{academic.id}}')" class="icon-several icon-trash"><i class="fa-solid fa-trash"></i></a>
+                <a onclick="deleteAcademic('{{academic.id}}')" class="icon-several"><i class="fa-solid fa-trash"></i></a>
             </div>
             {% endif %}
         </div>
@@ -140,7 +140,7 @@
     <div class="div-head">
         <h3>Experiências</h3>
         {% if is_same_profile %}
-        <a type="button" data-toggle="modal" data-target="#modalExperience" ><i class="fa-solid fa-plus icon img-icon-color"></i></a>
+        <a type="button" data-toggle="modal" data-target="#modalExperience" ><i class="fa-solid fa-plus icon img-icon-color" style="color: #2bbf6c"></i></a>
         {% endif %}
     </div>
     {% if experiences %}
@@ -156,7 +156,7 @@
             {% if is_same_profile %}
             <div class="div-several-row-icon">
                 <a onclick="getExperience('{{experience.id}}')" class="icon-several"><i class="fa-solid fa-pen"></i></a>
-                <a onclick="deleteExperience('{{experience.id}}')" class="icon-trash icon-several"><i class="fa-solid fa-trash"></i></a>
+                <a onclick="deleteExperience('{{experience.id}}')" class="icon-several"><i class="fa-solid fa-trash"></i></a>
             </div>
             {% endif %}
         </div>
